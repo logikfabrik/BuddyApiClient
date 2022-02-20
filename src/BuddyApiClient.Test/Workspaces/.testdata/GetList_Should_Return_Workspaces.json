@@ -1,0 +1,13 @@
+{
+  "url": "https://api.buddy.works/workspaces",
+  "html_url": "https://app.buddy.works/my-id",
+  "workspaces": [
+    {
+      "url": "https://api.buddy.works/workspaces/buddy",
+      "html_url": "https://app.buddy.works/buddy",
+      "id": 1,
+      "name": "buddy",
+      "domain": "buddy"
+    }
+  ]
+}
