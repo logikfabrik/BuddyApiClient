@@ -1,14 +1,17 @@
-﻿namespace BuddyApiClient;
-
-using System;
-using BuddyApiClient.Core;
-using EnsureThat;
-
-internal abstract class ClientBase
+﻿namespace BuddyApiClient
 {
-    private readonly Lazy<HttpClientFacade> _httpClientFacade;
+    using BuddyApiClient.Core;
+    using EnsureThat;
 
-    protected ClientBase(Lazy<HttpClientFacade> httpClientFacade) => _httpClientFacade = Ensure.Any.HasValue(httpClientFacade, nameof(httpClientFacade));
+    internal abstract class ClientBase
+    {
+        private readonly Lazy<HttpClientFacade> _httpClientFacade;
 
-    protected HttpClientFacade HttpClientFacade => _httpClientFacade.Value;
+        protected ClientBase(Lazy<HttpClientFacade> httpClientFacade)
+        {
+            _httpClientFacade = Ensure.Any.HasValue(httpClientFacade, nameof(httpClientFacade));
+        }
+
+        protected HttpClientFacade HttpClientFacade => _httpClientFacade.Value;
+    }
 }

@@ -1,8 +1,15 @@
-﻿namespace BuddyApiClient;
-
-using BuddyApiClient.Workspaces;
-
-public interface IClient
+﻿namespace BuddyApiClient
 {
-    public IWorkspacesClient Workspaces { get; }
+    using BuddyApiClient.CurrentUser;
+    using BuddyApiClient.CurrentUserEmails;
+    using BuddyApiClient.Workspaces;
+
+    public interface IClient
+    {
+        ICurrentUserClient CurrentUser { get; }
+
+        ICurrentUserEmailsClient CurrentUserEmails { get; }
+
+        IWorkspacesClient Workspaces { get; }
+    }
 }

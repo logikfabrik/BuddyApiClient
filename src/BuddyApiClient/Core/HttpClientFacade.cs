@@ -1,25 +1,59 @@
-﻿namespace BuddyApiClient.Core;
-
-using System.Net.Http.Json;
-using EnsureThat;
-
-internal sealed class HttpClientFacade
+﻿namespace BuddyApiClient.Core
 {
-    private readonly HttpClient _httpClient;
+    using System.Net.Http.Json;
+    using EnsureThat;
 
-    public HttpClientFacade(HttpClient httpClient)
+    internal sealed class HttpClientFacade
     {
-        _httpClient = Ensure.Any.HasValue(httpClient, nameof(httpClient));
-    }
+        private readonly HttpClient _httpClient;
 
-    public async Task<T?> Get<T>(string url, CancellationToken cancellationToken)
-    {
-        Ensure.String.IsNotNullOrWhiteSpace(url, nameof(url));
+        public HttpClientFacade(HttpClient httpClient)
+        {
+            _httpClient = Ensure.Any.HasValue(httpClient, nameof(httpClient));
+        }
 
-        using var response = await _httpClient.GetAsync(url, cancellationToken);
+        public async Task<T?> Get<T>(string url, CancellationToken cancellationToken = default)
+        {
+            Ensure.String.IsNotNullOrWhiteSpace(url, nameof(url));
 
-        response.EnsureSuccessStatusCode();
+            using var response = await _httpClient.GetAsync(url, cancellationToken);
 
-        return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
+        }
+
+        public async Task<T?> Post<T>(string url, object content, CancellationToken cancellationToken = default)
+        {
+            Ensure.String.IsNotNullOrWhiteSpace(url, nameof(url));
+            Ensure.Any.HasValue(content, nameof(content));
+
+            using var response = await _httpClient.PostAsync(url, JsonContent.Create(content), cancellationToken);
+
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
+        }
+
+        public async Task<T?> Patch<T>(string url, object content, CancellationToken cancellationToken = default)
+        {
+            Ensure.String.IsNotNullOrWhiteSpace(url, nameof(url));
+            Ensure.Any.HasValue(content, nameof(content));
+
+            using var response = await _httpClient.PatchAsync(url, JsonContent.Create(content), cancellationToken);
+
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
+        }
+
+        public async Task Delete(string url, CancellationToken cancellationToken = default)
+        {
+            Ensure.String.IsNotNullOrWhiteSpace(url, nameof(url));
+
+            using var response = await _httpClient.DeleteAsync(url, cancellationToken);
+
+            response.EnsureSuccessStatusCode();
+        }
     }
 }

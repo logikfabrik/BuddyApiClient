@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Workspaces\.testdata\GetList_Should_Return_Workspaces.json">
+    <Content Include="CurrentUser\.testdata\Update_Should_Return_Current_User.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CurrentUser\.testdata\Get_Should_Return_Current_User.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Workspaces\.testdata\List_Should_Return_Workspaces.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Workspaces\.testdata\Get_For_Workspace_That_Exists_Should_Return_Workspace.json">
@@ -32,6 +38,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BuddyApiClient\BuddyApiClient.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CurrentUserEmails\.testdata\" />
   </ItemGroup>
 
 </Project>

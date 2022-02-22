@@ -1,13 +1,13 @@
-﻿namespace BuddyApiClient.Core.Models;
-
-using System;
-using System.Text.Json.Serialization;
-
-public abstract record ApiObject
+﻿namespace BuddyApiClient.Core.Models
 {
-    [JsonPropertyName("url")]
-    public Uri? Url { get; set; }
+    using System.Text.Json.Serialization;
 
-    [JsonPropertyName("html_url")]
-    public Uri? HtmlUrl { get; set; }
+    public abstract record ApiObject
+    {
+        [JsonPropertyName("url")]
+        public Uri? Url { get; set; }
+
+        [JsonPropertyName("html_url")]
+        public Uri? HtmlUrl { get; set; }
+    }
 }

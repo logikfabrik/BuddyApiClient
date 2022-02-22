@@ -1,32 +1,29 @@
-﻿namespace BuddyApiClient.Test;
-
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using EnsureThat;
-using Xunit.Sdk;
-
-public sealed class FileDataAttribute : DataAttribute
+﻿namespace BuddyApiClient.Test
 {
-    private readonly string _path;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
+    using EnsureThat;
+    using Xunit.Sdk;
 
-    public FileDataAttribute(string path)
+    public sealed class FileDataAttribute : DataAttribute
     {
-        _path = Ensure.String.IsNotNullOrWhiteSpace(path, nameof(path));
-    }
+        private readonly string _path;
 
-    public override IEnumerable<object[]> GetData(MethodInfo testMethod)
-    {
-        if (File.Exists(_path))
+        public FileDataAttribute(string path)
         {
-            yield return new object[] { File.ReadAllText(_path) };
+            _path = Ensure.String.IsNotNullOrWhiteSpace(path, nameof(path));
         }
-        else if (Directory.Exists(_path))
+
+        public override IEnumerable<object[]> GetData(
+            MethodInfo testMethod)
         {
-            foreach (var path in Directory.EnumerateFiles(_path, "*.*", SearchOption.AllDirectories))
-            {
-                yield return new object[] { File.ReadAllText(path) };
-            }
+            if (File.Exists(_path))
+                yield return new object[] { File.ReadAllText(_path) };
+            else if (Directory.Exists(_path))
+                foreach (var path in Directory.EnumerateFiles(_path, "*.*",
+                             SearchOption.AllDirectories))
+                    yield return new object[] { File.ReadAllText(path) };
         }
     }
 }

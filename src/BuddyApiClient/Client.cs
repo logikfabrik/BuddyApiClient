@@ -1,27 +1,34 @@
-﻿namespace BuddyApiClient;
-
-using System;
-using System.Net.Http;
-using BuddyApiClient.Core;
-using BuddyApiClient.Workspaces;
-
-public sealed class Client : IClient
+﻿namespace BuddyApiClient
 {
-    private readonly Lazy<HttpClientFacade> _httpClientFacade;
+    using BuddyApiClient.Core;
+    using BuddyApiClient.CurrentUser;
+    using BuddyApiClient.CurrentUserEmails;
+    using BuddyApiClient.Workspaces;
 
-    public Client(IHttpClientFactory httpClientFactory, string personalAccessToken)
+    public sealed class Client : IClient
     {
-        _httpClientFacade = new Lazy<HttpClientFacade>(() => HttpClientFacadeFactory.Create(httpClientFactory.CreateClient(), personalAccessToken));
+        public Client(IHttpClientFactory httpClientFactory, string personalAccessToken)
+        {
+            var httpClientFacade = new Lazy<HttpClientFacade>(() => HttpClientFacadeFactory.Create(httpClientFactory.CreateClient(), personalAccessToken));
 
-        Workspaces = new WorkspacesClient(_httpClientFacade);
+            CurrentUser = new CurrentUserClient(httpClientFacade);
+            CurrentUserEmails = new CurrentUserEmailsClient(httpClientFacade);
+            Workspaces = new WorkspacesClient(httpClientFacade);
+        }
+
+        public Client(HttpClient httpClient, string personalAccessToken)
+        {
+            var httpClientFacade = new Lazy<HttpClientFacade>(() => HttpClientFacadeFactory.Create(httpClient, personalAccessToken));
+
+            CurrentUser = new CurrentUserClient(httpClientFacade);
+            CurrentUserEmails = new CurrentUserEmailsClient(httpClientFacade);
+            Workspaces = new WorkspacesClient(httpClientFacade);
+        }
+
+        public ICurrentUserClient CurrentUser { get; }
+
+        public ICurrentUserEmailsClient CurrentUserEmails { get; }
+
+        public IWorkspacesClient Workspaces { get; }
     }
-
-    public Client(HttpClient httpClient, string personalAccessToken)
-    {
-        _httpClientFacade = new Lazy<HttpClientFacade>(() => HttpClientFacadeFactory.Create(httpClient, personalAccessToken));
-
-        Workspaces = new WorkspacesClient(_httpClientFacade);
-    }
-
-    public IWorkspacesClient Workspaces { get; }
 }

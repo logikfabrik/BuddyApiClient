@@ -1,11 +1,11 @@
-﻿namespace BuddyApiClient.Workspaces;
-
-using System.Threading.Tasks;
-using BuddyApiClient.Workspaces.Models.Response;
-
-public interface IWorkspacesClient
+﻿namespace BuddyApiClient.Workspaces
 {
-    public Task<WorkspaceDetails?> Get(string domain, CancellationToken cancellationToken = default);
+    using BuddyApiClient.Workspaces.Models.Response;
 
-    public Task<WorkspaceList?> GetList(CancellationToken cancellationToken = default);
+    public interface IWorkspacesClient
+    {
+        Task<WorkspaceDetails?> Get(string domain, CancellationToken cancellationToken = default);
+
+        Task<WorkspaceList?> List(CancellationToken cancellationToken = default);
+    }
 }
