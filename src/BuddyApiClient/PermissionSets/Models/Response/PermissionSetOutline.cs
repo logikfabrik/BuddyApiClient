@@ -1,9 +1,9 @@
 ﻿namespace BuddyApiClient.PermissionSets.Models.Response
 {
     using System.Text.Json.Serialization;
-    using BuddyApiClient.Core.Models;
+    using BuddyApiClient.Core.Models.Response;
 
-    public sealed record PermissionSetOutline : ApiObject
+    public sealed record PermissionSetOutline : Response
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }

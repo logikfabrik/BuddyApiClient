@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Members\Models\Request\" />
+    <Folder Include="Pipelines\Models\Request\" />
   </ItemGroup>
 
 </Project>

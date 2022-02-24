@@ -1,9 +1,9 @@
 ﻿namespace BuddyApiClient.Members.Models.Response
 {
     using System.Text.Json.Serialization;
-    using BuddyApiClient.Core.Models;
+    using BuddyApiClient.Core.Models.Response;
 
-    public sealed record MemberDetails : ApiObject
+    public sealed record MemberDetails : Response
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }

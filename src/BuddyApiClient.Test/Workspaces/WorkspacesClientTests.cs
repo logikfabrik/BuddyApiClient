@@ -1,6 +1,7 @@
 ﻿namespace BuddyApiClient.Test.Workspaces
 {
     using System;
+    using System.Net;
     using System.Net.Http;
     using System.Net.Mime;
     using System.Threading.Tasks;
@@ -13,8 +14,8 @@
     public sealed class WorkspacesClientTests
     {
         [Theory]
-        [FileData(@".\Workspaces\.testdata\Get_For_Workspace_That_Exists_Should_Return_Workspace.json")]
-        public async Task Get_For_Workspace_That_Exists_Should_Return_Workspace(string responseJson)
+        [FileData(@".\Workspaces\.testdata\Get_For_Workspace_That_Exists_Should_Return_The_Workspace.json")]
+        public async Task Get_For_Workspace_That_Exists_Should_Return_The_Workspace(string responseJson)
         {
             var handlerStub = new MockHttpMessageHandler();
 
@@ -32,7 +33,7 @@
         {
             var handlerStub = new MockHttpMessageHandler();
 
-            handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy").Throw(new HttpRequestException());
+            handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy").Respond(HttpStatusCode.NotFound);
 
             var sut = CreateClient(handlerStub);
 
@@ -42,8 +43,8 @@
         }
 
         [Theory]
-        [FileData(@".\Workspaces\.testdata\List_Should_Return_Workspaces.json")]
-        public async Task List_Should_Return_Workspaces(string responseJson)
+        [FileData(@".\Workspaces\.testdata\List_Should_Return_The_Workspaces.json")]
+        public async Task List_Should_Return_The_Workspaces(string responseJson)
         {
             var handlerStub = new MockHttpMessageHandler();
 

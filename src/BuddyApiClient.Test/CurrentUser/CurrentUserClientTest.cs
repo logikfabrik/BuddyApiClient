@@ -14,8 +14,8 @@
     public sealed class CurrentUserClientTest
     {
         [Theory]
-        [FileData(@".\CurrentUser\.testdata\Get_Should_Return_Current_User.json")]
-        public async Task Get_Should_Return_Current_User(string responseJson)
+        [FileData(@".\CurrentUser\.testdata\Get_Should_Return_The_Current_User.json")]
+        public async Task Get_Should_Return_The_Current_User(string responseJson)
         {
             var handlerStub = new MockHttpMessageHandler();
 
@@ -29,8 +29,8 @@
         }
 
         [Theory]
-        [FileData(@".\CurrentUser\.testdata\Update_Should_Return_Current_User.json")]
-        public async Task Update_Should_Return_Current_User(string responseJson)
+        [FileData(@".\CurrentUser\.testdata\Update_Should_Update_And_Return_The_Current_User.json")]
+        public async Task Update_Should_Update_And_Return_The_Current_User(string responseJson)
         {
             var handlerStub = new MockHttpMessageHandler();
 

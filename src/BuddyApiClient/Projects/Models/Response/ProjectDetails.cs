@@ -1,10 +1,10 @@
 ﻿namespace BuddyApiClient.Projects.Models.Response
 {
     using System.Text.Json.Serialization;
-    using BuddyApiClient.Core.Models;
+    using BuddyApiClient.Core.Models.Response;
     using BuddyApiClient.Members.Models.Response;
 
-    public sealed record ProjectDetails : ApiObject
+    public sealed record ProjectDetails : Response
     {
         [JsonPropertyName("name")]
         public string? Name { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace BuddyApiClient.Projects
 {
-    public class ProjectsClient
+    internal sealed class ProjectsClient
     {
     }
 }

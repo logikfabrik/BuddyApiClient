@@ -3,7 +3,7 @@
     using System.Text.Json.Serialization;
     using EnsureThat;
 
-    public record AddMember
+    public sealed record AddMember
     {
         public AddMember(string email)
         {

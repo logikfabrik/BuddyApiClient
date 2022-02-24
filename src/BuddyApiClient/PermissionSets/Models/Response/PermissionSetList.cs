@@ -1,9 +1,9 @@
 ﻿namespace BuddyApiClient.PermissionSets.Models.Response
 {
     using System.Text.Json.Serialization;
-    using BuddyApiClient.Core.Models;
+    using BuddyApiClient.Core.Models.Response;
 
-    public sealed record PermissionSetList : ApiObject
+    public sealed record PermissionSetList : Response
     {
         [JsonPropertyName("permission_sets")]
         public IEnumerable<PermissionSetOutline>? PermissionSets { get; set; }

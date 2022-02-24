@@ -10,19 +10,20 @@
         {
         }
 
-        public async Task<WorkspaceDetails?> Get(string domain,
-            CancellationToken cancellationToken = default)
+        public async Task<WorkspaceDetails?> Get(string domain, CancellationToken cancellationToken = default)
         {
-            return await HttpClientFacade.Get<WorkspaceDetails>(
-                $"workspaces/{Ensure.String.IsNotNullOrWhiteSpace(domain, nameof(domain))}",
-                cancellationToken);
+            Ensure.String.IsNotNullOrWhiteSpace(domain, nameof(domain));
+
+            var url = $"workspaces/{domain}";
+
+            return await HttpClientFacade.Get<WorkspaceDetails>(url, cancellationToken);
         }
 
-        public async Task<WorkspaceList?> List(
-            CancellationToken cancellationToken = default)
+        public async Task<WorkspaceList?> List(CancellationToken cancellationToken = default)
         {
-            return await HttpClientFacade.Get<WorkspaceList>("workspaces",
-                cancellationToken);
+            const string url = "workspaces";
+
+            return await HttpClientFacade.Get<WorkspaceList>(url, cancellationToken);
         }
     }
 }

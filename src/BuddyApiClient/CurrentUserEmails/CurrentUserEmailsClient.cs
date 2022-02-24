@@ -14,17 +14,25 @@
 
         public async Task<EmailDetails?> Add(AddEmail content, CancellationToken cancellationToken = default)
         {
-            return await HttpClientFacade.Post<EmailDetails>("user/emails", Ensure.Any.HasValue(content, nameof(content)), cancellationToken);
+            const string url = "user/emails";
+
+            return await HttpClientFacade.Post<EmailDetails>(url, content, cancellationToken);
         }
 
         public async Task<EmailList?> List(CancellationToken cancellationToken = default)
         {
-            return await HttpClientFacade.Get<EmailList>("user/emails", cancellationToken);
+            const string url = "user/emails";
+
+            return await HttpClientFacade.Get<EmailList>(url, cancellationToken);
         }
 
         public async Task Remove(string email, CancellationToken cancellationToken = default)
         {
-            await HttpClientFacade.Delete($"user/emails/{Uri.EscapeDataString(Ensure.String.IsNotNullOrWhiteSpace(email, nameof(email)))}", cancellationToken);
+            Ensure.String.IsNotNullOrWhiteSpace(email, nameof(email));
+
+            var url = $"user/emails/{email}";
+
+            await HttpClientFacade.Delete(url, cancellationToken);
         }
     }
 }

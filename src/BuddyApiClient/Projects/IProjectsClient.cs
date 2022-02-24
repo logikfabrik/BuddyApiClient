@@ -4,7 +4,6 @@
 
     public interface IProjectsClient
     {
-        public Task<ProjectDetails?> Get(string domain, string name,
-            CancellationToken cancellationToken = default);
+        public Task<ProjectDetails?> Get(string domain, string name, CancellationToken cancellationToken = default);
     }
 }
