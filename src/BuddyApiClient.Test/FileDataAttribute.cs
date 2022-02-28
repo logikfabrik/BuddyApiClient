@@ -15,15 +15,19 @@
             _path = Ensure.String.IsNotNullOrWhiteSpace(path, nameof(path));
         }
 
-        public override IEnumerable<object[]> GetData(
-            MethodInfo testMethod)
+        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
             if (File.Exists(_path))
+            {
                 yield return new object[] { File.ReadAllText(_path) };
+            }
             else if (Directory.Exists(_path))
-                foreach (var path in Directory.EnumerateFiles(_path, "*.*",
-                             SearchOption.AllDirectories))
+            {
+                foreach (var path in Directory.EnumerateFiles(_path, "*.*", SearchOption.AllDirectories))
+                {
                     yield return new object[] { File.ReadAllText(path) };
+                }
+            }
         }
     }
 }
