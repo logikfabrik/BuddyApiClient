@@ -39,7 +39,7 @@
                     return;
                 }
 
-                if (response != null && response.Count < _pageQuery.PageSize)
+                if (response is not null && response.Count < _pageQuery.PageSize)
                 {
                     return;
                 }

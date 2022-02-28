@@ -22,7 +22,7 @@
         {
             var sortBy = GetSortBy();
 
-            if (sortBy == null)
+            if (sortBy is null)
             {
                 return;
             }
@@ -34,7 +34,7 @@
         {
             var sortDirection = GetSortDirection();
 
-            if (sortDirection == null)
+            if (sortDirection is null)
             {
                 return;
             }

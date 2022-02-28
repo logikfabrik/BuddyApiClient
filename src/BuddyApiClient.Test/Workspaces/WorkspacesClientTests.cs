@@ -59,7 +59,7 @@
 
         private static IWorkspacesClient CreateClient(MockHttpMessageHandler handlerStub)
         {
-            return new WorkspacesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), "PAT")));
+            return new WorkspacesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri("https://api.buddy.works"), "PAT")));
         }
     }
 }

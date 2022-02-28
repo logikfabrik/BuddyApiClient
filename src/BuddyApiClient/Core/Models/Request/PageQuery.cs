@@ -13,7 +13,7 @@
             get => _pageIndex;
             set
             {
-                if (value == null)
+                if (value is null)
                 {
                     _pageIndex = null;
 
@@ -29,7 +29,7 @@
             get => _pageSize;
             set
             {
-                if (value == null)
+                if (value is null)
                 {
                     _pageSize = null;
 
@@ -42,7 +42,7 @@
 
         protected void AddPageIndex(NameValueCollection parameters)
         {
-            if (_pageIndex == null)
+            if (_pageIndex is null)
             {
                 return;
             }
@@ -52,7 +52,7 @@
 
         protected void AddPageSize(NameValueCollection parameters)
         {
-            if (_pageSize == null)
+            if (_pageSize is null)
             {
                 return;
             }

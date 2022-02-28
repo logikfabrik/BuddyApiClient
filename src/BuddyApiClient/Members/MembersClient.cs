@@ -54,5 +54,14 @@
 
             await HttpClientFacade.Delete(url, cancellationToken);
         }
+
+        public async Task<MemberDetails?> Update(string domain, int id, UpdateMember content, CancellationToken cancellationToken = default)
+        {
+            Ensure.String.IsNotNullOrWhiteSpace(domain, nameof(domain));
+
+            var url = $"workspaces/{domain}/members/{id}";
+
+            return await HttpClientFacade.Patch<MemberDetails>(url, content, cancellationToken);
+        }
     }
 }

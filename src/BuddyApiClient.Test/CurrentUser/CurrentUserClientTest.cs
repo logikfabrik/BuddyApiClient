@@ -45,7 +45,7 @@
 
         private static ICurrentUserClient CreateClient(MockHttpMessageHandler handlerStub)
         {
-            return new CurrentUserClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), "PAT")));
+            return new CurrentUserClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri("https://api.buddy.works"), "PAT")));
         }
     }
 }

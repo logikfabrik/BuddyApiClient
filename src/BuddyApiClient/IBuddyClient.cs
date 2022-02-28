@@ -4,7 +4,7 @@
     using BuddyApiClient.CurrentUserEmails;
     using BuddyApiClient.Workspaces;
 
-    public interface IClient
+    public interface IBuddyClient
     {
         ICurrentUserClient CurrentUser { get; }
 

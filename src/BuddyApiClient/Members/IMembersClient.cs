@@ -15,5 +15,7 @@
         IPageIterator ListAll(string domain, ListMembersQuery pageQuery, PageResponseHandler<ListMembersQuery, MemberList> pageResponseHandler);
 
         Task Remove(string domain, int id, CancellationToken cancellationToken = default);
+
+        Task<MemberDetails?> Update(string domain, int id, UpdateMember content, CancellationToken cancellationToken = default);
     }
 }

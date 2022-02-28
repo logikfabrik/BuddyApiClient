@@ -19,7 +19,7 @@
         public DateTime CreateDate { get; set; }
 
         [JsonPropertyName("created_by")]
-        public MemberOutline CreatedBy { get; set; }
+        public MemberSummary CreatedBy { get; set; }
 
         [JsonPropertyName("http_repository")]
         public string? HttpRepository { get; set; }

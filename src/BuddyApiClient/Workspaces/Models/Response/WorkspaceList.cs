@@ -6,6 +6,6 @@
     public sealed record WorkspaceList : Response
     {
         [JsonPropertyName("workspaces")]
-        public IEnumerable<WorkspaceOutline>? Workspaces { get; set; }
+        public IEnumerable<WorkspaceSummary>? Workspaces { get; set; }
     }
 }

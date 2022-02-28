@@ -2,7 +2,7 @@
 {
     using System.Text.Json.Serialization;
 
-    public sealed record WorkspaceOutline
+    public sealed record WorkspaceSummary
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }

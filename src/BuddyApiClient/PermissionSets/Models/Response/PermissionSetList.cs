@@ -6,6 +6,6 @@
     public sealed record PermissionSetList : Response
     {
         [JsonPropertyName("permission_sets")]
-        public IEnumerable<PermissionSetOutline>? PermissionSets { get; set; }
+        public IEnumerable<PermissionSetSummary>? PermissionSets { get; set; }
     }
 }

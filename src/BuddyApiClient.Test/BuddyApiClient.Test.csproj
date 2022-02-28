@@ -19,6 +19,9 @@
     <Content Include="CurrentUser\.testdata\Get_Should_Return_The_Current_User.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Members\.testdata\Update_Should_Update_And_Return_The_Member.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Members\.testdata\Add_Should_Add_And_Return_The_Added_Member.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

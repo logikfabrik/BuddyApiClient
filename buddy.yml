@@ -1,0 +1,52 @@
+- pipeline: "test"
+  on: "EVENT"
+  events:
+  - type: "PUSH"
+    refs:
+    - "refs/heads/master"
+  priority: "NORMAL"
+  fail_on_prepare_env_warning: true
+  actions:
+  - action: "dotnet test"
+    type: "BUILD"
+    working_directory: "/buddy/buddyapiclient"
+    docker_image_name: "dotnet/sdk"
+    docker_image_tag: "6.0"
+    registry: "mcr.microsoft.com"
+    execute_commands:
+    - "dotnet test src/BuddyApiClient.sln -c Release -p:Version=0.0.1"
+    volume_mappings:
+    - "/:/buddy/buddyapiclient"
+    cache_base_image: true
+    shell: "BASH"
+- pipeline: "pack and push"
+  on: "CLICK"
+  refs:
+  - "refs/heads/master"
+  priority: "NORMAL"
+  fail_on_prepare_env_warning: true
+  actions:
+  - action: "dotnet pack"
+    type: "BUILD"
+    working_directory: "/buddy/buddyapiclient"
+    docker_image_name: "dotnet/sdk"
+    docker_image_tag: "6.0"
+    registry: "mcr.microsoft.com"
+    execute_commands:
+    - "dotnet pack dotnet build src/BuddyApiClient.sln -c Release --output \"nupkgs\" -p:Version=$version"
+    volume_mappings:
+    - "/:/buddy/buddyapiclient"
+    cache_base_image: true
+    shell: "BASH"
+  - action: "dotnet nuget push"
+    type: "BUILD"
+    working_directory: "/buddy/buddyapiclient"
+    docker_image_name: "dotnet/sdk"
+    docker_image_tag: "6.0"
+    registry: "mcr.microsoft.com"
+    execute_commands:
+    - "dotnet nuget push nupkgs/BuddyApiClient.$version.nupkg -k $nuget_api_key -s https://api.nuget.org/v3/index.json"
+    volume_mappings:
+    - "/:/buddy/buddyapiclient"
+    cache_base_image: true
+    shell: "BASH"

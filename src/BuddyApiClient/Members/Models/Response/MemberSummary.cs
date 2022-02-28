@@ -3,7 +3,7 @@
     using System.Text.Json.Serialization;
     using BuddyApiClient.Core.Models.Response;
 
-    public sealed record MemberOutline : Response
+    public sealed record MemberSummary : Response
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }

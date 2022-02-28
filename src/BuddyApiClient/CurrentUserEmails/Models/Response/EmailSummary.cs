@@ -2,7 +2,7 @@
 {
     using System.Text.Json.Serialization;
 
-    public sealed record EmailOutline
+    public sealed record EmailSummary
     {
         [JsonPropertyName("email")]
         public string? Email { get; set; }

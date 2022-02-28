@@ -5,7 +5,12 @@ VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuddyApiClient", "BuddyApiClient\BuddyApiClient.csproj", "{C69AF1F7-BEFA-4E37-9805-ADECE1A3E828}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuddyApiClient.Test", "BuddyApiClient.Test\BuddyApiClient.Test.csproj", "{3ADD0FF4-FEA4-4D54-BD74-F6FCC69B473D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuddyApiClient.Test", "BuddyApiClient.Test\BuddyApiClient.Test.csproj", "{3ADD0FF4-FEA4-4D54-BD74-F6FCC69B473D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{29AC2781-A79A-4577-8C89-46713CAB3F44}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

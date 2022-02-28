@@ -86,13 +86,13 @@
 
             var sut = CreateClient(handlerStub);
 
-            var members = new List<MemberOutline>();
+            var members = new List<MemberSummary>();
 
             var pageQuery = new ListMembersQuery();
 
             var pageIterator = sut.ListAll("buddy", pageQuery, (_, response, _) =>
             {
-                members.AddRange(response?.Members ?? Enumerable.Empty<MemberOutline>());
+                members.AddRange(response?.Members ?? Enumerable.Empty<MemberSummary>());
 
                 return Task.FromResult(true);
             });
@@ -114,9 +114,24 @@
             await sut.Remove("buddy", 1);
         }
 
+        [Theory]
+        [FileData(@".\Members\.testdata\Update_Should_Update_And_Return_The_Member.json")]
+        public async Task Update_Should_Update_And_Return_The_Member(string responseJson)
+        {
+            var handlerStub = new MockHttpMessageHandler();
+
+            handlerStub.When(HttpMethod.Patch, "https://api.buddy.works/workspaces/buddy/members/1").Respond(MediaTypeNames.Application.Json, responseJson);
+
+            var sut = CreateClient(handlerStub);
+
+            var member = await sut.Update("buddy", 1, new UpdateMember());
+
+            member.ShouldNotBeNull();
+        }
+
         private static IMembersClient CreateClient(MockHttpMessageHandler handlerStub)
         {
-            return new MembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), "PAT")));
+            return new MembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri("https://api.buddy.works"), "PAT")));
         }
     }
 }
