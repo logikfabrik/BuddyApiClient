@@ -1,0 +1,10 @@
+{
+  "url": "https://api.buddy.works/workspaces/buddy",
+  "html_url": "https://app.buddy.works/buddy",
+  "id": 1,
+  "owner_id": 1,
+  "name": "buddy",
+  "domain": "buddy",
+  "frozen": false,
+  "create_date": "2016-02-29T11:22:40Z"
+}

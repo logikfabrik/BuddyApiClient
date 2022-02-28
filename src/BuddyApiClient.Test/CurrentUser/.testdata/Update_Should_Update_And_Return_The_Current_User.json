@@ -1,0 +1,8 @@
+{
+  "url": "https://api.buddy.works/user",
+  "html_url": "https://app.buddy.works/my-id",
+  "id": 1,
+  "name": "Mike Benson",
+  "avatar_url": "https://app.buddy.works/image-server/user/0/0/0/0/0/0/1/d643744fbe5ebf2906a4d075a5b97110/w/32/32/AVATAR.png",
+  "workspaces_url": "https://api.buddy.works/workspaces"
+}
