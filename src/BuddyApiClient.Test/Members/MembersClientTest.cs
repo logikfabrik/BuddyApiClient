@@ -18,7 +18,7 @@
     public sealed class MembersClientTest
     {
         [Theory]
-        [FileData(@".\Members\.testdata\Add_Should_Add_And_Return_The_Added_Member.json")]
+        [FileData(@"Members/.testdata/Add_Should_Add_And_Return_The_Added_Member.json")]
         public async Task Add_Should_Add_And_Return_The_Added_Member(string responseJson)
         {
             var handlerStub = new MockHttpMessageHandler();
@@ -33,7 +33,7 @@
         }
 
         [Theory]
-        [FileData(@".\Members\.testdata\Get_For_Member_That_Exists_Should_Return_The_Member.json")]
+        [FileData(@"Members/.testdata/Get_For_Member_That_Exists_Should_Return_The_Member.json")]
         public async Task Get_For_Member_That_Exists_Should_Return_The_Member(string responseJson)
         {
             var handlerStub = new MockHttpMessageHandler();
@@ -62,7 +62,7 @@
         }
 
         [Theory]
-        [FileData(@".\Members\.testdata\List_Should_Return_The_Members.json")]
+        [FileData(@"Members/.testdata/List_Should_Return_The_Members.json")]
         public async Task List_Should_Return_The_Members(string responseJson)
         {
             var handlerStub = new MockHttpMessageHandler();
@@ -77,7 +77,7 @@
         }
 
         [Theory]
-        [FileData(@".\Members\.testdata\ListAll_Should_Return_The_Members.json")]
+        [FileData(@"Members/.testdata/ListAll_Should_Return_The_Members.json")]
         public async Task ListAll_Should_Return_The_Members(string responseJson)
         {
             var handlerStub = new MockHttpMessageHandler();
@@ -115,7 +115,7 @@
         }
 
         [Theory]
-        [FileData(@".\Members\.testdata\Update_Should_Update_And_Return_The_Member.json")]
+        [FileData(@"Members/.testdata/Update_Should_Update_And_Return_The_Member.json")]
         public async Task Update_Should_Update_And_Return_The_Member(string responseJson)
         {
             var handlerStub = new MockHttpMessageHandler();

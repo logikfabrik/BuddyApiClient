@@ -15,7 +15,7 @@
     public sealed class CurrentUserEmailsClientTest
     {
         [Theory]
-        [FileData(@".\CurrentUserEmails\.testdata\Add_Should_Add_And_Return_The_Added_Email.json")]
+        [FileData(@"CurrentUserEmails/.testdata/Add_Should_Add_And_Return_The_Added_Email.json")]
         public async Task Add_Should_Add_And_Return_The_Added_Email(string responseJson)
         {
             var handlerStub = new MockHttpMessageHandler();
@@ -30,7 +30,7 @@
         }
 
         [Theory]
-        [FileData(@".\CurrentUserEmails\.testdata\List_Should_Return_The_Emails.json")]
+        [FileData(@"CurrentUserEmails/.testdata/List_Should_Return_The_Emails.json")]
         public async Task List_Should_Return_The_Emails(string responseJson)
         {
             var handlerStub = new MockHttpMessageHandler();
