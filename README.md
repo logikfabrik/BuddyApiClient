@@ -7,7 +7,7 @@ A .NET client for the [Buddy](https://buddy.works/) API.
 Add the BuddyApiClient NuGet to your project:
 
 ```
-PM> Install-Package BuddyApiClient
+PM> Install-Package BuddyApiClient -IncludePrerelease
 ```
 
 Use a OAuth2 access token, a [Personal Access Token](https://buddy.works/docs/api/getting-started/oauth2/personal-access-token), or [Basic Authorization](https://buddy.works/docs/api/getting-started/oauth2/introduction#basic-authorization), to access the Buddy API.

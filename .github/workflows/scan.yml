@@ -36,12 +36,12 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-      - name: Build and analyze
+      - name: Run SonarCloud scanner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"logikfabrik_BuddyApiClient" /o:"logikfabrik" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /v:"0.0.1.${{ github.run_number }}"
-          dotnet build src/BuddyApiClient.sln -c Release -p:Version=0.0.1
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"logikfabrik_BuddyApiClient" /o:"logikfabrik" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="src\*.Test\coverage.opencover.xml" /d:sonar.coverage.exclusions="src\*.Test\**\*" /v:"0.0.1.${{ github.run_number }}"
+          dotnet test src\BuddyApiClient.sln -c Release -p:Version=0.0.1 -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"

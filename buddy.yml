@@ -33,7 +33,7 @@
     docker_image_tag: "6.0"
     registry: "mcr.microsoft.com"
     execute_commands:
-    - "dotnet pack dotnet build src/BuddyApiClient.sln -c Release --output \"nupkgs\" -p:Version=$version"
+    - "dotnet pack src/BuddyApiClient.sln -c Release --output \"nupkgs\" -p:Version=$version"
     volume_mappings:
     - "/:/buddy/buddyapiclient"
     cache_base_image: true
