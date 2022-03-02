@@ -9,16 +9,8 @@
         public Uri BaseUrl { get; set; } = new("https://api.buddy.works");
 
         /// <summary>
-        ///     A OAuth2 or personal access token.
+        ///     A access token.
         /// </summary>
         public string? AccessToken { get; set; }
-
-        public string? BasicAuthClientId { get; set; }
-
-        public string? BasicAuthClientSecret { get; set; }
-
-        internal bool UseAccessToken => AccessToken is not null;
-
-        internal bool UseBasicAuth => BasicAuthClientId is not null && BasicAuthClientSecret is not null;
     }
 }

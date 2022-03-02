@@ -10,7 +10,7 @@ Add the BuddyApiClient NuGet to your project:
 PM> Install-Package BuddyApiClient -IncludePrerelease
 ```
 
-Use a OAuth2 access token, a [Personal Access Token](https://buddy.works/docs/api/getting-started/oauth2/personal-access-token), or [Basic Authorization](https://buddy.works/docs/api/getting-started/oauth2/introduction#basic-authorization), to access the Buddy API.
+Use a [personal access token](https://buddy.works/docs/api/getting-started/oauth2/personal-access-token), or a [OAuth2 access token](https://buddy.works/docs/api/getting-started/oauth2/introduction), to access the Buddy API.
 
 On app start-up, add BuddyApiClient to your service collection:
 
@@ -18,13 +18,7 @@ On app start-up, add BuddyApiClient to your service collection:
 services.AddBuddyClient(new BuddyClientOptions { AccessToken = "" });
 ```
 
-Or:
-
-```csharp
-services.AddBuddyClient(new BuddyClientOptions { BasicAuthClientId = "", BasicAuthClientSecret = "" });
-```
-
-Query the Buddy API using `BuddyApiClient.IClient`.
+Query the Buddy API using `IBuddyClient`.
 
 ## How to contribute
 
