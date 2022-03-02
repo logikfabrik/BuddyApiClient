@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuddyApiClient.IntegrationTest", "BuddyApiClient.IntegrationTest\BuddyApiClient.IntegrationTest.csproj", "{12F76B64-68BE-4CAC-B47F-53FF859F92CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{3ADD0FF4-FEA4-4D54-BD74-F6FCC69B473D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3ADD0FF4-FEA4-4D54-BD74-F6FCC69B473D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3ADD0FF4-FEA4-4D54-BD74-F6FCC69B473D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12F76B64-68BE-4CAC-B47F-53FF859F92CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12F76B64-68BE-4CAC-B47F-53FF859F92CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12F76B64-68BE-4CAC-B47F-53FF859F92CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12F76B64-68BE-4CAC-B47F-53FF859F92CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

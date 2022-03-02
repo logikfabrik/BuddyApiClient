@@ -10,7 +10,7 @@
     {
         public BuddyClient(IHttpClientFactory httpClientFactory, IOptions<BuddyClientOptions> options)
         {
-            var httpClientFacade = new Lazy<HttpClientFacade>(() => Create(httpClientFactory.CreateClient(), options.Value));
+            var httpClientFacade = new Lazy<HttpClientFacade>(() => HttpClientFacadeFactory.Create(httpClientFactory.CreateClient(), options.Value.BaseUrl, options.Value.AccessToken!));
 
             CurrentUser = new CurrentUserClient(httpClientFacade);
             CurrentUserEmails = new CurrentUserEmailsClient(httpClientFacade);
@@ -19,7 +19,7 @@
 
         public BuddyClient(HttpClient httpClient, IOptions<BuddyClientOptions> options)
         {
-            var httpClientFacade = new Lazy<HttpClientFacade>(() => Create(httpClient, options.Value));
+            var httpClientFacade = new Lazy<HttpClientFacade>(() => HttpClientFacadeFactory.Create(httpClient, options.Value.BaseUrl, options.Value.AccessToken!));
 
             CurrentUser = new CurrentUserClient(httpClientFacade);
             CurrentUserEmails = new CurrentUserEmailsClient(httpClientFacade);
@@ -31,20 +31,5 @@
         public ICurrentUserEmailsClient CurrentUserEmails { get; }
 
         public IWorkspacesClient Workspaces { get; }
-
-        private static HttpClientFacade Create(HttpClient httpClient, BuddyClientOptions options)
-        {
-            if (options.UseAccessToken)
-            {
-                return HttpClientFacadeFactory.Create(httpClient, options.BaseUrl, options.AccessToken!);
-            }
-
-            if (options.UseBasicAuth)
-            {
-                return HttpClientFacadeFactory.Create(httpClient, options.BaseUrl, options.BasicAuthClientId!, options.BasicAuthClientSecret!);
-            }
-
-            throw new NotSupportedException();
-        }
     }
 }

@@ -29,8 +29,6 @@
             {
                 options.BaseUrl = userOptions.BaseUrl;
                 options.AccessToken = userOptions.AccessToken;
-                options.BasicAuthClientId = userOptions.BasicAuthClientId;
-                options.BasicAuthClientSecret = options.BasicAuthClientSecret;
             });
 
             services.AddHttpClient<IBuddyClient, BuddyClient>();
