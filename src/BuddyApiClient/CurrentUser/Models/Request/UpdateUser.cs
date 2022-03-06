@@ -1,13 +1,16 @@
 ﻿namespace BuddyApiClient.CurrentUser.Models.Request
 {
     using System.Text.Json.Serialization;
+    using EnsureThat;
 
     public sealed record UpdateUser
     {
-        [JsonPropertyName("name")]
-        public string? Name { get; set; }
+        public UpdateUser(string name)
+        {
+            Name = Ensure.String.IsNotNullOrEmpty(name, nameof(name));
+        }
 
-        [JsonPropertyName("title")]
-        public string? Title { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; }
     }
 }

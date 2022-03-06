@@ -11,9 +11,6 @@
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonPropertyName("title")]
-        public string Title { get; set; }
-
         [JsonPropertyName("avatar_url")]
         public Uri AvatarUrl { get; set; }
 
