@@ -1,8 +1,7 @@
 ﻿namespace BuddyApiClient.IntegrationTest
 {
-    using System.Net.Http;
     using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.Options;
+    using Microsoft.Extensions.DependencyInjection;
 
     public sealed class BuddyClientFixture
     {
@@ -12,7 +11,12 @@
                 .AddUserSecrets<BuddyClientFixture>()
                 .Build();
 
-            BuddyClient = new BuddyClient(new HttpClient(), new OptionsWrapper<BuddyClientOptions>(configuration.Get<BuddyClientOptions>()));
+            var serviceProvider = new ServiceCollection()
+                .AddSingleton<IConfiguration>(configuration)
+                .AddBuddyClient(configuration)
+                .BuildServiceProvider();
+
+            BuddyClient = serviceProvider.GetRequiredService<IBuddyClient>();
         }
 
         public IBuddyClient BuddyClient { get; }

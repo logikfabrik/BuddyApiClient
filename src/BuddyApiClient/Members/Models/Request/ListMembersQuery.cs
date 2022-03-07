@@ -8,12 +8,13 @@
 
         protected override string? GetSortBy()
         {
-            if (!SortBy.HasValue)
+            return SortBy switch
             {
-                return null;
-            }
-
-            throw new NotImplementedException();
+                SortMembersBy.Email => "email",
+                SortMembersBy.Name => "name",
+                SortMembersBy.ShortName => "short_name",
+                _ => null
+            };
         }
     }
 }

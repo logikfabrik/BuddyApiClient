@@ -3,32 +3,37 @@
     using BuddyApiClient.Core;
     using BuddyApiClient.CurrentUser;
     using BuddyApiClient.CurrentUserEmails;
+    using BuddyApiClient.Members;
     using BuddyApiClient.Workspaces;
     using Microsoft.Extensions.Options;
 
     public sealed class BuddyClient : IBuddyClient
     {
         public BuddyClient(IHttpClientFactory httpClientFactory, IOptions<BuddyClientOptions> options)
+            : this(() => HttpClientFacadeFactory.Create(httpClientFactory.CreateClient(), options.Value.BaseUrl, options.Value.AccessToken))
         {
-            var httpClientFacade = new Lazy<HttpClientFacade>(() => HttpClientFacadeFactory.Create(httpClientFactory.CreateClient(), options.Value.BaseUrl, options.Value.AccessToken!));
-
-            CurrentUser = new CurrentUserClient(httpClientFacade);
-            CurrentUserEmails = new CurrentUserEmailsClient(httpClientFacade);
-            Workspaces = new WorkspacesClient(httpClientFacade);
         }
 
         public BuddyClient(HttpClient httpClient, IOptions<BuddyClientOptions> options)
+            : this(() => HttpClientFacadeFactory.Create(httpClient, options.Value.BaseUrl, options.Value.AccessToken))
         {
-            var httpClientFacade = new Lazy<HttpClientFacade>(() => HttpClientFacadeFactory.Create(httpClient, options.Value.BaseUrl, options.Value.AccessToken!));
+        }
+
+        private BuddyClient(Func<HttpClientFacade> factory)
+        {
+            var httpClientFacade = new Lazy<HttpClientFacade>(factory);
 
             CurrentUser = new CurrentUserClient(httpClientFacade);
             CurrentUserEmails = new CurrentUserEmailsClient(httpClientFacade);
+            Members = new MembersClient(httpClientFacade);
             Workspaces = new WorkspacesClient(httpClientFacade);
         }
 
         public ICurrentUserClient CurrentUser { get; }
 
         public ICurrentUserEmailsClient CurrentUserEmails { get; }
+
+        public IMembersClient Members { get; }
 
         public IWorkspacesClient Workspaces { get; }
     }

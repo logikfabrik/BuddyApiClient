@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
-    using EnsureThat;
     using Xunit.Sdk;
 
     public sealed class FileDataAttribute : DataAttribute
@@ -12,7 +11,7 @@
 
         public FileDataAttribute(string path)
         {
-            _path = Ensure.String.IsNotNullOrWhiteSpace(path, nameof(path));
+            _path = path;
         }
 
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
