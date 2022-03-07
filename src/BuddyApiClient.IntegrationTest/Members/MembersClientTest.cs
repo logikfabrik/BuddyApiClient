@@ -62,7 +62,7 @@
 
             var members = await sut.List("logikfabrik");
 
-            members!.Members!.Any().ShouldBeTrue();
+            members?.Members?.Any().ShouldBeTrue();
         }
 
         [Fact]

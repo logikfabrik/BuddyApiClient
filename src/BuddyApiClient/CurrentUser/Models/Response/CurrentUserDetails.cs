@@ -9,12 +9,12 @@
         public int Id { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("avatar_url")]
-        public Uri AvatarUrl { get; set; }
+        public Uri? AvatarUrl { get; set; }
 
         [JsonPropertyName("workspaces_url")]
-        public Uri WorkspacesUrl { get; set; }
+        public Uri? WorkspacesUrl { get; set; }
     }
 }

@@ -34,7 +34,7 @@
 
             var currentUser = await sut.Update(new UpdateUser(name));
 
-            currentUser!.Name.ShouldBe(name);
+            currentUser?.Name.ShouldBe(name);
         }
     }
 }

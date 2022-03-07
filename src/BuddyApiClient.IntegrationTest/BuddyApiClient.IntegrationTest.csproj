@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="CurrentUser\" />
+    <Folder Include="CurrentUserEmails\" />
   </ItemGroup>
 
 </Project>
