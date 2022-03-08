@@ -8,6 +8,7 @@
     using System.Net.Mime;
     using System.Threading.Tasks;
     using BuddyApiClient.Core;
+    using BuddyApiClient.Core.Models.Request;
     using BuddyApiClient.Members;
     using BuddyApiClient.Members.Models.Request;
     using BuddyApiClient.Members.Models.Response;
@@ -17,17 +18,23 @@
 
     public sealed class MembersClientTest
     {
+        private const string BaseUrl = "https://api.buddy.works";
+        private const string Domain = "logikfabrik";
+        private const int MemberId = 1;
+
         [Theory]
         [FileData(@"Members/.testdata/Add_Should_Add_And_Return_The_Added_Member.json")]
         public async Task Add_Should_Add_And_Return_The_Added_Member(string responseJson)
         {
             var handlerStub = new MockHttpMessageHandler();
 
-            handlerStub.When(HttpMethod.Post, "https://api.buddy.works/workspaces/buddy/members").Respond(MediaTypeNames.Application.Json, responseJson);
+            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/members").ToString();
+
+            handlerStub.When(HttpMethod.Post, url).Respond(MediaTypeNames.Application.Json, responseJson);
 
             var sut = CreateClient(handlerStub);
 
-            var member = await sut.Add("buddy", new AddMember("mike.benson@buddy.works"));
+            var member = await sut.Add(Domain, new AddMember("mike.benson@buddy.works"));
 
             member.ShouldNotBeNull();
         }
@@ -38,11 +45,13 @@
         {
             var handlerStub = new MockHttpMessageHandler();
 
-            handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/members/1").Respond(MediaTypeNames.Application.Json, responseJson);
+            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/members/{MemberId}").ToString();
+
+            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
 
             var sut = CreateClient(handlerStub);
 
-            var member = await sut.Get("buddy", 1);
+            var member = await sut.Get(Domain, MemberId);
 
             member.ShouldNotBeNull();
         }
@@ -52,11 +61,13 @@
         {
             var handlerStub = new MockHttpMessageHandler();
 
-            handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/members/1").Respond(HttpStatusCode.NotFound);
+            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/members/{MemberId}").ToString();
+
+            handlerStub.When(HttpMethod.Get, url).Respond(HttpStatusCode.NotFound);
 
             var sut = CreateClient(handlerStub);
 
-            var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Get("buddy", 1));
+            var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Get(Domain, MemberId));
 
             e.ShouldNotBeNull();
         }
@@ -67,11 +78,13 @@
         {
             var handlerStub = new MockHttpMessageHandler();
 
-            handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/members").Respond(MediaTypeNames.Application.Json, responseJson);
+            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/members").ToString();
+
+            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
 
             var sut = CreateClient(handlerStub);
 
-            var members = await sut.List("buddy");
+            var members = await sut.List(Domain);
 
             members.ShouldNotBeNull();
         }
@@ -82,7 +95,9 @@
         {
             var handlerStub = new MockHttpMessageHandler();
 
-            handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/members?page=1&per_page=20").Respond(MediaTypeNames.Application.Json, responseJson);
+            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/members?page={PageIterator.DefaultPageIndex}&per_page={PageIterator.DefaultPageSize}").ToString();
+
+            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
 
             var sut = CreateClient(handlerStub);
 
@@ -90,7 +105,7 @@
 
             var pageQuery = new ListMembersQuery();
 
-            var pageIterator = sut.ListAll("buddy", pageQuery, (_, response, _) =>
+            var pageIterator = sut.ListAll(Domain, pageQuery, (_, response, _) =>
             {
                 members.AddRange(response?.Members ?? Enumerable.Empty<MemberSummary>());
 
@@ -107,11 +122,13 @@
         {
             var handlerStub = new MockHttpMessageHandler();
 
-            handlerStub.When(HttpMethod.Delete, "https://api.buddy.works/workspaces/buddy/members/1").Respond(HttpStatusCode.NoContent);
+            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/members/{MemberId}").ToString();
+
+            handlerStub.When(HttpMethod.Delete, url).Respond(HttpStatusCode.NoContent);
 
             var sut = CreateClient(handlerStub);
 
-            await sut.Remove("buddy", 1);
+            await sut.Remove(Domain, MemberId);
         }
 
         [Theory]
@@ -120,18 +137,20 @@
         {
             var handlerStub = new MockHttpMessageHandler();
 
-            handlerStub.When(HttpMethod.Patch, "https://api.buddy.works/workspaces/buddy/members/1").Respond(MediaTypeNames.Application.Json, responseJson);
+            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/members/{MemberId}").ToString();
+
+            handlerStub.When(HttpMethod.Patch, url).Respond(MediaTypeNames.Application.Json, responseJson);
 
             var sut = CreateClient(handlerStub);
 
-            var member = await sut.Update("buddy", 1, new UpdateMember());
+            var member = await sut.Update(Domain, MemberId, new UpdateMember());
 
             member.ShouldNotBeNull();
         }
 
         private static IMembersClient CreateClient(MockHttpMessageHandler handlerStub)
         {
-            return new MembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri("https://api.buddy.works"), "PAT")));
+            return new MembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri(BaseUrl), null)));
         }
     }
 }

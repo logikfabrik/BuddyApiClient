@@ -1,5 +1,6 @@
 ﻿namespace BuddyApiClient.IntegrationTest.CurrentUserEmails
 {
+    using System.Net.Http;
     using System.Threading.Tasks;
     using BuddyApiClient.CurrentUserEmails.Models.Request;
     using Shouldly;
@@ -25,6 +26,16 @@
             var email = await sut.Add(new AddEmail("jane.doe@logikfabrik.se"));
 
             email.ShouldNotBeNull();
+        }
+
+        [Fact]
+        public async Task Add_For_Invalid_Email_Should_Throw()
+        {
+            var sut = _fixture.BuddyClient.CurrentUserEmails;
+
+            var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Add(new AddEmail("INVALID_EMAIL")));
+
+            e.ShouldNotBeNull();
         }
 
         [Fact]

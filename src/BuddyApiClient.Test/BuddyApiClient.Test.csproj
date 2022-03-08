@@ -7,6 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Core\.testdata\Patch_Should_Throw_On_Client_Error.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Core\.testdata\Delete_Should_Throw_On_Client_Error.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Core\.testdata\Post_Should_Throw_On_Client_Error.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Core\.testdata\Get_Should_Throw_On_Client_Error.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="CurrentUserEmails/.testdata/List_Should_Return_The_Emails.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

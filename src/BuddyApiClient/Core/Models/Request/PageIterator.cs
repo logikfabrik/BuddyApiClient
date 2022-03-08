@@ -7,6 +7,12 @@
 
     public delegate Task<bool> PageResponseHandler<in T1, in T2>(T1 pageQuery, T2? response, CancellationToken cancellationToken = default) where T1 : PageQuery where T2 : PageResponse;
 
+    internal static class PageIterator
+    {
+        public const int DefaultPageIndex = 1;
+        public const int DefaultPageSize = 20;
+    }
+
     internal sealed class PageIterator<T1, T2> : IPageIterator where T1 : PageQuery where T2 : PageResponse
     {
         private readonly T1 _pageQuery;
@@ -19,8 +25,8 @@
             _pageResponseHandler = Ensure.Any.HasValue(pageResponseHandler, nameof(pageResponseHandler));
             _pageQuery = Ensure.Any.HasValue(pageQuery, nameof(pageQuery));
 
-            _pageQuery.PageIndex ??= 1;
-            _pageQuery.PageSize ??= 20;
+            _pageQuery.PageIndex ??= PageIterator.DefaultPageIndex;
+            _pageQuery.PageSize ??= PageIterator.DefaultPageSize;
         }
 
         public async Task Iterate(CancellationToken cancellationToken = default)

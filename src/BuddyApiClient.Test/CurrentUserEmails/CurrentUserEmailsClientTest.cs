@@ -14,13 +14,17 @@
 
     public sealed class CurrentUserEmailsClientTest
     {
+        private const string BaseUrl = "https://api.buddy.works";
+
         [Theory]
         [FileData(@"CurrentUserEmails/.testdata/Add_Should_Add_And_Return_The_Added_Email.json")]
         public async Task Add_Should_Add_And_Return_The_Added_Email(string responseJson)
         {
             var handlerStub = new MockHttpMessageHandler();
 
-            handlerStub.When(HttpMethod.Post, "https://api.buddy.works/user/emails").Respond(MediaTypeNames.Application.Json, responseJson);
+            var url = new Uri(new Uri(BaseUrl), "user/emails").ToString();
+
+            handlerStub.When(HttpMethod.Post, url).Respond(MediaTypeNames.Application.Json, responseJson);
 
             var sut = CreateClient(handlerStub);
 
@@ -35,7 +39,9 @@
         {
             var handlerStub = new MockHttpMessageHandler();
 
-            handlerStub.When(HttpMethod.Get, "https://api.buddy.works/user/emails").Respond(MediaTypeNames.Application.Json, responseJson);
+            var url = new Uri(new Uri(BaseUrl), "user/emails").ToString();
+
+            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
 
             var sut = CreateClient(handlerStub);
 
@@ -49,16 +55,20 @@
         {
             var handlerStub = new MockHttpMessageHandler();
 
-            handlerStub.When(HttpMethod.Delete, "https://api.buddy.works/user/emails/mike.benson@buddy.works").Respond(HttpStatusCode.NoContent);
+            const string email = "mike.benson@buddy.works";
+
+            var url = new Uri(new Uri(BaseUrl), $"user/emails/{email}").ToString();
+
+            handlerStub.When(HttpMethod.Delete, url).Respond(HttpStatusCode.NoContent);
 
             var sut = CreateClient(handlerStub);
 
-            await sut.Remove("mike.benson@buddy.works");
+            await sut.Remove(email);
         }
 
         private static ICurrentUserEmailsClient CreateClient(MockHttpMessageHandler handlerStub)
         {
-            return new CurrentUserEmailsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri("https://api.buddy.works"), "PAT")));
+            return new CurrentUserEmailsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri(BaseUrl), "PAT")));
         }
     }
 }

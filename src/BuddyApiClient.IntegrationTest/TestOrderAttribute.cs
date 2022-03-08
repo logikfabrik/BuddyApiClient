@@ -2,6 +2,7 @@
 {
     using System;
 
+    [AttributeUsage(AttributeTargets.Method)]
     public sealed class TestOrderAttribute : Attribute
     {
         public TestOrderAttribute(int order)
