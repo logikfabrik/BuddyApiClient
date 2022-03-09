@@ -14,6 +14,7 @@
     public sealed class MembersClientTest
     {
         private const string Domain = "logikfabrik";
+
         private static int? _memberId;
 
         private readonly BuddyClientFixture _fixture;

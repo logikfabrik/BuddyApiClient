@@ -3,6 +3,7 @@
     using System.Net;
     using System.Net.Http.Json;
     using System.Text;
+    using System.Text.Json;
     using BuddyApiClient.Core.Models.Response;
     using EnsureThat;
 
@@ -21,7 +22,7 @@
 
             using var response = await _httpClient.GetAsync(url, cancellationToken);
 
-            await ThrowOnClientError(response, cancellationToken);
+            await ThrowOnError(response, cancellationToken);
 
             response.EnsureSuccessStatusCode();
 
@@ -35,7 +36,7 @@
 
             using var response = await _httpClient.PostAsync(url, JsonContent.Create(content), cancellationToken);
 
-            await ThrowOnClientError(response, cancellationToken);
+            await ThrowOnError(response, cancellationToken);
 
             response.EnsureSuccessStatusCode();
 
@@ -49,7 +50,7 @@
 
             using var response = await _httpClient.PatchAsync(url, JsonContent.Create(content), cancellationToken);
 
-            await ThrowOnClientError(response, cancellationToken);
+            await ThrowOnError(response, cancellationToken);
 
             response.EnsureSuccessStatusCode();
 
@@ -62,33 +63,42 @@
 
             using var response = await _httpClient.DeleteAsync(url, cancellationToken);
 
-            await ThrowOnClientError(response, cancellationToken);
+            await ThrowOnError(response, cancellationToken);
 
             response.EnsureSuccessStatusCode();
         }
 
-        private static async Task ThrowOnClientError(HttpResponseMessage response, CancellationToken cancellationToken)
+        private static async Task ThrowOnError(HttpResponseMessage response, CancellationToken cancellationToken)
         {
-            if (response.StatusCode != HttpStatusCode.BadRequest)
+            if (response.StatusCode is not (HttpStatusCode.BadRequest or HttpStatusCode.Forbidden))
             {
                 return;
             }
 
-            var clientErrors = (await response.Content.ReadFromJsonAsync<ErrorResponse>(cancellationToken: cancellationToken))?.Errors?.ToArray() ?? Array.Empty<Error>();
+            await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
 
-            if (!clientErrors.Any())
+            if (stream.Length == 0)
+            {
+                return;
+            }
+
+            var errors = (await JsonSerializer.DeserializeAsync<ErrorResponse>(stream, cancellationToken: cancellationToken))?.Errors?.ToArray() ?? Array.Empty<Error>();
+
+            if (!errors.Any())
             {
                 return;
             }
 
             var messageBuilder = new StringBuilder();
 
-            foreach (var error in clientErrors)
+            foreach (var error in errors)
             {
                 messageBuilder.AppendLine(error.Message);
             }
 
-            throw new HttpRequestException(messageBuilder.ToString(), null, HttpStatusCode.BadRequest);
+            var message = messageBuilder.ToString().Trim();
+
+            throw new HttpRequestException(message, null, response.StatusCode);
         }
     }
 }

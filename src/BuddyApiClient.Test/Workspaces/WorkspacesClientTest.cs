@@ -14,7 +14,7 @@
     public sealed class WorkspacesClientTest
     {
         private const string BaseUrl = "https://api.buddy.works";
-        private const string Domain = "logikfabrik";
+        private const string Domain = "buddy";
 
         [Theory]
         [FileData(@"Workspaces/.testdata/Get_For_Workspace_That_Exists_Should_Return_The_Workspace.json")]

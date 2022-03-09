@@ -19,7 +19,7 @@
     public sealed class MembersClientTest
     {
         private const string BaseUrl = "https://api.buddy.works";
-        private const string Domain = "logikfabrik";
+        private const string Domain = "buddy";
         private const int MemberId = 1;
 
         [Theory]
