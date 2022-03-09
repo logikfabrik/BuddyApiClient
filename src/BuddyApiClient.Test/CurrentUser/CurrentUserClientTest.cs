@@ -13,13 +13,17 @@
 
     public sealed class CurrentUserClientTest
     {
+        private const string BaseUrl = "https://api.buddy.works";
+
         [Theory]
         [FileData(@"CurrentUser/.testdata/Get_Should_Return_The_Current_User.json")]
         public async Task Get_Should_Return_The_Current_User(string responseJson)
         {
             var handlerStub = new MockHttpMessageHandler();
 
-            handlerStub.When(HttpMethod.Get, "https://api.buddy.works/user").Respond(MediaTypeNames.Application.Json, responseJson);
+            var url = new Uri(new Uri(BaseUrl), "user").ToString();
+
+            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
 
             var sut = CreateClient(handlerStub);
 
@@ -34,18 +38,20 @@
         {
             var handlerStub = new MockHttpMessageHandler();
 
-            handlerStub.When(HttpMethod.Patch, "https://api.buddy.works/user").Respond(MediaTypeNames.Application.Json, responseJson);
+            var url = new Uri(new Uri(BaseUrl), "user").ToString();
+
+            handlerStub.When(HttpMethod.Patch, url).Respond(MediaTypeNames.Application.Json, responseJson);
 
             var sut = CreateClient(handlerStub);
 
-            var currentUser = await sut.Update(new UpdateUser("NAME"));
+            var currentUser = await sut.Update(new UpdateUser("Mike Benson"));
 
             currentUser.ShouldNotBeNull();
         }
 
         private static ICurrentUserClient CreateClient(MockHttpMessageHandler handlerStub)
         {
-            return new CurrentUserClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri("https://api.buddy.works"), "PAT")));
+            return new CurrentUserClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri(BaseUrl), null)));
         }
     }
 }

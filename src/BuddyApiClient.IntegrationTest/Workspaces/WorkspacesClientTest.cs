@@ -7,6 +7,8 @@
     [Collection(nameof(BuddyClientCollection))]
     public sealed class WorkspacesClientTest
     {
+        private const string Domain = "logikfabrik";
+
         private readonly BuddyClientFixture _fixture;
 
         public WorkspacesClientTest(BuddyClientFixture fixture)
@@ -19,7 +21,7 @@
         {
             var sut = _fixture.BuddyClient.Workspaces;
 
-            var workspace = await sut.Get("logikfabrik");
+            var workspace = await sut.Get(Domain);
 
             workspace.ShouldNotBeNull();
         }

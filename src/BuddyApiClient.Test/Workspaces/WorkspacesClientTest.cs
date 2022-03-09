@@ -13,17 +13,22 @@
 
     public sealed class WorkspacesClientTest
     {
+        private const string BaseUrl = "https://api.buddy.works";
+        private const string Domain = "buddy";
+
         [Theory]
         [FileData(@"Workspaces/.testdata/Get_For_Workspace_That_Exists_Should_Return_The_Workspace.json")]
         public async Task Get_For_Workspace_That_Exists_Should_Return_The_Workspace(string responseJson)
         {
             var handlerStub = new MockHttpMessageHandler();
 
-            handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy").Respond(MediaTypeNames.Application.Json, responseJson);
+            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}").ToString();
+
+            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
 
             var sut = CreateClient(handlerStub);
 
-            var workspace = await sut.Get("buddy");
+            var workspace = await sut.Get(Domain);
 
             workspace.ShouldNotBeNull();
         }
@@ -33,11 +38,13 @@
         {
             var handlerStub = new MockHttpMessageHandler();
 
-            handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy").Respond(HttpStatusCode.NotFound);
+            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}").ToString();
+
+            handlerStub.When(HttpMethod.Get, url).Respond(HttpStatusCode.NotFound);
 
             var sut = CreateClient(handlerStub);
 
-            var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Get("buddy"));
+            var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Get(Domain));
 
             e.ShouldNotBeNull();
         }
@@ -48,7 +55,9 @@
         {
             var handlerStub = new MockHttpMessageHandler();
 
-            handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces").Respond(MediaTypeNames.Application.Json, responseJson);
+            var url = new Uri(new Uri(BaseUrl), "workspaces").ToString();
+
+            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
 
             var sut = CreateClient(handlerStub);
 
@@ -59,7 +68,7 @@
 
         private static IWorkspacesClient CreateClient(MockHttpMessageHandler handlerStub)
         {
-            return new WorkspacesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri("https://api.buddy.works"), "PAT")));
+            return new WorkspacesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri(BaseUrl), null)));
         }
     }
 }

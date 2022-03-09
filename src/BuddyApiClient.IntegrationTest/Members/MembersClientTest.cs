@@ -13,7 +13,10 @@
     [TestCaseOrderer("BuddyApiClient.IntegrationTest.TestOrderer", "BuddyApiClient.IntegrationTest")]
     public sealed class MembersClientTest
     {
+        private const string Domain = "logikfabrik";
+
         private static int? _memberId;
+
         private readonly BuddyClientFixture _fixture;
 
         public MembersClientTest(BuddyClientFixture fixture)
@@ -27,7 +30,7 @@
         {
             var sut = _fixture.BuddyClient.Members;
 
-            var member = await sut.Add("logikfabrik", new AddMember("john.doe@logikfabrik.se"));
+            var member = await sut.Add(Domain, new AddMember("john.doe@logikfabrik.se"));
 
             member.ShouldNotBeNull();
 
@@ -40,7 +43,7 @@
         {
             var sut = _fixture.BuddyClient.Members;
 
-            var member = await sut.Get("logikfabrik", _memberId!.Value);
+            var member = await sut.Get(Domain, _memberId!.Value);
 
             member.ShouldNotBeNull();
         }
@@ -50,7 +53,7 @@
         {
             var sut = _fixture.BuddyClient.Members;
 
-            var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Get("logikfabrik", 1));
+            var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Get(Domain, 1));
 
             e.ShouldNotBeNull();
         }
@@ -60,7 +63,7 @@
         {
             var sut = _fixture.BuddyClient.Members;
 
-            var members = await sut.List("logikfabrik");
+            var members = await sut.List(Domain);
 
             members?.Members?.Any().ShouldBeTrue();
         }
@@ -74,7 +77,7 @@
 
             var pageQuery = new ListMembersQuery();
 
-            var pageIterator = sut.ListAll("logikfabrik", pageQuery, (_, response, _) =>
+            var pageIterator = sut.ListAll(Domain, pageQuery, (_, response, _) =>
             {
                 members.AddRange(response?.Members ?? Enumerable.Empty<MemberSummary>());
 
@@ -92,7 +95,7 @@
         {
             var sut = _fixture.BuddyClient.Members;
 
-            var member = await sut.Update("logikfabrik", _memberId!.Value, new UpdateMember { Admin = true });
+            var member = await sut.Update(Domain, _memberId!.Value, new UpdateMember { Admin = true });
 
             member.ShouldNotBeNull();
         }
@@ -103,7 +106,7 @@
         {
             var sut = _fixture.BuddyClient.Members;
 
-            await sut.Remove("logikfabrik", _memberId!.Value);
+            await sut.Remove(Domain, _memberId!.Value);
 
             _memberId = null;
         }
