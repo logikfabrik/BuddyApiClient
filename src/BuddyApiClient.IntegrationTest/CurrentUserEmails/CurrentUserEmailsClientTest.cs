@@ -5,9 +5,10 @@
     using BuddyApiClient.CurrentUserEmails.Models.Request;
     using Shouldly;
     using Xunit;
+    using Xunit.Priority;
 
     [Collection(nameof(BuddyClientCollection))]
-    [TestCaseOrderer("BuddyApiClient.IntegrationTest.TestOrderer", "BuddyApiClient.IntegrationTest")]
+    [TestCaseOrderer(PriorityOrderer.Name, PriorityOrderer.Assembly)]
     public sealed class CurrentUserEmailsClientTest
     {
         private readonly BuddyClientFixture _fixture;
@@ -18,7 +19,7 @@
         }
 
         [Fact]
-        [TestOrder(0)]
+        [Priority(0)]
         public async Task Add_Should_Add_And_Return_The_Added_Email()
         {
             var sut = _fixture.BuddyClient.CurrentUserEmails;
@@ -39,7 +40,7 @@
         }
 
         [Fact]
-        [TestOrder(1)]
+        [Priority(1)]
         public async Task List_Should_Return_The_Emails()
         {
             var sut = _fixture.BuddyClient.CurrentUserEmails;
@@ -50,7 +51,7 @@
         }
 
         [Fact]
-        [TestOrder(2)]
+        [Priority(2)]
         public async Task Remove_Should_Remove_The_Email_And_Return_Nothing()
         {
             var sut = _fixture.BuddyClient.CurrentUserEmails;

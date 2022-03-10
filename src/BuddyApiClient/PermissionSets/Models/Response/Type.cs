@@ -1,13 +1,34 @@
 ﻿namespace BuddyApiClient.PermissionSets.Models.Response
 {
-    using System.Runtime.Serialization;
-
     public enum Type
     {
-        [EnumMember(Value = "DEVELOPER")] Developer,
+        Developer,
+        ReadOnly,
+        Custom
+    }
 
-        [EnumMember(Value = "READ_ONLY")] ReadOnly,
+    public static class TypeJsonConverter
+    {
+        public static Type ConvertFrom(string json)
+        {
+            return json switch
+            {
+                "DEVELOPER" => Type.Developer,
+                "READ_ONLY" => Type.ReadOnly,
+                "CUSTOM" => Type.Custom,
+                _ => throw new NotSupportedException()
+            };
+        }
 
-        [EnumMember(Value = "CUSTOM")] Custom
+        public static string ConvertTo(Type type)
+        {
+            return type switch
+            {
+                Type.Developer => "DEVELOPER",
+                Type.ReadOnly => "READ_ONLY",
+                Type.Custom => "CUSTOM",
+                _ => throw new NotSupportedException()
+            };
+        }
     }
 }

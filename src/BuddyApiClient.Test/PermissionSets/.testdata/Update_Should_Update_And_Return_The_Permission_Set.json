@@ -1,0 +1,11 @@
+{
+  "url": "https://api.buddy.works/workspaces/buddy/permissions/3",
+  "html_url": "https://app.buddy.works/buddy/permissions/edit/3",
+  "id": 3,
+  "name": "Artist",
+  "description": "Artists can only view source",
+  "type": "CUSTOM",
+  "repository_access_level": "READ_ONLY",
+  "pipeline_access_level": "DENIED",
+  "sandbox_access_level": "DENIED"
+}

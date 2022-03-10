@@ -14,16 +14,53 @@
         [JsonPropertyName("description")]
         public string? Description { get; set; }
 
-        [JsonPropertyName("type")]
+        [JsonIgnore]
         public Type Type { get; set; }
 
-        [JsonPropertyName("repository_access_level")]
+        /// <summary>
+        ///     For JSON serialization/deserialization. Use property <see cref="Type" />.
+        /// </summary>
+        [JsonPropertyName("type")]
+        public string TypeJson
+        {
+            //get => TypeJsonConverter.ConvertTo(Type);
+            set => Type = TypeJsonConverter.ConvertFrom(value);
+        }
+
+        [JsonIgnore]
         public RepositoryAccessLevel RepositoryAccessLevel { get; set; }
 
-        [JsonPropertyName("pipeline_access_level")]
+        /// <summary>
+        ///     For JSON serialization/deserialization. Use property <see cref="RepositoryAccessLevel" />.
+        /// </summary>
+        [JsonPropertyName("repository_access_level")]
+        public string RepositoryAccessLevelJson
+        {
+            set => RepositoryAccessLevel = RepositoryAccessLevelJsonConverter.ConvertFrom(value);
+        }
+
+        [JsonIgnore]
         public PipelineAccessLevel PipelineAccessLevel { get; set; }
 
-        [JsonPropertyName("sandbox_access_level")]
+        /// <summary>
+        ///     For JSON serialization/deserialization. Use property <see cref="PipelineAccessLevel" />.
+        /// </summary>
+        [JsonPropertyName("pipeline_access_level")]
+        public string PipelineAccessLevelJson
+        {
+            set => PipelineAccessLevel = PipelineAccessLevelJsonConverter.ConvertFrom(value);
+        }
+
+        [JsonIgnore]
         public SandboxAccessLevel SandboxAccessLevel { get; set; }
+
+        /// <summary>
+        ///     For JSON serialization/deserialization. Use property <see cref="SandboxAccessLevel" />.
+        /// </summary>
+        [JsonPropertyName("sandbox_access_level")]
+        public string SandboxAccessLevelJson
+        {
+            set => SandboxAccessLevel = SandboxAccessLevelJsonConverter.ConvertFrom(value);
+        }
     }
 }

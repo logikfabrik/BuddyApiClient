@@ -1,13 +1,34 @@
 ﻿namespace BuddyApiClient.PermissionSets.Models.Response
 {
-    using System.Runtime.Serialization;
-
     public enum SandboxAccessLevel
     {
-        [EnumMember(Value = "DENIED")] Denied,
+        Denied,
+        ReadOnly,
+        ReadWrite
+    }
 
-        [EnumMember(Value = "READ_ONLY")] ReadOnly,
+    public static class SandboxAccessLevelJsonConverter
+    {
+        public static SandboxAccessLevel ConvertFrom(string json)
+        {
+            return json switch
+            {
+                "DENIED" => SandboxAccessLevel.Denied,
+                "READ_ONLY" => SandboxAccessLevel.ReadOnly,
+                "READ_WRITE" => SandboxAccessLevel.ReadWrite,
+                _ => throw new NotSupportedException()
+            };
+        }
 
-        [EnumMember(Value = "READ_WRITE")] ReadWrite
+        public static string ConvertTo(SandboxAccessLevel sandboxAccessLevel)
+        {
+            return sandboxAccessLevel switch
+            {
+                SandboxAccessLevel.Denied => "DENIED",
+                SandboxAccessLevel.ReadOnly => "READ_ONLY",
+                SandboxAccessLevel.ReadWrite => "READ_WRITE",
+                _ => throw new NotSupportedException()
+            };
+        }
     }
 }

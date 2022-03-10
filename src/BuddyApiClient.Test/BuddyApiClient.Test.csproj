@@ -40,6 +40,18 @@
     <Content Include="Members/.testdata/List_Should_Return_The_Members.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="PermissionSets\.testdata\Create_Should_Create_And_Return_The_Created_Permission_Set.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PermissionSets\.testdata\Get_For_Permission_Set_That_Exists_Should_Return_The_Permission_Set.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PermissionSets\.testdata\List_Should_Return_The_Permission_Sets.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PermissionSets\.testdata\Update_Should_Update_And_Return_The_Permission_Set.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Workspaces/.testdata/List_Should_Return_The_Workspaces.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

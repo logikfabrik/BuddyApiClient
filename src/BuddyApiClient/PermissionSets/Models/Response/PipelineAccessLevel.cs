@@ -1,15 +1,37 @@
 ﻿namespace BuddyApiClient.PermissionSets.Models.Response
 {
-    using System.Runtime.Serialization;
-
     public enum PipelineAccessLevel
     {
-        [EnumMember(Value = "DENIED")] Denied,
+        Denied,
+        ReadOnly,
+        RunOnly,
+        ReadWrite
+    }
 
-        [EnumMember(Value = "READ_ONLY")] ReadOnly,
+    public static class PipelineAccessLevelJsonConverter
+    {
+        public static PipelineAccessLevel ConvertFrom(string json)
+        {
+            return json switch
+            {
+                "DENIED" => PipelineAccessLevel.Denied,
+                "READ_ONLY" => PipelineAccessLevel.ReadOnly,
+                "RUN_ONLY" => PipelineAccessLevel.RunOnly,
+                "READ_WRITE" => PipelineAccessLevel.ReadWrite,
+                _ => throw new NotSupportedException()
+            };
+        }
 
-        [EnumMember(Value = "RUN_ONLY")] RunOnly,
-
-        [EnumMember(Value = "READ_WRITE")] ReadWrite
+        public static string ConvertTo(PipelineAccessLevel pipelineAccessLevel)
+        {
+            return pipelineAccessLevel switch
+            {
+                PipelineAccessLevel.Denied => "DENIED",
+                PipelineAccessLevel.ReadOnly => "READ_ONLY",
+                PipelineAccessLevel.RunOnly => "RUN_ONLY",
+                PipelineAccessLevel.ReadWrite => "READ_WRITE",
+                _ => throw new NotSupportedException()
+            };
+        }
     }
 }
