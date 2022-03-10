@@ -23,7 +23,6 @@
         [JsonPropertyName("type")]
         public string TypeJson
         {
-            //get => TypeJsonConverter.ConvertTo(Type);
             set => Type = TypeJsonConverter.ConvertFrom(value);
         }
 

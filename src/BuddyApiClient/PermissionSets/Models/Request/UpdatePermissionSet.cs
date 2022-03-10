@@ -1,7 +1,6 @@
 ﻿namespace BuddyApiClient.PermissionSets.Models.Request
 {
     using System.Text.Json.Serialization;
-    using BuddyApiClient.PermissionSets.Models.Response;
 
     public sealed record UpdatePermissionSet
     {
