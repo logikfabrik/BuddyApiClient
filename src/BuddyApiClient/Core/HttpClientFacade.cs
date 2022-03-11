@@ -18,7 +18,7 @@
 
         public async Task<T?> Get<T>(string url, CancellationToken cancellationToken = default)
         {
-            Ensure.String.IsNotNullOrWhiteSpace(url, nameof(url));
+            Ensure.String.IsNotNullOrEmpty(url, nameof(url));
 
             using var response = await _httpClient.GetAsync(url, cancellationToken);
 
@@ -31,7 +31,7 @@
 
         public async Task<T?> Post<T>(string url, object content, CancellationToken cancellationToken = default)
         {
-            Ensure.String.IsNotNullOrWhiteSpace(url, nameof(url));
+            Ensure.String.IsNotNullOrEmpty(url, nameof(url));
             Ensure.Any.HasValue(content, nameof(content));
 
             using var response = await _httpClient.PostAsync(url, JsonContent.Create(content), cancellationToken);
@@ -45,7 +45,7 @@
 
         public async Task<T?> Patch<T>(string url, object content, CancellationToken cancellationToken = default)
         {
-            Ensure.String.IsNotNullOrWhiteSpace(url, nameof(url));
+            Ensure.String.IsNotNullOrEmpty(url, nameof(url));
             Ensure.Any.HasValue(content, nameof(content));
 
             using var response = await _httpClient.PatchAsync(url, JsonContent.Create(content), cancellationToken);
@@ -59,7 +59,7 @@
 
         public async Task Delete(string url, CancellationToken cancellationToken = default)
         {
-            Ensure.String.IsNotNullOrWhiteSpace(url, nameof(url));
+            Ensure.String.IsNotNullOrEmpty(url, nameof(url));
 
             using var response = await _httpClient.DeleteAsync(url, cancellationToken);
 

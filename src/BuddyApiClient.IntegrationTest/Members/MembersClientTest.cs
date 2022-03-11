@@ -8,9 +8,10 @@
     using BuddyApiClient.Members.Models.Response;
     using Shouldly;
     using Xunit;
+    using Xunit.Priority;
 
     [Collection(nameof(BuddyClientCollection))]
-    [TestCaseOrderer("BuddyApiClient.IntegrationTest.TestOrderer", "BuddyApiClient.IntegrationTest")]
+    [TestCaseOrderer(PriorityOrderer.Name, PriorityOrderer.Assembly)]
     public sealed class MembersClientTest
     {
         private const string Domain = "logikfabrik";
@@ -25,7 +26,7 @@
         }
 
         [Fact]
-        [TestOrder(0)]
+        [Priority(0)]
         public async Task Add_Should_Add_And_Return_The_Added_Member()
         {
             var sut = _fixture.BuddyClient.Members;
@@ -38,7 +39,7 @@
         }
 
         [Fact]
-        [TestOrder(1)]
+        [Priority(1)]
         public async Task Get_For_Member_That_Exists_Should_Return_The_Member()
         {
             var sut = _fixture.BuddyClient.Members;
@@ -90,7 +91,7 @@
         }
 
         [Fact]
-        [TestOrder(2)]
+        [Priority(2)]
         public async Task Update_Should_Update_And_Return_The_Member()
         {
             var sut = _fixture.BuddyClient.Members;
@@ -101,7 +102,7 @@
         }
 
         [Fact]
-        [TestOrder(3)]
+        [Priority(3)]
         public async Task Remove_Should_Remove_The_Member_And_Return_Nothing()
         {
             var sut = _fixture.BuddyClient.Members;

@@ -32,7 +32,7 @@
         {
             var sut = _fixture.BuddyClient.CurrentUser;
 
-            var currentUser = await sut.Update(new UpdateUser(name));
+            var currentUser = await sut.Update(new UpdateUser { Name = name });
 
             currentUser?.Name.ShouldBe(name);
         }

@@ -44,7 +44,7 @@
 
             var sut = CreateClient(handlerStub);
 
-            var currentUser = await sut.Update(new UpdateUser("Mike Benson"));
+            var currentUser = await sut.Update(new UpdateUser { Name = "Mike Benson" });
 
             currentUser.ShouldNotBeNull();
         }

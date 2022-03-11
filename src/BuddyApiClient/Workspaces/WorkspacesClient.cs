@@ -12,7 +12,7 @@
 
         public async Task<WorkspaceDetails?> Get(string domain, CancellationToken cancellationToken = default)
         {
-            Ensure.String.IsNotNullOrWhiteSpace(domain, nameof(domain));
+            Ensure.String.IsNotNullOrEmpty(domain, nameof(domain));
 
             var url = $"workspaces/{domain}";
 

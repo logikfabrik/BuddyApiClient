@@ -7,7 +7,7 @@
     {
         public AddMember(string email)
         {
-            Email = Ensure.String.IsNotNullOrWhiteSpace(email, nameof(email));
+            Email = Ensure.String.IsNotNullOrEmpty(email, nameof(email));
         }
 
         [JsonPropertyName("email")]

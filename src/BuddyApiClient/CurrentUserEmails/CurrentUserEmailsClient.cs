@@ -28,7 +28,7 @@
 
         public async Task Remove(string email, CancellationToken cancellationToken = default)
         {
-            Ensure.String.IsNotNullOrWhiteSpace(email, nameof(email));
+            Ensure.String.IsNotNullOrEmpty(email, nameof(email));
 
             var url = $"user/emails/{email}";
 

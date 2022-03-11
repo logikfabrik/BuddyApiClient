@@ -3,6 +3,7 @@
     using BuddyApiClient.CurrentUser;
     using BuddyApiClient.CurrentUserEmails;
     using BuddyApiClient.Members;
+    using BuddyApiClient.PermissionSets;
     using BuddyApiClient.Workspaces;
 
     public interface IBuddyClient
@@ -12,6 +13,8 @@
         ICurrentUserEmailsClient CurrentUserEmails { get; }
 
         IMembersClient Members { get; }
+
+        IPermissionSetsClient PermissionSets { get; }
 
         IWorkspacesClient Workspaces { get; }
     }

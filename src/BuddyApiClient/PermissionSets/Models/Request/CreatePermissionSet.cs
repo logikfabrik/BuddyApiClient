@@ -1,14 +1,13 @@
 ﻿namespace BuddyApiClient.PermissionSets.Models.Request
 {
     using System.Text.Json.Serialization;
-    using BuddyApiClient.PermissionSets.Models.Response;
     using EnsureThat;
 
     public sealed record CreatePermissionSet
     {
         public CreatePermissionSet(string name)
         {
-            Name = Ensure.String.IsNotNullOrWhiteSpace(name, nameof(name));
+            Name = Ensure.String.IsNotNullOrEmpty(name, nameof(name));
         }
 
         [JsonPropertyName("name")]
@@ -17,13 +16,31 @@
         [JsonPropertyName("description")]
         public string? Description { get; set; }
 
-        [JsonPropertyName("repository_access_level")]
+        [JsonIgnore]
         public RepositoryAccessLevel RepositoryAccessLevel { get; set; }
 
-        [JsonPropertyName("pipeline_access_level")]
+        /// <summary>
+        ///     For JSON serialization/deserialization. Use property <see cref="RepositoryAccessLevel" />.
+        /// </summary>
+        [JsonPropertyName("repository_access_level")]
+        public string RepositoryAccessLevelJson => RepositoryAccessLevelJsonConverter.ConvertTo(RepositoryAccessLevel);
+
+        [JsonIgnore]
         public PipelineAccessLevel PipelineAccessLevel { get; set; }
 
-        [JsonPropertyName("sandbox_access_level")]
+        /// <summary>
+        ///     For JSON serialization/deserialization. Use property <see cref="PipelineAccessLevel" />.
+        /// </summary>
+        [JsonPropertyName("pipeline_access_level")]
+        public string PipelineAccessLevelJson => PipelineAccessLevelJsonConverter.ConvertTo(PipelineAccessLevel);
+
+        [JsonIgnore]
         public SandboxAccessLevel SandboxAccessLevel { get; set; }
+
+        /// <summary>
+        ///     For JSON serialization/deserialization. Use property <see cref="SandboxAccessLevel" />.
+        /// </summary>
+        [JsonPropertyName("sandbox_access_level")]
+        public string SandboxAccessLevelJson => SandboxAccessLevelJsonConverter.ConvertTo(SandboxAccessLevel);
     }
 }
