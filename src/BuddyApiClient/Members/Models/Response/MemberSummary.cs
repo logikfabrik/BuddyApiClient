@@ -1,10 +1,15 @@
 ﻿namespace BuddyApiClient.Members.Models.Response
 {
     using System.Text.Json.Serialization;
-    using BuddyApiClient.Core.Models.Response;
 
-    public sealed record MemberSummary : Response
+    public sealed record MemberSummary
     {
+        [JsonPropertyName("url")]
+        public Uri? Url { get; set; }
+
+        [JsonPropertyName("html_url")]
+        public Uri? HtmlUrl { get; set; }
+
         [JsonPropertyName("id")]
         public int Id { get; set; }
 
