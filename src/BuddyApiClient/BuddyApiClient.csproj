@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Groups\" />
     <Folder Include="Pipelines\Models\Request\" />
   </ItemGroup>
 

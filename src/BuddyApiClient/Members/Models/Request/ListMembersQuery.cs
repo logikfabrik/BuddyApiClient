@@ -12,7 +12,6 @@
             {
                 SortMembersBy.Email => "email",
                 SortMembersBy.Name => "name",
-                SortMembersBy.ShortName => "short_name",
                 _ => null
             };
         }

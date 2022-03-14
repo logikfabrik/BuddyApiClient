@@ -16,6 +16,8 @@
     {
         private const string Domain = "logikfabrik";
 
+        private const string ProjectName = "testproj";
+
         private static int? _memberId;
 
         private readonly BuddyClientFixture _fixture;
@@ -40,6 +42,17 @@
 
         [Fact]
         [Priority(1)]
+        public async Task Add_For_Project_Should_Add_And_Return_The_Added_Member()
+        {
+            var sut = _fixture.BuddyClient.Members;
+
+            var member = await sut.Add(Domain, ProjectName, new AddProjectMember(new PermissionSet { Id = 251343 }) { MemberId = _memberId!.Value });
+
+            member.ShouldNotBeNull();
+        }
+
+        [Fact]
+        [Priority(2)]
         public async Task Get_For_Member_That_Exists_Should_Return_The_Member()
         {
             var sut = _fixture.BuddyClient.Members;
@@ -70,6 +83,16 @@
         }
 
         [Fact]
+        public async Task List_For_Project_Should_Return_The_Members()
+        {
+            var sut = _fixture.BuddyClient.Members;
+
+            var members = await sut.List(Domain, ProjectName);
+
+            members?.Members?.Any().ShouldBeTrue();
+        }
+
+        [Fact]
         public async Task ListAll_Should_Return_The_Members()
         {
             var sut = _fixture.BuddyClient.Members;
@@ -91,7 +114,28 @@
         }
 
         [Fact]
-        [Priority(2)]
+        public async Task ListAll_For_Project_Should_Return_The_Members()
+        {
+            var sut = _fixture.BuddyClient.Members;
+
+            var members = new List<MemberSummary>();
+
+            var pageQuery = new ListMembersQuery();
+
+            var pageIterator = sut.ListAll(Domain, ProjectName, pageQuery, (_, response, _) =>
+            {
+                members.AddRange(response?.Members ?? Enumerable.Empty<MemberSummary>());
+
+                return Task.FromResult(true);
+            });
+
+            await pageIterator.Iterate();
+
+            members.Any().ShouldBeTrue();
+        }
+
+        [Fact]
+        [Priority(3)]
         public async Task Update_Should_Update_And_Return_The_Member()
         {
             var sut = _fixture.BuddyClient.Members;
@@ -102,7 +146,27 @@
         }
 
         [Fact]
-        [Priority(3)]
+        [Priority(4)]
+        public async Task Update_For_Project_Should_Update_And_Return_The_Member()
+        {
+            var sut = _fixture.BuddyClient.Members;
+
+            var member = await sut.Update(Domain, ProjectName, _memberId!.Value, new UpdateProjectMember(new PermissionSet { Id = 251346 }));
+
+            member.ShouldNotBeNull();
+        }
+
+        [Fact]
+        [Priority(5)]
+        public async Task Remove_For_Project_Should_Remove_The_Member_And_Return_Nothing()
+        {
+            var sut = _fixture.BuddyClient.Members;
+
+            await sut.Remove(Domain, ProjectName, _memberId!.Value);
+        }
+
+        [Fact]
+        [Priority(6)]
         public async Task Remove_Should_Remove_The_Member_And_Return_Nothing()
         {
             var sut = _fixture.BuddyClient.Members;

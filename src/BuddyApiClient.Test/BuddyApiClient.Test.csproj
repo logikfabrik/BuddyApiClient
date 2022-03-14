@@ -40,6 +40,18 @@
     <Content Include="Members/.testdata/List_Should_Return_The_Members.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Members\.testdata\Add_For_Project_Should_Add_And_Return_The_Added_Member.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Members\.testdata\ListAll_For_Project_Should_Return_The_Members.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Members\.testdata\List_For_Project_Should_Return_The_Members.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Members\.testdata\Update_For_Project_Should_Update_And_Return_The_Member.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="PermissionSets\.testdata\Create_Should_Create_And_Return_The_Created_Permission_Set.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -81,6 +93,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BuddyApiClient\BuddyApiClient.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Projects\Models\" />
   </ItemGroup>
 
 </Project>
