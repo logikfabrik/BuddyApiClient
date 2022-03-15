@@ -8,8 +8,6 @@
 
     internal sealed class MembersClient : ClientBase, IMembersClient
     {
-        // TODO: See https://buddy.works/docs/api/general/projects/manage-access.
-
         public MembersClient(Lazy<HttpClientFacade> httpClientFacade) : base(httpClientFacade)
         {
         }

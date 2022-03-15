@@ -14,7 +14,7 @@
 
         IPageIterator ListAll(string domain, ListProjectsQuery pageQuery, PageResponseHandler<ListProjectsQuery, ProjectList> pageResponseHandler);
 
-        Task Delete(string domain, int name, CancellationToken cancellationToken = default);
+        Task Delete(string domain, string name, CancellationToken cancellationToken = default);
 
         Task<ProjectDetails?> Update(string domain, string name, UpdateProject content, CancellationToken cancellationToken = default);
     }

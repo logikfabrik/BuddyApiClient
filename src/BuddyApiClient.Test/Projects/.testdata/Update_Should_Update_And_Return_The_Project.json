@@ -1,0 +1,18 @@
+{
+  "url": "https://api.buddy.works/workspaces/buddy/projects/company-website",
+  "html_url": "https://app.buddy.works/buddy/company-website",
+  "name": "company-website",
+  "display_name": "Company Website",
+  "status": "ACTIVE",
+  "create_date": "2016-02-29T11:23:04Z",
+  "created_by": {
+    "url": "https://api.buddy.works/workspaces/buddy/member/1",
+    "html_url": "https://app.buddy.works/buddy/profile/1",
+    "id": 1,
+    "name": "Mike Benson",
+    "avatar_url": "https://app.buddy.works/image-server/user/0/0/0/0/0/0/1/d643744fbe5ebf2906a4d075a5b97110/w/32/32/AVATAR.png"
+  },
+  "http_repository": "https://app.buddy.works/buddy/company-website",
+  "ssh_repository": "buddy@app.buddy.works:buddy/company-website",
+  "default_branch": "master"
+}

@@ -40,6 +40,14 @@
         }
 
         [Fact]
+        public void New_Should_Have_Client_For_Projects()
+        {
+            var sut = CreateClient();
+
+            sut.Projects.ShouldNotBeNull();
+        }
+
+        [Fact]
         public void New_Should_Have_Client_For_Workspaces()
         {
             var sut = CreateClient();

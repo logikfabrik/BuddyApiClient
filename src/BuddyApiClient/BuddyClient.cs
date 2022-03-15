@@ -5,6 +5,7 @@
     using BuddyApiClient.CurrentUserEmails;
     using BuddyApiClient.Members;
     using BuddyApiClient.PermissionSets;
+    using BuddyApiClient.Projects;
     using BuddyApiClient.Workspaces;
     using Microsoft.Extensions.Options;
 
@@ -28,6 +29,7 @@
             CurrentUserEmails = new CurrentUserEmailsClient(httpClientFacade);
             Members = new MembersClient(httpClientFacade);
             PermissionSets = new PermissionSetsClient(httpClientFacade);
+            Projects = new ProjectsClient(httpClientFacade);
             Workspaces = new WorkspacesClient(httpClientFacade);
         }
 
@@ -38,6 +40,8 @@
         public IMembersClient Members { get; }
 
         public IPermissionSetsClient PermissionSets { get; }
+
+        public IProjectsClient Projects { get; }
 
         public IWorkspacesClient Workspaces { get; }
     }

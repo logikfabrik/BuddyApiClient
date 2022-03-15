@@ -55,6 +55,9 @@
     <Content Include="PermissionSets\.testdata\Create_Should_Create_And_Return_The_Created_Permission_Set.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Projects\.testdata\Create_Should_Create_And_Return_The_Created_Project.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="PermissionSets\.testdata\Get_For_Permission_Set_That_Exists_Should_Return_The_Permission_Set.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -62,6 +65,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="PermissionSets\.testdata\Update_Should_Update_And_Return_The_Permission_Set.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Projects\.testdata\Get_For_Project_That_Exists_Should_Return_The_Project.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Projects\.testdata\ListAll_Should_Return_The_Projects.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Projects\.testdata\List_Should_Return_The_Projects.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Projects\.testdata\Update_Should_Update_And_Return_The_Project.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Workspaces/.testdata/List_Should_Return_The_Workspaces.json">
