@@ -2,45 +2,51 @@
 {
     using System;
     using BuddyApiClient.Projects.Models;
-    using Shouldly;
+    using FluentAssertions;
     using Xunit;
 
     public sealed class StatusJsonConverterTest
     {
-        [Theory]
-        [InlineData(StatusJsonConverter.ActiveAsJson, Status.Active)]
-        [InlineData(StatusJsonConverter.ClosedAsJson, Status.Closed)]
-        public void ConvertFrom_For_Valid_Json_Should_Return_Enum_Value(string json, Status expected)
+        public sealed class ConvertFrom
         {
-            var enumValue = StatusJsonConverter.ConvertFrom(json);
+            [Theory]
+            [InlineData(StatusJsonConverter.ActiveAsJson, Status.Active)]
+            [InlineData(StatusJsonConverter.ClosedAsJson, Status.Closed)]
+            public void Should_Return_Enum_Value_For_Valid_Json(string json, Status expected)
+            {
+                var enumValue = StatusJsonConverter.ConvertFrom(json);
 
-            enumValue.ShouldBe(expected);
+                enumValue.Should().Be(expected);
+            }
+
+            [Fact]
+            public void Should_Throw_For_Invalid_Json()
+            {
+                var act = FluentActions.Invoking(() => StatusJsonConverter.ConvertFrom(null));
+
+                act.Should().Throw<NotSupportedException>();
+            }
         }
 
-        [Fact]
-        public void ConvertFrom_For_Invalid_Json_Should_Throw()
+        public sealed class ConvertTo
         {
-            var e = Assert.Throws<NotSupportedException>(() => StatusJsonConverter.ConvertFrom(null));
+            [Theory]
+            [InlineData(Status.Active, StatusJsonConverter.ActiveAsJson)]
+            [InlineData(Status.Closed, StatusJsonConverter.ClosedAsJson)]
+            public void Should_Return_Json_For_Valid_Enum_Value(Status enumValue, string expected)
+            {
+                var json = StatusJsonConverter.ConvertTo(enumValue);
 
-            e.ShouldNotBeNull();
-        }
+                json.Should().Be(expected);
+            }
 
-        [Theory]
-        [InlineData(Status.Active, StatusJsonConverter.ActiveAsJson)]
-        [InlineData(Status.Closed, StatusJsonConverter.ClosedAsJson)]
-        public void ConvertTo_For_Valid_Enum_Value_Should_Return_Json(Status enumValue, string expected)
-        {
-            var json = StatusJsonConverter.ConvertTo(enumValue);
+            [Fact]
+            public void Should_Throw_For_Invalid_Enum_Value()
+            {
+                var act = FluentActions.Invoking(() => StatusJsonConverter.ConvertTo(null));
 
-            json.ShouldBe(expected);
-        }
-
-        [Fact]
-        public void ConvertTo_For_Invalid_Enum_Value_Should_Throw()
-        {
-            var e = Assert.Throws<NotSupportedException>(() => StatusJsonConverter.ConvertTo(null));
-
-            e.ShouldNotBeNull();
+                act.Should().Throw<NotSupportedException>();
+            }
         }
     }
 }

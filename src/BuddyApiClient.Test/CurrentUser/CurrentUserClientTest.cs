@@ -7,51 +7,51 @@
     using BuddyApiClient.Core;
     using BuddyApiClient.CurrentUser;
     using BuddyApiClient.CurrentUser.Models.Request;
+    using FluentAssertions;
     using RichardSzalay.MockHttp;
-    using Shouldly;
     using Xunit;
 
     public sealed class CurrentUserClientTest
     {
-        private const string BaseUrl = "https://api.buddy.works";
-
-        [Theory]
-        [FileData(@"CurrentUser/.testdata/Get_Should_Return_The_Current_User.json")]
-        public async Task Get_Should_Return_The_Current_User(string responseJson)
+        private static ICurrentUserClient CreateClient(MockHttpMessageHandler handler)
         {
-            var handlerStub = new MockHttpMessageHandler();
-
-            var url = new Uri(new Uri(BaseUrl), "user").ToString();
-
-            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
-
-            var sut = CreateClient(handlerStub);
-
-            var currentUser = await sut.Get();
-
-            currentUser.ShouldNotBeNull();
+            return new CurrentUserClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), null)));
         }
 
-        [Theory]
-        [FileData(@"CurrentUser/.testdata/Update_Should_Update_And_Return_The_Current_User.json")]
-        public async Task Update_Should_Update_And_Return_The_Current_User(string responseJson)
+        public sealed class Get
         {
-            var handlerStub = new MockHttpMessageHandler();
+            [Theory]
+            [FileData(@"CurrentUser/.testdata/Get_Should_Return_The_Current_User.json")]
+            public async Task Should_Return_The_Current_User(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
 
-            var url = new Uri(new Uri(BaseUrl), "user").ToString();
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/user").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            handlerStub.When(HttpMethod.Patch, url).Respond(MediaTypeNames.Application.Json, responseJson);
+                var sut = CreateClient(handlerStub);
 
-            var sut = CreateClient(handlerStub);
+                var currentUser = await sut.Get();
 
-            var currentUser = await sut.Update(new UpdateUser { Name = "Mike Benson" });
-
-            currentUser.ShouldNotBeNull();
+                currentUser.Should().NotBeNull();
+            }
         }
 
-        private static ICurrentUserClient CreateClient(MockHttpMessageHandler handlerStub)
+        public sealed class Update
         {
-            return new CurrentUserClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri(BaseUrl), null)));
+            [Theory]
+            [FileData(@"CurrentUser/.testdata/Update_Should_Update_And_Return_The_Current_User.json")]
+            public async Task Should_Update_And_Return_The_Current_User(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Patch, "https://api.buddy.works/user").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var currentUser = await sut.Update(new UpdateUser { Name = "Mike Benson" });
+
+                currentUser.Should().NotBeNull();
+            }
         }
     }
 }

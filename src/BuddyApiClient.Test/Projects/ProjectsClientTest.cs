@@ -12,146 +12,188 @@
     using BuddyApiClient.Projects;
     using BuddyApiClient.Projects.Models.Request;
     using BuddyApiClient.Projects.Models.Response;
+    using FluentAssertions;
     using RichardSzalay.MockHttp;
-    using Shouldly;
     using Xunit;
 
     public sealed class ProjectsClientTest
     {
-        private const string BaseUrl = "https://api.buddy.works";
-        private const string Domain = "buddy";
-        private const string ProjectName = "company-website";
-
-        [Theory]
-        [FileData(@"Projects/.testdata/Create_Should_Create_And_Return_The_Created_Project.json")]
-        public async Task Create_Should_Create_And_Return_The_Created_Project(string responseJson)
+        private static IProjectsClient CreateClient(MockHttpMessageHandler handler)
         {
-            var handlerStub = new MockHttpMessageHandler();
-
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/projects").ToString();
-
-            handlerStub.When(HttpMethod.Post, url).Respond(MediaTypeNames.Application.Json, responseJson);
-
-            var sut = CreateClient(handlerStub);
-
-            var project = await sut.Create(Domain, new CreateProject("Landing page"));
-
-            project.ShouldNotBeNull();
+            return new ProjectsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), null)));
         }
 
-        [Theory]
-        [FileData(@"Projects/.testdata/Get_For_Project_That_Exists_Should_Return_The_Project.json")]
-        public async Task Get_For_Project_That_Exists_Should_Return_The_Project(string responseJson)
+        public sealed class Create
         {
-            var handlerStub = new MockHttpMessageHandler();
-
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/projects/{ProjectName}").ToString();
-
-            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
-
-            var sut = CreateClient(handlerStub);
-
-            var project = await sut.Get(Domain, ProjectName);
-
-            project.ShouldNotBeNull();
-        }
-
-        [Fact]
-        public async Task Get_For_Project_That_Does_Not_Exist_Should_Throw()
-        {
-            var handlerStub = new MockHttpMessageHandler();
-
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/projects/{ProjectName}").ToString();
-
-            handlerStub.When(HttpMethod.Get, url).Respond(HttpStatusCode.NotFound);
-
-            var sut = CreateClient(handlerStub);
-
-            var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Get(Domain, ProjectName));
-
-            e.ShouldNotBeNull();
-        }
-
-        [Theory]
-        [FileData(@"Projects/.testdata/List_Should_Return_The_Projects.json")]
-        public async Task List_Should_Return_The_Projects(string responseJson)
-        {
-            var handlerStub = new MockHttpMessageHandler();
-
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/projects").ToString();
-
-            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
-
-            var sut = CreateClient(handlerStub);
-
-            var members = await sut.List(Domain);
-
-            members.ShouldNotBeNull();
-        }
-
-        [Theory]
-        [FileData(@"Projects/.testdata/ListAll_Should_Return_The_Projects.json")]
-        public async Task ListAll_Should_Return_The_Projects(string responseJson)
-        {
-            var handlerStub = new MockHttpMessageHandler();
-
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/projects?page={PageIterator.DefaultPageIndex}&per_page={PageIterator.DefaultPageSize}").ToString();
-
-            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
-
-            var sut = CreateClient(handlerStub);
-
-            var projects = new List<ProjectSummary>();
-
-            var pageQuery = new ListProjectsQuery();
-
-            var pageIterator = sut.ListAll(Domain, pageQuery, (_, response, _) =>
+            [Theory]
+            [FileData(@"Projects/.testdata/Create_Should_Create_And_Return_The_Project.json")]
+            public async Task Should_Create_And_Return_The_Project(string responseJson)
             {
-                projects.AddRange(response?.Projects ?? Enumerable.Empty<ProjectSummary>());
+                var handlerStub = new MockHttpMessageHandler();
 
-                return Task.FromResult(true);
-            });
+                handlerStub.When(HttpMethod.Post, "https://api.buddy.works/workspaces/buddy/projects").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            await pageIterator.Iterate();
+                var sut = CreateClient(handlerStub);
 
-            projects.Count.ShouldBe(1);
+                var project = await sut.Create("buddy", new CreateProject("Landing page"));
+
+                project.Should().NotBeNull();
+            }
         }
 
-        [Fact]
-        public async Task Delete_Should_Delete_The_Project_And_Return_Nothing()
+        public sealed class Get
         {
-            var handlerStub = new MockHttpMessageHandler();
+            [Theory]
+            [FileData(@"Projects/.testdata/Get_Should_Return_The_Project_If_It_Exists.json")]
+            public async Task Should_Return_The_Project_If_It_Exists(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
 
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/projects/{ProjectName}").ToString();
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/projects/company-website").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            handlerStub.When(HttpMethod.Delete, url).Respond(HttpStatusCode.NoContent);
+                var sut = CreateClient(handlerStub);
 
-            var sut = CreateClient(handlerStub);
+                var project = await sut.Get("buddy", "company-website");
 
-            await sut.Delete(Domain, ProjectName);
+                project.Should().NotBeNull();
+            }
+
+            [Fact]
+            public async Task Should_Throw_If_The_Project_Does_Not_Exist()
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/projects/company-website").Respond(HttpStatusCode.NotFound);
+
+                var sut = CreateClient(handlerStub);
+
+                var act = FluentActions.Awaiting(() => sut.Get("buddy", "company-website"));
+
+                await act.Should().ThrowAsync<HttpRequestException>();
+            }
         }
 
-        [Theory]
-        [FileData(@"Projects/.testdata/Update_Should_Update_And_Return_The_Project.json")]
-        public async Task Update_Should_Update_And_Return_The_Permission_Set(string responseJson)
+        public sealed class List
         {
-            var handlerStub = new MockHttpMessageHandler();
+            [Theory]
+            [FileData(@"Projects/.testdata/List_Should_Return_Projects_If_Any_Exists.json")]
+            public async Task Should_Return_Projects_If_Any_Exists(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
 
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/projects/{ProjectName}").ToString();
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/projects").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            handlerStub.When(HttpMethod.Patch, url).Respond(MediaTypeNames.Application.Json, responseJson);
+                var sut = CreateClient(handlerStub);
 
-            var sut = CreateClient(handlerStub);
+                var projects = await sut.List("buddy");
 
-            var permissionSet = await sut.Update(Domain, ProjectName, new UpdateProject());
+                projects?.Projects.Should().NotBeEmpty();
+            }
 
-            permissionSet.ShouldNotBeNull();
+            [Theory]
+            [FileData(@"Projects/.testdata/List_Should_Not_Return_Projects_If_None_Exist.json")]
+            public async Task Should_Not_Return_Projects_If_None_Exist(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/projects").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var projects = await sut.List("buddy");
+
+                projects?.Projects.Should().BeEmpty();
+            }
         }
 
-
-        private static IProjectsClient CreateClient(MockHttpMessageHandler handlerStub)
+        public sealed class ListAll
         {
-            return new ProjectsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri(BaseUrl), null)));
+            [Theory]
+            [FileData(@"Projects/.testdata/ListAll_Should_Return_Projects_If_Any_Exists.json")]
+            public async Task Should_Return_Projects_If_Any_Exists(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, $"https://api.buddy.works/workspaces/buddy/projects?page={PageIterator.DefaultPageIndex}&per_page={PageIterator.DefaultPageSize}").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var projects = new List<ProjectSummary>();
+
+                var pageQuery = new ListProjectsQuery();
+
+                var pageIterator = sut.ListAll("buddy", pageQuery, (_, response, _) =>
+                {
+                    projects.AddRange(response?.Projects ?? Enumerable.Empty<ProjectSummary>());
+
+                    return Task.FromResult(true);
+                });
+
+                await pageIterator.Iterate();
+
+                projects.Should().NotBeEmpty();
+            }
+
+            [Theory]
+            [FileData(@"Projects/.testdata/ListAll_Should_Not_Return_Projects_If_None_Exist.json")]
+            public async Task Should_Not_Return_Projects_If_None_Exist(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, $"https://api.buddy.works/workspaces/buddy/projects?page={PageIterator.DefaultPageIndex}&per_page={PageIterator.DefaultPageSize}").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var projects = new List<ProjectSummary>();
+
+                var pageQuery = new ListProjectsQuery();
+
+                var pageIterator = sut.ListAll("buddy", pageQuery, (_, response, _) =>
+                {
+                    projects.AddRange(response?.Projects ?? Enumerable.Empty<ProjectSummary>());
+
+                    return Task.FromResult(true);
+                });
+
+                await pageIterator.Iterate();
+
+                projects.Should().BeEmpty();
+            }
+        }
+
+        public sealed class Delete
+        {
+            [Fact]
+            public async Task Should_Delete_The_Project_And_Return_Nothing()
+            {
+                var handlerMock = new MockHttpMessageHandler();
+
+                handlerMock.Expect(HttpMethod.Delete, "https://api.buddy.works/workspaces/buddy/projects/company-website").Respond(HttpStatusCode.NoContent);
+
+                var sut = CreateClient(handlerMock);
+
+                await sut.Delete("buddy", "company-website");
+
+                handlerMock.VerifyNoOutstandingExpectation();
+            }
+        }
+
+        public sealed class Update
+        {
+            [Theory]
+            [FileData(@"Projects/.testdata/Update_Should_Update_And_Return_The_Project.json")]
+            public async Task Should_Update_And_Return_The_Permission_Set(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Patch, "https://api.buddy.works/workspaces/buddy/projects/company-website").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var permissionSet = await sut.Update("buddy", "company-website", new UpdateProject());
+
+                permissionSet.Should().NotBeNull();
+            }
         }
     }
 }

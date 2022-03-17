@@ -18,7 +18,7 @@ On app start-up, add BuddyApiClient to your service collection:
 services.AddBuddyClient(new BuddyClientOptions { AccessToken = "" });
 ```
 
-Query the Buddy API using `IBuddyClient`.
+Take a dependence on `IBuddyClient` and qyery the Buddy API.
 
 ## How to contribute
 

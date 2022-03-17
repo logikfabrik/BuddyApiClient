@@ -8,117 +8,133 @@
     using BuddyApiClient.Core;
     using BuddyApiClient.PermissionSets;
     using BuddyApiClient.PermissionSets.Models.Request;
+    using FluentAssertions;
     using RichardSzalay.MockHttp;
-    using Shouldly;
     using Xunit;
 
     public sealed class PermissionSetsClientTest
     {
-        private const string BaseUrl = "https://api.buddy.works";
-        private const string Domain = "buddy";
-        private const int PermissionSetId = 3;
-
-        [Theory]
-        [FileData(@"PermissionSets/.testdata/Create_Should_Create_And_Return_The_Created_Permission_Set.json")]
-        public async Task Create_Should_Create_And_Return_The_Created_Permission_Set(string responseJson)
+        private static IPermissionSetsClient CreateClient(MockHttpMessageHandler handler)
         {
-            var handlerStub = new MockHttpMessageHandler();
-
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/permissions").ToString();
-
-            handlerStub.When(HttpMethod.Post, url).Respond(MediaTypeNames.Application.Json, responseJson);
-
-            var sut = CreateClient(handlerStub);
-
-            var permissionSet = await sut.Create(Domain, new CreatePermissionSet("Artist") { Description = "Artists can access view source" });
-
-            permissionSet.ShouldNotBeNull();
+            return new PermissionSetsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), null)));
         }
 
-        [Theory]
-        [FileData(@"PermissionSets/.testdata/Get_For_Permission_Set_That_Exists_Should_Return_The_Permission_Set.json")]
-        public async Task Get_For_Permission_Set_That_Exists_Should_Return_The_Permission_Set(string responseJson)
+        public sealed class Create
         {
-            var handlerStub = new MockHttpMessageHandler();
+            [Theory]
+            [FileData(@"PermissionSets/.testdata/Create_Should_Create_And_Return_The_PermissionSet.json")]
+            public async Task Should_Create_And_Return_The_PermissionSet(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
 
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/permissions/{PermissionSetId}").ToString();
+                handlerStub.When(HttpMethod.Post, "https://api.buddy.works/workspaces/buddy/permissions").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
+                var sut = CreateClient(handlerStub);
 
-            var sut = CreateClient(handlerStub);
+                var permissionSet = await sut.Create("buddy", new CreatePermissionSet("Artist") { Description = "Artists can access view source" });
 
-            var permissionSet = await sut.Get(Domain, PermissionSetId);
-
-            permissionSet.ShouldNotBeNull();
+                permissionSet.Should().NotBeNull();
+            }
         }
 
-        [Fact]
-        public async Task Get_For_Permission_Set_That_Does_Not_Exist_Should_Throw()
+        public sealed class Get
         {
-            var handlerStub = new MockHttpMessageHandler();
+            [Theory]
+            [FileData(@"PermissionSets/.testdata/Get_Should_Return_The_PermissionSet_If_It_Exists.json")]
+            public async Task Should_Return_The_PermissionSet_If_It_Exists(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
 
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/permissions/{PermissionSetId}").ToString();
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/permissions/3").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            handlerStub.When(HttpMethod.Get, url).Respond(HttpStatusCode.NotFound);
+                var sut = CreateClient(handlerStub);
 
-            var sut = CreateClient(handlerStub);
+                var permissionSet = await sut.Get("buddy", 3);
 
-            var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Get(Domain, PermissionSetId));
+                permissionSet.Should().NotBeNull();
+            }
 
-            e.ShouldNotBeNull();
+            [Fact]
+            public async Task Should_Throw_If_The_PermissionSet_Does_Not_Exist()
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/permissions/3").Respond(HttpStatusCode.NotFound);
+
+                var sut = CreateClient(handlerStub);
+
+                var act = FluentActions.Awaiting(() => sut.Get("buddy", 3));
+
+                await act.Should().ThrowAsync<HttpRequestException>();
+            }
         }
 
-        [Theory]
-        [FileData(@"PermissionSets/.testdata/List_Should_Return_The_Permission_Sets.json")]
-        public async Task List_Should_Return_The_Permission_Sets(string responseJson)
+        public sealed class List
         {
-            var handlerStub = new MockHttpMessageHandler();
+            [Theory]
+            [FileData(@"PermissionSets/.testdata/List_Should_Return_PermissionSets_If_Any_Exists.json")]
+            public async Task Should_Return_PermissionSets_If_Any_Exists(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
 
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/permissions").ToString();
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/permissions").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
+                var sut = CreateClient(handlerStub);
 
-            var sut = CreateClient(handlerStub);
+                var permissionSets = await sut.List("buddy");
 
-            var permissionSets = await sut.List(Domain);
+                permissionSets?.PermissionSets.Should().NotBeEmpty();
+            }
 
-            permissionSets.ShouldNotBeNull();
+            [Theory]
+            [FileData(@"PermissionSets/.testdata/List_Should_Not_Return_PermissionSets_If_None_Exist.json")]
+            public async Task Should_Not_Return_PermissionSets_If_None_Exist(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/permissions").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var permissionSets = await sut.List("buddy");
+
+                permissionSets?.PermissionSets.Should().BeEmpty();
+            }
         }
 
-        [Fact]
-        public async Task Delete_Should_Delete_The_Permission_Set_And_Return_Nothing()
+        public sealed class Delete
         {
-            var handlerStub = new MockHttpMessageHandler();
+            [Fact]
+            public async Task Should_Delete_The_PermissionSet_And_Return_Nothing()
+            {
+                var handlerMock = new MockHttpMessageHandler();
 
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/permissions/{PermissionSetId}").ToString();
+                handlerMock.Expect(HttpMethod.Delete, "https://api.buddy.works/workspaces/buddy/permissions/3").Respond(HttpStatusCode.NoContent);
 
-            handlerStub.When(HttpMethod.Delete, url).Respond(HttpStatusCode.NoContent);
+                var sut = CreateClient(handlerMock);
 
-            var sut = CreateClient(handlerStub);
+                await sut.Delete("buddy", 3);
 
-            await sut.Delete(Domain, PermissionSetId);
+                handlerMock.VerifyNoOutstandingExpectation();
+            }
         }
 
-        [Theory]
-        [FileData(@"PermissionSets/.testdata/Update_Should_Update_And_Return_The_Permission_Set.json")]
-        public async Task Update_Should_Update_And_Return_The_Permission_Set(string responseJson)
+        public sealed class Update
         {
-            var handlerStub = new MockHttpMessageHandler();
+            [Theory]
+            [FileData(@"PermissionSets/.testdata/Update_Should_Update_And_Return_The_PermissionSet.json")]
+            public async Task Should_Update_And_Return_The_Permission_Set(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
 
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/permissions/{PermissionSetId}").ToString();
+                handlerStub.When(HttpMethod.Patch, "https://api.buddy.works/workspaces/buddy/permissions/3").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            handlerStub.When(HttpMethod.Patch, url).Respond(MediaTypeNames.Application.Json, responseJson);
+                var sut = CreateClient(handlerStub);
 
-            var sut = CreateClient(handlerStub);
+                var permissionSet = await sut.Update("buddy", 3, new UpdatePermissionSet());
 
-            var permissionSet = await sut.Update(Domain, PermissionSetId, new UpdatePermissionSet());
-
-            permissionSet.ShouldNotBeNull();
-        }
-
-        private static IPermissionSetsClient CreateClient(MockHttpMessageHandler handlerStub)
-        {
-            return new PermissionSetsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri(BaseUrl), null)));
+                permissionSet.Should().NotBeNull();
+            }
         }
     }
 }

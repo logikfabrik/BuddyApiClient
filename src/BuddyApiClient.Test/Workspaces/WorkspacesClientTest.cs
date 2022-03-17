@@ -7,68 +7,80 @@
     using System.Threading.Tasks;
     using BuddyApiClient.Core;
     using BuddyApiClient.Workspaces;
+    using FluentAssertions;
     using RichardSzalay.MockHttp;
-    using Shouldly;
     using Xunit;
 
     public sealed class WorkspacesClientTest
     {
-        private const string BaseUrl = "https://api.buddy.works";
-        private const string Domain = "buddy";
-
-        [Theory]
-        [FileData(@"Workspaces/.testdata/Get_For_Workspace_That_Exists_Should_Return_The_Workspace.json")]
-        public async Task Get_For_Workspace_That_Exists_Should_Return_The_Workspace(string responseJson)
+        private static IWorkspacesClient CreateClient(MockHttpMessageHandler handler)
         {
-            var handlerStub = new MockHttpMessageHandler();
-
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}").ToString();
-
-            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
-
-            var sut = CreateClient(handlerStub);
-
-            var workspace = await sut.Get(Domain);
-
-            workspace.ShouldNotBeNull();
+            return new WorkspacesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), null)));
         }
 
-        [Fact]
-        public async Task Get_For_Workspace_That_Does_Not_Exist_Should_Throw()
+        public sealed class Get
         {
-            var handlerStub = new MockHttpMessageHandler();
+            [Theory]
+            [FileData(@"Workspaces/.testdata/Get_Should_Return_The_Workspace_If_It_Exists.json")]
+            public async Task Should_Return_The_Workspace_If_It_Exists(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
 
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}").ToString();
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            handlerStub.When(HttpMethod.Get, url).Respond(HttpStatusCode.NotFound);
+                var sut = CreateClient(handlerStub);
 
-            var sut = CreateClient(handlerStub);
+                var workspace = await sut.Get("buddy");
 
-            var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Get(Domain));
+                workspace.Should().NotBeNull();
+            }
 
-            e.ShouldNotBeNull();
+            [Fact]
+            public async Task Should_Throw_If_The_Workspace_Does_Not_Exist()
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy").Respond(HttpStatusCode.NotFound);
+
+                var sut = CreateClient(handlerStub);
+
+                var act = FluentActions.Awaiting(() => sut.Get("buddy"));
+
+                await act.Should().ThrowAsync<HttpRequestException>();
+            }
         }
 
-        [Theory]
-        [FileData(@"Workspaces/.testdata/List_Should_Return_The_Workspaces.json")]
-        public async Task List_Should_Return_The_Workspaces(string responseJson)
+        public sealed class List
         {
-            var handlerStub = new MockHttpMessageHandler();
+            [Theory]
+            [FileData(@"Workspaces/.testdata/List_Should_Return_Workspaces_If_Any_Exists.json")]
+            public async Task Should_Return_Workspaces_If_Any_Exists(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
 
-            var url = new Uri(new Uri(BaseUrl), "workspaces").ToString();
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
+                var sut = CreateClient(handlerStub);
 
-            var sut = CreateClient(handlerStub);
+                var workspaces = await sut.List();
 
-            var workspaces = await sut.List();
+                workspaces?.Workspaces.Should().NotBeEmpty();
+            }
 
-            workspaces.ShouldNotBeNull();
-        }
+            [Theory]
+            [FileData(@"Workspaces/.testdata/List_Should_Not_Return_Workspaces_If_None_Exist.json")]
+            public async Task Should_Not_Return_Workspaces_If_None_Exist(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
 
-        private static IWorkspacesClient CreateClient(MockHttpMessageHandler handlerStub)
-        {
-            return new WorkspacesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri(BaseUrl), null)));
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var workspaces = await sut.List();
+
+                workspaces?.Workspaces.Should().BeEmpty();
+            }
         }
     }
 }

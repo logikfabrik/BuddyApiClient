@@ -1,7 +1,7 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Workspaces
 {
     using System.Threading.Tasks;
-    using Shouldly;
+    using FluentAssertions;
     using Xunit;
 
     [Collection(nameof(BuddyClientCollection))]
@@ -23,7 +23,7 @@
 
             var workspace = await sut.Get(Domain);
 
-            workspace.ShouldNotBeNull();
+            workspace.Should().NotBeNull();
         }
 
         [Fact]
@@ -33,7 +33,7 @@
 
             var workspaces = await sut.List();
 
-            workspaces.ShouldNotBeNull();
+            workspaces.Should().NotBeNull();
         }
     }
 }

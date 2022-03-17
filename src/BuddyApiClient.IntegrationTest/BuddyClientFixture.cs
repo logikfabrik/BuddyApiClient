@@ -12,7 +12,6 @@
                 .Build();
 
             var serviceProvider = new ServiceCollection()
-                .AddSingleton<IConfiguration>(configuration)
                 .AddBuddyClient(configuration)
                 .BuildServiceProvider();
 

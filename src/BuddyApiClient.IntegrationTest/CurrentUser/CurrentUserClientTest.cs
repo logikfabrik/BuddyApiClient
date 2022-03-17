@@ -3,7 +3,7 @@
     using System.Threading.Tasks;
     using AutoFixture.Xunit2;
     using BuddyApiClient.CurrentUser.Models.Request;
-    using Shouldly;
+    using FluentAssertions;
     using Xunit;
 
     [Collection(nameof(BuddyClientCollection))]
@@ -23,7 +23,7 @@
 
             var currentUser = await sut.Get();
 
-            currentUser.ShouldNotBeNull();
+            currentUser.Should().NotBeNull();
         }
 
         [Theory]
@@ -34,7 +34,7 @@
 
             var currentUser = await sut.Update(new UpdateUser { Name = name });
 
-            currentUser?.Name.ShouldBe(name);
+            currentUser?.Name.Should().Be(name);
         }
     }
 }

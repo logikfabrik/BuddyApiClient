@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using AutoFixture.Xunit2;
     using BuddyApiClient.PermissionSets.Models.Request;
-    using Shouldly;
+    using FluentAssertions;
     using Xunit;
     using Xunit.Priority;
 
@@ -33,7 +33,7 @@
 
             var permissionSet = await sut.Create(Domain, new CreatePermissionSet(name) { Description = description });
 
-            permissionSet.ShouldNotBeNull();
+            permissionSet.Should().NotBeNull();
 
             _permissionSetId = permissionSet.Id;
         }
@@ -46,7 +46,7 @@
 
             var permissionSet = await sut.Get(Domain, _permissionSetId!.Value);
 
-            permissionSet.ShouldNotBeNull();
+            permissionSet.Should().NotBeNull();
         }
 
         [Fact]
@@ -56,7 +56,7 @@
 
             var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Get(Domain, 1));
 
-            e.ShouldNotBeNull();
+            e.Should().NotBeNull();
         }
 
         [Fact]
@@ -66,7 +66,7 @@
 
             var members = await sut.List(Domain);
 
-            members?.PermissionSets?.Any().ShouldBeTrue();
+            members?.PermissionSets?.Any().Should().BeTrue();
         }
 
         [Theory]
@@ -78,7 +78,7 @@
 
             var permissionSet = await sut.Update(Domain, _permissionSetId!.Value, new UpdatePermissionSet { Name = name });
 
-            permissionSet.ShouldNotBeNull();
+            permissionSet.Should().NotBeNull();
         }
 
         [Fact]

@@ -6,7 +6,7 @@
     using System.Threading.Tasks;
     using BuddyApiClient.Members.Models.Request;
     using BuddyApiClient.Members.Models.Response;
-    using Shouldly;
+    using FluentAssertions;
     using Xunit;
     using Xunit.Priority;
 
@@ -35,7 +35,7 @@
 
             var member = await sut.Add(Domain, new AddMember("john.doe@logikfabrik.se"));
 
-            member.ShouldNotBeNull();
+            member.Should().NotBeNull();
 
             _memberId = member.Id;
         }
@@ -48,7 +48,7 @@
 
             var member = await sut.Add(Domain, ProjectName, new AddProjectMember(new PermissionSet { Id = 251343 }) { MemberId = _memberId!.Value });
 
-            member.ShouldNotBeNull();
+            member.Should().NotBeNull();
         }
 
         [Fact]
@@ -59,7 +59,7 @@
 
             var member = await sut.Get(Domain, _memberId!.Value);
 
-            member.ShouldNotBeNull();
+            member.Should().NotBeNull();
         }
 
         [Fact]
@@ -69,7 +69,7 @@
 
             var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Get(Domain, 1));
 
-            e.ShouldNotBeNull();
+            e.Should().NotBeNull();
         }
 
         [Fact]
@@ -79,7 +79,7 @@
 
             var members = await sut.List(Domain);
 
-            members?.Members?.Any().ShouldBeTrue();
+            members?.Members?.Any().Should().BeTrue();
         }
 
         [Fact]
@@ -89,7 +89,7 @@
 
             var members = await sut.List(Domain, ProjectName);
 
-            members?.Members?.Any().ShouldBeTrue();
+            members?.Members?.Any().Should().BeTrue();
         }
 
         [Fact]
@@ -110,7 +110,7 @@
 
             await pageIterator.Iterate();
 
-            members.Any().ShouldBeTrue();
+            members.Any().Should().BeTrue();
         }
 
         [Fact]
@@ -131,7 +131,7 @@
 
             await pageIterator.Iterate();
 
-            members.Any().ShouldBeTrue();
+            members.Any().Should().BeTrue();
         }
 
         [Fact]
@@ -142,7 +142,7 @@
 
             var member = await sut.Update(Domain, _memberId!.Value, new UpdateMember { Admin = true });
 
-            member.ShouldNotBeNull();
+            member.Should().NotBeNull();
         }
 
         [Fact]
@@ -153,7 +153,7 @@
 
             var member = await sut.Update(Domain, ProjectName, _memberId!.Value, new UpdateProjectMember(new PermissionSet { Id = 251346 }));
 
-            member.ShouldNotBeNull();
+            member.Should().NotBeNull();
         }
 
         [Fact]

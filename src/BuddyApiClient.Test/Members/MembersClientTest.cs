@@ -12,239 +12,262 @@
     using BuddyApiClient.Members;
     using BuddyApiClient.Members.Models.Request;
     using BuddyApiClient.Members.Models.Response;
+    using FluentAssertions;
     using RichardSzalay.MockHttp;
-    using Shouldly;
     using Xunit;
 
     public sealed class MembersClientTest
     {
-        private const string BaseUrl = "https://api.buddy.works";
-        private const string Domain = "buddy";
-        private const string ProjectName = "company-website";
-        private const int MemberId = 1;
-
-        [Theory]
-        [FileData(@"Members/.testdata/Add_Should_Add_And_Return_The_Added_Member.json")]
-        public async Task Add_Should_Add_And_Return_The_Added_Member(string responseJson)
+        private static IMembersClient CreateClient(MockHttpMessageHandler handler)
         {
-            var handlerStub = new MockHttpMessageHandler();
-
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/members").ToString();
-
-            handlerStub.When(HttpMethod.Post, url).Respond(MediaTypeNames.Application.Json, responseJson);
-
-            var sut = CreateClient(handlerStub);
-
-            var member = await sut.Add(Domain, new AddMember("mike.benson@buddy.works"));
-
-            member.ShouldNotBeNull();
+            return new MembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), null)));
         }
 
-        [Theory]
-        [FileData(@"Members/.testdata/Add_For_Project_Should_Add_And_Return_The_Added_Member.json")]
-        public async Task Add_For_Project_Should_Add_And_Return_The_Added_Member(string responseJson)
+        public sealed class Add
         {
-            var handlerStub = new MockHttpMessageHandler();
-
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/projects/{ProjectName}/members").ToString();
-
-            handlerStub.When(HttpMethod.Post, url).Respond(MediaTypeNames.Application.Json, responseJson);
-
-            var sut = CreateClient(handlerStub);
-
-            var member = await sut.Add(Domain, ProjectName, new AddProjectMember(new PermissionSet { Id = 2 }) { MemberId = 2 });
-
-            member.ShouldNotBeNull();
-        }
-
-        [Theory]
-        [FileData(@"Members/.testdata/Get_For_Member_That_Exists_Should_Return_The_Member.json")]
-        public async Task Get_For_Member_That_Exists_Should_Return_The_Member(string responseJson)
-        {
-            var handlerStub = new MockHttpMessageHandler();
-
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/members/{MemberId}").ToString();
-
-            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
-
-            var sut = CreateClient(handlerStub);
-
-            var member = await sut.Get(Domain, MemberId);
-
-            member.ShouldNotBeNull();
-        }
-
-        [Fact]
-        public async Task Get_For_Member_That_Does_Not_Exist_Should_Throw()
-        {
-            var handlerStub = new MockHttpMessageHandler();
-
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/members/{MemberId}").ToString();
-
-            handlerStub.When(HttpMethod.Get, url).Respond(HttpStatusCode.NotFound);
-
-            var sut = CreateClient(handlerStub);
-
-            var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Get(Domain, MemberId));
-
-            e.ShouldNotBeNull();
-        }
-
-        [Theory]
-        [FileData(@"Members/.testdata/List_Should_Return_The_Members.json")]
-        public async Task List_Should_Return_The_Members(string responseJson)
-        {
-            var handlerStub = new MockHttpMessageHandler();
-
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/members").ToString();
-
-            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
-
-            var sut = CreateClient(handlerStub);
-
-            var members = await sut.List(Domain);
-
-            members.ShouldNotBeNull();
-        }
-
-        [Theory]
-        [FileData(@"Members/.testdata/List_For_Project_Should_Return_The_Members.json")]
-        public async Task List_For_Project_Should_Return_The_Members(string responseJson)
-        {
-            var handlerStub = new MockHttpMessageHandler();
-
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/projects/{ProjectName}/members").ToString();
-
-            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
-
-            var sut = CreateClient(handlerStub);
-
-            var members = await sut.List(Domain, ProjectName);
-
-            members.ShouldNotBeNull();
-        }
-
-        [Theory]
-        [FileData(@"Members/.testdata/ListAll_Should_Return_The_Members.json")]
-        public async Task ListAll_Should_Return_The_Members(string responseJson)
-        {
-            var handlerStub = new MockHttpMessageHandler();
-
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/members?page={PageIterator.DefaultPageIndex}&per_page={PageIterator.DefaultPageSize}").ToString();
-
-            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
-
-            var sut = CreateClient(handlerStub);
-
-            var members = new List<MemberSummary>();
-
-            var pageQuery = new ListMembersQuery();
-
-            var pageIterator = sut.ListAll(Domain, pageQuery, (_, response, _) =>
+            [Theory]
+            [FileData(@"Members/.testdata/Add_Should_Add_And_Return_The_Member.json")]
+            public async Task Should_Add_And_Return_The_Member(string responseJson)
             {
-                members.AddRange(response?.Members ?? Enumerable.Empty<MemberSummary>());
+                var handlerStub = new MockHttpMessageHandler();
 
-                return Task.FromResult(true);
-            });
+                handlerStub.When(HttpMethod.Post, "https://api.buddy.works/workspaces/buddy/members").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            await pageIterator.Iterate();
+                var sut = CreateClient(handlerStub);
 
-            members.Count.ShouldBe(1);
-        }
+                var member = await sut.Add("buddy", new AddMember("mike.benson@buddy.works"));
 
-        [Theory]
-        [FileData(@"Members/.testdata/ListAll_For_Project_Should_Return_The_Members.json")]
-        public async Task ListAll_For_Project_Should_Return_The_Members(string responseJson)
-        {
-            var handlerStub = new MockHttpMessageHandler();
+                member.Should().NotBeNull();
+            }
 
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/projects/{ProjectName}/members?page={PageIterator.DefaultPageIndex}&per_page={PageIterator.DefaultPageSize}").ToString();
-
-            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
-
-            var sut = CreateClient(handlerStub);
-
-            var members = new List<MemberSummary>();
-
-            var pageQuery = new ListMembersQuery();
-
-            var pageIterator = sut.ListAll(Domain, ProjectName, pageQuery, (_, response, _) =>
+            [Theory]
+            [FileData(@"Members/.testdata/Add_Should_Add_And_Return_The_Project_Member.json")]
+            public async Task Should_Add_And_Return_The_Project_Member(string responseJson)
             {
-                members.AddRange(response?.Members ?? Enumerable.Empty<MemberSummary>());
+                var handlerStub = new MockHttpMessageHandler();
 
-                return Task.FromResult(true);
-            });
+                handlerStub.When(HttpMethod.Post, "https://api.buddy.works/workspaces/buddy/projects/company-website/members").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            await pageIterator.Iterate();
+                var sut = CreateClient(handlerStub);
 
-            members.Count.ShouldBe(1);
+                var member = await sut.Add("buddy", "company-website", new AddProjectMember(new PermissionSet { Id = 2 }) { MemberId = 2 });
+
+                member.Should().NotBeNull();
+            }
         }
 
-        [Fact]
-        public async Task Remove_Should_Remove_The_Member_And_Return_Nothing()
+        public sealed class Get
         {
-            var handlerStub = new MockHttpMessageHandler();
+            [Theory]
+            [FileData(@"Members/.testdata/Get_Should_Return_The_Member_If_It_Exists.json")]
+            public async Task Should_Return_The_Member_If_It_Exists(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
 
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/members/{MemberId}").ToString();
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/members/1").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            handlerStub.When(HttpMethod.Delete, url).Respond(HttpStatusCode.NoContent);
+                var sut = CreateClient(handlerStub);
 
-            var sut = CreateClient(handlerStub);
+                var member = await sut.Get("buddy", 1);
 
-            await sut.Remove(Domain, MemberId);
+                member.Should().NotBeNull();
+            }
+
+            [Fact]
+            public async Task Should_Throw_If_The_Member_Does_Not_Exist()
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/members/1").Respond(HttpStatusCode.NotFound);
+
+                var sut = CreateClient(handlerStub);
+
+                var act = FluentActions.Awaiting(() => sut.Get("buddy", 1));
+
+                await act.Should().ThrowAsync<HttpRequestException>();
+            }
         }
 
-        [Fact]
-        public async Task Remove_For_Project_Should_Remove_The_Member_And_Return_Nothing()
+        public sealed class List
         {
-            var handlerStub = new MockHttpMessageHandler();
+            [Theory]
+            [FileData(@"Members/.testdata/List_Should_Return_Members_If_Any_Exists.json")]
+            public async Task Should_Return_Members_If_Any_Exists(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
 
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/projects/{ProjectName}/members/{MemberId}").ToString();
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/members").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            handlerStub.When(HttpMethod.Delete, url).Respond(HttpStatusCode.NoContent);
+                var sut = CreateClient(handlerStub);
 
-            var sut = CreateClient(handlerStub);
+                var members = await sut.List("buddy");
 
-            await sut.Remove(Domain, ProjectName, MemberId);
+                members?.Members.Should().NotBeEmpty();
+            }
+
+            [Theory]
+            [FileData(@"Members/.testdata/List_Should_Not_Return_Members_If_None_Exist.json")]
+            public async Task Should_Not_Return_Members_If_None_Exist(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/members").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var members = await sut.List("buddy");
+
+                members?.Members.Should().BeEmpty();
+            }
+
+            [Theory]
+            [FileData(@"Members/.testdata/List_Should_Return_Project_Members_If_Any_Exists.json")]
+            public async Task Should_Return_Project_Members_If_Any_Exists(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/projects/company-website/members").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var members = await sut.List("buddy", "company-website");
+
+                members?.Members.Should().NotBeEmpty();
+            }
+
+            [Theory]
+            [FileData(@"Members/.testdata/List_Should_Not_Return_Project_Members_If_None_Exist.json")]
+            public async Task Should_Not_Return_Project_Members_If_None_Exist(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/projects/company-website/members").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var members = await sut.List("buddy", "company-website");
+
+                members?.Members.Should().BeEmpty();
+            }
         }
 
-        [Theory]
-        [FileData(@"Members/.testdata/Update_Should_Update_And_Return_The_Member.json")]
-        public async Task Update_Should_Update_And_Return_The_Member(string responseJson)
+        public sealed class ListAll
         {
-            var handlerStub = new MockHttpMessageHandler();
+            [Theory]
+            [FileData(@"Members/.testdata/ListAll_Should_Return_Members_If_Any_Exists.json")]
+            public async Task Should_Return_Members_If_Any_Exists(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
 
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/members/{MemberId}").ToString();
+                handlerStub.When(HttpMethod.Get, $"https://api.buddy.works/workspaces/buddy/members?page={PageIterator.DefaultPageIndex}&per_page={PageIterator.DefaultPageSize}").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            handlerStub.When(HttpMethod.Patch, url).Respond(MediaTypeNames.Application.Json, responseJson);
+                var sut = CreateClient(handlerStub);
 
-            var sut = CreateClient(handlerStub);
+                var members = new List<MemberSummary>();
 
-            var member = await sut.Update(Domain, MemberId, new UpdateMember());
+                var pageQuery = new ListMembersQuery();
 
-            member.ShouldNotBeNull();
+                var pageIterator = sut.ListAll("buddy", pageQuery, (_, response, _) =>
+                {
+                    members.AddRange(response?.Members ?? Enumerable.Empty<MemberSummary>());
+
+                    return Task.FromResult(true);
+                });
+
+                await pageIterator.Iterate();
+
+                members.Should().NotBeEmpty();
+            }
+
+            [Theory]
+            [FileData(@"Members/.testdata/ListAll_Should_Return_Project_Members_If_Any_Exists.json")]
+            public async Task Should_Return_Project_Members_If_Any_Exists(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, $"https://api.buddy.works/workspaces/buddy/projects/company-website/members?page={PageIterator.DefaultPageIndex}&per_page={PageIterator.DefaultPageSize}").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var members = new List<MemberSummary>();
+
+                var pageQuery = new ListMembersQuery();
+
+                var pageIterator = sut.ListAll("buddy", "company-website", pageQuery, (_, response, _) =>
+                {
+                    members.AddRange(response?.Members ?? Enumerable.Empty<MemberSummary>());
+
+                    return Task.FromResult(true);
+                });
+
+                await pageIterator.Iterate();
+
+                members.Should().NotBeEmpty();
+            }
         }
 
-        [Theory]
-        [FileData(@"Members/.testdata/Update_For_Project_Should_Update_And_Return_The_Member.json")]
-        public async Task Update_For_Project_Should_Update_And_Return_The_Member(string responseJson)
+        public sealed class Remove
         {
-            var handlerStub = new MockHttpMessageHandler();
+            [Fact]
+            public async Task Should_Remove_The_Member_And_Return_Nothing()
+            {
+                var handlerMock = new MockHttpMessageHandler();
 
-            var url = new Uri(new Uri(BaseUrl), $"workspaces/{Domain}/projects/{ProjectName}/members/{MemberId}").ToString();
+                handlerMock.Expect(HttpMethod.Delete, "https://api.buddy.works/workspaces/buddy/members/1").Respond(HttpStatusCode.NoContent);
 
-            handlerStub.When(HttpMethod.Patch, url).Respond(MediaTypeNames.Application.Json, responseJson);
+                var sut = CreateClient(handlerMock);
 
-            var sut = CreateClient(handlerStub);
+                await sut.Remove("buddy", 1);
 
-            var member = await sut.Update(Domain, ProjectName, MemberId, new UpdateProjectMember(new PermissionSet { Id = 1 }));
+                handlerMock.VerifyNoOutstandingExpectation();
+            }
 
-            member.ShouldNotBeNull();
+            [Fact]
+            public async Task Should_Remove_The_Project_Member_And_Return_Nothing()
+            {
+                var handlerMock = new MockHttpMessageHandler();
+
+                handlerMock.Expect(HttpMethod.Delete, "https://api.buddy.works/workspaces/buddy/projects/company-website/members/1").Respond(HttpStatusCode.NoContent);
+
+                var sut = CreateClient(handlerMock);
+
+                await sut.Remove("buddy", "company-website", 1);
+
+                handlerMock.VerifyNoOutstandingExpectation();
+            }
         }
 
-        private static IMembersClient CreateClient(MockHttpMessageHandler handlerStub)
+        public sealed class Update
         {
-            return new MembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri(BaseUrl), null)));
+            [Theory]
+            [FileData(@"Members/.testdata/Update_Should_Update_And_Return_The_Member.json")]
+            public async Task Should_Update_And_Return_The_Member(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Patch, "https://api.buddy.works/workspaces/buddy/members/1").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var member = await sut.Update("buddy", 1, new UpdateMember());
+
+                member.Should().NotBeNull();
+            }
+
+            [Theory]
+            [FileData(@"Members/.testdata/Update_Should_Update_And_Return_The_Project_Member.json")]
+            public async Task Should_Update_And_Return_The_Project_Member(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Patch, "https://api.buddy.works/workspaces/buddy/projects/company-website/members/1").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var member = await sut.Update("buddy", "company-website", 1, new UpdateProjectMember(new PermissionSet { Id = 1 }));
+
+                member.Should().NotBeNull();
+            }
         }
     }
 }

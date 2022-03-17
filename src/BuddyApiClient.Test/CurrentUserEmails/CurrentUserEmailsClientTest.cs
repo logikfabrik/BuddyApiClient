@@ -8,67 +8,83 @@
     using BuddyApiClient.Core;
     using BuddyApiClient.CurrentUserEmails;
     using BuddyApiClient.CurrentUserEmails.Models.Request;
+    using FluentAssertions;
     using RichardSzalay.MockHttp;
-    using Shouldly;
     using Xunit;
 
     public sealed class CurrentUserEmailsClientTest
     {
-        private const string BaseUrl = "https://api.buddy.works";
-
-        [Theory]
-        [FileData(@"CurrentUserEmails/.testdata/Add_Should_Add_And_Return_The_Added_Email.json")]
-        public async Task Add_Should_Add_And_Return_The_Added_Email(string responseJson)
+        private static ICurrentUserEmailsClient CreateClient(MockHttpMessageHandler handler)
         {
-            var handlerStub = new MockHttpMessageHandler();
-
-            var url = new Uri(new Uri(BaseUrl), "user/emails").ToString();
-
-            handlerStub.When(HttpMethod.Post, url).Respond(MediaTypeNames.Application.Json, responseJson);
-
-            var sut = CreateClient(handlerStub);
-
-            var email = await sut.Add(new AddEmail("mike.benson@buddy.works"));
-
-            email.ShouldNotBeNull();
+            return new CurrentUserEmailsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), null)));
         }
 
-        [Theory]
-        [FileData(@"CurrentUserEmails/.testdata/List_Should_Return_The_Emails.json")]
-        public async Task List_Should_Return_The_Emails(string responseJson)
+        public sealed class Add
         {
-            var handlerStub = new MockHttpMessageHandler();
+            [Theory]
+            [FileData(@"CurrentUserEmails/.testdata/Add_Should_Add_And_Return_The_Email.json")]
+            public async Task Should_Add_And_Return_The_Email(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
 
-            var url = new Uri(new Uri(BaseUrl), "user/emails").ToString();
+                handlerStub.When(HttpMethod.Post, "https://api.buddy.works/user/emails").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            handlerStub.When(HttpMethod.Get, url).Respond(MediaTypeNames.Application.Json, responseJson);
+                var sut = CreateClient(handlerStub);
 
-            var sut = CreateClient(handlerStub);
+                var email = await sut.Add(new AddEmail("mike.benson@buddy.works"));
 
-            var emails = await sut.List();
-
-            emails.ShouldNotBeNull();
+                email.Should().NotBeNull();
+            }
         }
 
-        [Fact]
-        public async Task Remove_Should_Remove_The_Email_And_Return_Nothing()
+        public sealed class List
         {
-            var handlerStub = new MockHttpMessageHandler();
+            [Theory]
+            [FileData(@"CurrentUserEmails/.testdata/List_Should_Return_Emails_If_Any_Exists.json")]
+            public async Task Should_Return_Emails_If_Any_Exists(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
 
-            const string email = "mike.benson@buddy.works";
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/user/emails").Respond(MediaTypeNames.Application.Json, responseJson);
 
-            var url = new Uri(new Uri(BaseUrl), $"user/emails/{email}").ToString();
+                var sut = CreateClient(handlerStub);
 
-            handlerStub.When(HttpMethod.Delete, url).Respond(HttpStatusCode.NoContent);
+                var emails = await sut.List();
 
-            var sut = CreateClient(handlerStub);
+                emails?.Emails.Should().NotBeEmpty();
+            }
 
-            await sut.Remove(email);
+            [Theory]
+            [FileData(@"CurrentUserEmails/.testdata/List_Should_Not_Return_Emails_If_None_Exist.json")]
+            public async Task Should_Not_Return_Emails_If_None_Exist(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/user/emails").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var emails = await sut.List();
+
+                emails?.Emails.Should().BeEmpty();
+            }
         }
 
-        private static ICurrentUserEmailsClient CreateClient(MockHttpMessageHandler handlerStub)
+        public sealed class Remove
         {
-            return new CurrentUserEmailsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handlerStub.ToHttpClient(), new Uri(BaseUrl), "PAT")));
+            [Fact]
+            public async Task Should_Remove_The_Email_And_Return_Nothing()
+            {
+                var handlerMock = new MockHttpMessageHandler();
+
+                handlerMock.Expect(HttpMethod.Delete, "https://api.buddy.works/user/emails/mike.benson@buddy.works").Respond(HttpStatusCode.NoContent);
+
+                var sut = CreateClient(handlerMock);
+
+                await sut.Remove("mike.benson@buddy.works");
+
+                handlerMock.VerifyNoOutstandingExpectation();
+            }
         }
     }
 }

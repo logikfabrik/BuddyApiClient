@@ -2,49 +2,55 @@
 {
     using System;
     using BuddyApiClient.PermissionSets.Models;
-    using Shouldly;
+    using FluentAssertions;
     using Xunit;
 
     public sealed class PipelineAccessLevelJsonConverterTest
     {
-        [Theory]
-        [InlineData(PipelineAccessLevelJsonConverter.DeniedAsJson, PipelineAccessLevel.Denied)]
-        [InlineData(PipelineAccessLevelJsonConverter.ReadOnlyAsJson, PipelineAccessLevel.ReadOnly)]
-        [InlineData(PipelineAccessLevelJsonConverter.RunOnlyAsJson, PipelineAccessLevel.RunOnly)]
-        [InlineData(PipelineAccessLevelJsonConverter.ReadWriteAsJson, PipelineAccessLevel.ReadWrite)]
-        public void ConvertFrom_For_Valid_Json_Should_Return_Enum_Value(string json, PipelineAccessLevel expected)
+        public sealed class ConvertFrom
         {
-            var enumValue = PipelineAccessLevelJsonConverter.ConvertFrom(json);
+            [Theory]
+            [InlineData(PipelineAccessLevelJsonConverter.DeniedAsJson, PipelineAccessLevel.Denied)]
+            [InlineData(PipelineAccessLevelJsonConverter.ReadOnlyAsJson, PipelineAccessLevel.ReadOnly)]
+            [InlineData(PipelineAccessLevelJsonConverter.RunOnlyAsJson, PipelineAccessLevel.RunOnly)]
+            [InlineData(PipelineAccessLevelJsonConverter.ReadWriteAsJson, PipelineAccessLevel.ReadWrite)]
+            public void Should_Return_Enum_Value_For_Valid_Json(string json, PipelineAccessLevel expected)
+            {
+                var enumValue = PipelineAccessLevelJsonConverter.ConvertFrom(json);
 
-            enumValue.ShouldBe(expected);
+                enumValue.Should().Be(expected);
+            }
+
+            [Fact]
+            public void Should_Throw_For_Invalid_Json()
+            {
+                var act = FluentActions.Invoking(() => PipelineAccessLevelJsonConverter.ConvertFrom(null));
+
+                act.Should().Throw<NotSupportedException>();
+            }
         }
 
-        [Fact]
-        public void ConvertFrom_For_Invalid_Json_Should_Throw()
+        public sealed class ConvertTo
         {
-            var e = Assert.Throws<NotSupportedException>(() => PipelineAccessLevelJsonConverter.ConvertFrom(null));
+            [Theory]
+            [InlineData(PipelineAccessLevel.Denied, PipelineAccessLevelJsonConverter.DeniedAsJson)]
+            [InlineData(PipelineAccessLevel.ReadOnly, PipelineAccessLevelJsonConverter.ReadOnlyAsJson)]
+            [InlineData(PipelineAccessLevel.RunOnly, PipelineAccessLevelJsonConverter.RunOnlyAsJson)]
+            [InlineData(PipelineAccessLevel.ReadWrite, PipelineAccessLevelJsonConverter.ReadWriteAsJson)]
+            public void Should_Return_Json_For_Valid_Enum_Value(PipelineAccessLevel enumValue, string expected)
+            {
+                var json = PipelineAccessLevelJsonConverter.ConvertTo(enumValue);
 
-            e.ShouldNotBeNull();
-        }
+                json.Should().Be(expected);
+            }
 
-        [Theory]
-        [InlineData(PipelineAccessLevel.Denied, PipelineAccessLevelJsonConverter.DeniedAsJson)]
-        [InlineData(PipelineAccessLevel.ReadOnly, PipelineAccessLevelJsonConverter.ReadOnlyAsJson)]
-        [InlineData(PipelineAccessLevel.RunOnly, PipelineAccessLevelJsonConverter.RunOnlyAsJson)]
-        [InlineData(PipelineAccessLevel.ReadWrite, PipelineAccessLevelJsonConverter.ReadWriteAsJson)]
-        public void ConvertTo_For_Valid_Enum_Value_Should_Return_Json(PipelineAccessLevel enumValue, string expected)
-        {
-            var json = PipelineAccessLevelJsonConverter.ConvertTo(enumValue);
+            [Fact]
+            public void Should_Throw_For_Invalid_Enum_Value()
+            {
+                var act = FluentActions.Invoking(() => PipelineAccessLevelJsonConverter.ConvertTo(null));
 
-            json.ShouldBe(expected);
-        }
-
-        [Fact]
-        public void ConvertTo_For_Invalid_Enum_Value_Should_Throw()
-        {
-            var e = Assert.Throws<NotSupportedException>(() => PipelineAccessLevelJsonConverter.ConvertTo(null));
-
-            e.ShouldNotBeNull();
+                act.Should().Throw<NotSupportedException>();
+            }
         }
     }
 }

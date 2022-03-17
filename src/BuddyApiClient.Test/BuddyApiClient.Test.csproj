@@ -13,10 +13,13 @@
     <Content Include="Core\.testdata\Should_Throw_On_Rate_Error.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="CurrentUserEmails/.testdata/List_Should_Return_The_Emails.json">
+    <Content Include="CurrentUserEmails\.testdata\List_Should_Not_Return_Emails_If_None_Exist.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="CurrentUserEmails/.testdata/Add_Should_Add_And_Return_The_Added_Email.json">
+    <Content Include="CurrentUserEmails\.testdata\List_Should_Return_Emails_If_Any_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CurrentUserEmails\.testdata\Add_Should_Add_And_Return_The_Email.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="CurrentUser/.testdata/Update_Should_Update_And_Return_The_Current_User.json">
@@ -28,61 +31,79 @@
     <Content Include="Members/.testdata/Update_Should_Update_And_Return_The_Member.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members/.testdata/Add_Should_Add_And_Return_The_Added_Member.json">
+    <Content Include="Members\.testdata\Add_Should_Add_And_Return_The_Member.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members/.testdata/Get_For_Member_That_Exists_Should_Return_The_Member.json">
+    <Content Include="Members\.testdata\Get_Should_Return_The_Member_If_It_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members/.testdata/ListAll_Should_Return_The_Members.json">
+    <Content Include="Members\.testdata\ListAll_Should_Return_Members_If_Any_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members/.testdata/List_Should_Return_The_Members.json">
+    <Content Include="Members\.testdata\List_Should_Not_Return_Members_If_None_Exist.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\Add_For_Project_Should_Add_And_Return_The_Added_Member.json">
+    <Content Include="Members\.testdata\List_Should_Return_Members_If_Any_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\ListAll_For_Project_Should_Return_The_Members.json">
+    <Content Include="Members\.testdata\Add_Should_Add_And_Return_The_Project_Member.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\List_For_Project_Should_Return_The_Members.json">
+    <Content Include="Members\.testdata\ListAll_Should_Return_Project_Members_If_Any_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\Update_For_Project_Should_Update_And_Return_The_Member.json">
+    <Content Include="Members\.testdata\List_Should_Not_Return_Project_Members_If_None_Exist.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PermissionSets\.testdata\Create_Should_Create_And_Return_The_Created_Permission_Set.json">
+    <Content Include="Members\.testdata\List_Should_Return_Project_Members_If_Any_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Projects\.testdata\Create_Should_Create_And_Return_The_Created_Project.json">
+    <Content Include="Members\.testdata\Update_Should_Update_And_Return_The_Project_Member.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PermissionSets\.testdata\Get_For_Permission_Set_That_Exists_Should_Return_The_Permission_Set.json">
+    <Content Include="PermissionSets\.testdata\Create_Should_Create_And_Return_The_PermissionSet.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PermissionSets\.testdata\List_Should_Return_The_Permission_Sets.json">
+    <Content Include="PermissionSets\.testdata\List_Should_Not_Return_PermissionSets_If_None_Exist.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PermissionSets\.testdata\Update_Should_Update_And_Return_The_Permission_Set.json">
+    <Content Include="Projects\.testdata\Create_Should_Create_And_Return_The_Project.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Projects\.testdata\Get_For_Project_That_Exists_Should_Return_The_Project.json">
+    <Content Include="PermissionSets\.testdata\Get_Should_Return_The_PermissionSet_If_It_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Projects\.testdata\ListAll_Should_Return_The_Projects.json">
+    <Content Include="PermissionSets\.testdata\List_Should_Return_PermissionSets_If_Any_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Projects\.testdata\List_Should_Return_The_Projects.json">
+    <Content Include="PermissionSets\.testdata\Update_Should_Update_And_Return_The_PermissionSet.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Projects\.testdata\Get_Should_Return_The_Project_If_It_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Projects\.testdata\ListAll_Should_Not_Return_Projects_If_None_Exist.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Projects\.testdata\ListAll_Should_Return_Projects_If_Any_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Projects\.testdata\List_Should_Not_Return_Projects_If_None_Exist.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Projects\.testdata\List_Should_Return_Projects_If_Any_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Projects\.testdata\Update_Should_Update_And_Return_The_Project.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Workspaces/.testdata/List_Should_Return_The_Workspaces.json">
+    <Content Include="Workspaces\.testdata\List_Should_Not_Return_Workspaces_If_None_Exist.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Workspaces/.testdata/Get_For_Workspace_That_Exists_Should_Return_The_Workspace.json">
+    <Content Include="Workspaces\.testdata\List_Should_Return_Workspaces_If_Any_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Workspaces\.testdata\Get_Should_Return_The_Workspace_If_It_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -92,9 +113,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="FluentAssertions" Version="6.5.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="RichardSzalay.MockHttp" Version="6.0.0" />
-    <PackageReference Include="Shouldly" Version="4.0.3" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

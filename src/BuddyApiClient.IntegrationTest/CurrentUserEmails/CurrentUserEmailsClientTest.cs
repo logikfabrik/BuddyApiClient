@@ -3,7 +3,7 @@
     using System.Net.Http;
     using System.Threading.Tasks;
     using BuddyApiClient.CurrentUserEmails.Models.Request;
-    using Shouldly;
+    using FluentAssertions;
     using Xunit;
     using Xunit.Priority;
 
@@ -26,7 +26,7 @@
 
             var email = await sut.Add(new AddEmail("jane.doe@logikfabrik.se"));
 
-            email.ShouldNotBeNull();
+            email.Should().NotBeNull();
         }
 
         [Fact]
@@ -36,7 +36,7 @@
 
             var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Add(new AddEmail("INVALID_EMAIL")));
 
-            e.ShouldNotBeNull();
+            e.Should().NotBeNull();
         }
 
         [Fact]
@@ -47,7 +47,7 @@
 
             var emails = await sut.List();
 
-            emails.ShouldNotBeNull();
+            emails.Should().NotBeNull();
         }
 
         [Fact]
