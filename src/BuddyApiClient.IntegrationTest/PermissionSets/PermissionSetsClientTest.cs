@@ -9,6 +9,8 @@
     using Xunit;
     using Xunit.Priority;
 
+    // TODO: Rewrite using preconditions
+
     [Collection(nameof(BuddyClientCollection))]
     [TestCaseOrderer(PriorityOrderer.Name, PriorityOrderer.Assembly)]
     public sealed class PermissionSetsClientTest
@@ -66,7 +68,7 @@
 
             var members = await sut.List(Domain);
 
-            members?.PermissionSets?.Any().Should().BeTrue();
+            members?.PermissionSets.Any().Should().BeTrue();
         }
 
         [Theory]

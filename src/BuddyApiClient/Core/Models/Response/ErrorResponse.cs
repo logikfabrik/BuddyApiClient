@@ -5,6 +5,6 @@
     public sealed record ErrorResponse
     {
         [JsonPropertyName("errors")]
-        public IEnumerable<Error>? Errors { get; set; }
+        public IEnumerable<Error> Errors { get; set; } = Enumerable.Empty<Error>();
     }
 }

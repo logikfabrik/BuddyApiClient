@@ -13,10 +13,7 @@
     <Content Include="Core\.testdata\Should_Throw_On_Rate_Error.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="CurrentUserEmails\.testdata\List_Should_Not_Return_Emails_If_None_Exist.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CurrentUserEmails\.testdata\List_Should_Return_Emails_If_Any_Exists.json">
+    <Content Include="CurrentUserEmails\.testdata\List_Should_Return_Emails.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="CurrentUserEmails\.testdata\Add_Should_Add_And_Return_The_Email.json">
@@ -97,10 +94,7 @@
     <Content Include="Projects\.testdata\Update_Should_Update_And_Return_The_Project.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Workspaces\.testdata\List_Should_Not_Return_Workspaces_If_None_Exist.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Workspaces\.testdata\List_Should_Return_Workspaces_If_Any_Exists.json">
+    <Content Include="Workspaces\.testdata\List_Should_Return_Workspaces.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Workspaces\.testdata\Get_Should_Return_The_Workspace_If_It_Exists.json">

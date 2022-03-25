@@ -6,8 +6,8 @@
     public sealed record ProjectList : PageResponse
     {
         [JsonPropertyName("projects")]
-        public IEnumerable<ProjectSummary>? Projects { get; set; }
+        public IEnumerable<ProjectSummary> Projects { get; set; } = Enumerable.Empty<ProjectSummary>();
 
-        public override int Count => Projects?.Count() ?? 0;
+        public override int Count => Projects.Count();
     }
 }

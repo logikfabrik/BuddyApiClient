@@ -6,6 +6,6 @@
     public sealed record EmailList : Response
     {
         [JsonPropertyName("emails")]
-        public IEnumerable<EmailSummary>? Emails { get; set; }
+        public IEnumerable<EmailSummary> Emails { get; set; } = Enumerable.Empty<EmailSummary>();
     }
 }

@@ -1,5 +1,8 @@
 ﻿namespace BuddyApiClient.IntegrationTest
 {
+    using System.Net.Http;
+    using System.Net.Security;
+    using System.Security.Cryptography.X509Certificates;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -13,11 +16,19 @@
 
             var serviceProvider = new ServiceCollection()
                 .AddBuddyClient(configuration)
+                .AddHttpClient(nameof(IBuddyClient))
+                .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { ServerCertificateCustomValidationCallback = ServerCertificateCustomValidation })
+                .Services
                 .BuildServiceProvider();
 
             BuddyClient = serviceProvider.GetRequiredService<IBuddyClient>();
         }
 
         public IBuddyClient BuddyClient { get; }
+
+        private static bool ServerCertificateCustomValidation(HttpRequestMessage? requestMessage, X509Certificate2? certificate, X509Chain? chain, SslPolicyErrors sslErrors)
+        {
+            return true;
+        }
     }
 }

@@ -3,12 +3,17 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
+    using System.Net.Mail;
     using System.Threading.Tasks;
+    using AutoFixture;
+    using AutoFixture.Xunit2;
     using BuddyApiClient.Members.Models.Request;
     using BuddyApiClient.Members.Models.Response;
     using FluentAssertions;
     using Xunit;
     using Xunit.Priority;
+
+    // TODO: Rewrite using preconditions
 
     [Collection(nameof(BuddyClientCollection))]
     [TestCaseOrderer(PriorityOrderer.Name, PriorityOrderer.Assembly)]
@@ -174,6 +179,60 @@
             await sut.Remove(Domain, _memberId!.Value);
 
             _memberId = null;
+        }
+
+        public sealed class Add : BuddyClientTest
+        {
+            private readonly Precondition<string> _domainExistsPrecondition;
+            private readonly Precondition<int> _memberExistsPrecondition;
+            private readonly Precondition<int> _permissionSetExistsPrecondition;
+            private readonly Precondition<string> _projectExistsPrecondition;
+
+            public Add(BuddyClientFixture fixture) : base(fixture)
+            {
+                _domainExistsPrecondition = new DomainExistsPrecondition(fixture.BuddyClient);
+                _memberExistsPrecondition = new MemberExistsPrecondition(fixture.BuddyClient, _domainExistsPrecondition, new Fixture().Create<MailAddress>().Address);
+                _permissionSetExistsPrecondition = new PermissionSetExistsPrecondition(fixture.BuddyClient, _domainExistsPrecondition, new Fixture().Create<string>());
+                _projectExistsPrecondition = new ProjectExistsPrecondition(fixture.BuddyClient, _domainExistsPrecondition, new Fixture().Create<string>());
+            }
+
+            public override async Task DisposeAsync()
+            {
+                await base.DisposeAsync();
+
+                await _domainExistsPrecondition.DisposeAsync();
+                await _memberExistsPrecondition.DisposeAsync();
+                await _permissionSetExistsPrecondition.DisposeAsync();
+                await _projectExistsPrecondition.DisposeAsync();
+            }
+
+            [Theory]
+            [AutoData]
+            public async Task Should_Add_And_Return_The_Member(MailAddress address)
+            {
+                var domain = await _domainExistsPrecondition.Arrange();
+
+                var sut = Fixture.BuddyClient.Members;
+
+                var member = await sut.Add(domain, new AddMember(address.Address));
+
+                member.Should().NotBeNull();
+            }
+
+            [Fact]
+            public async Task Should_Add_And_Return_The_Project_Member()
+            {
+                var domain = await _domainExistsPrecondition.Arrange();
+                var projectName = await _projectExistsPrecondition.Arrange();
+                var memberId = await _memberExistsPrecondition.Arrange();
+                var permissionSetId = await _permissionSetExistsPrecondition.Arrange();
+
+                var sut = Fixture.BuddyClient.Members;
+
+                var member = await sut.Add(domain, projectName, new AddProjectMember(new PermissionSet { Id = permissionSetId }) { MemberId = memberId });
+
+                member.Should().NotBeNull();
+            }
         }
     }
 }

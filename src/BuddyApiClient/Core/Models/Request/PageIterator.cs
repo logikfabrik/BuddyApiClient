@@ -33,10 +33,7 @@
         {
             while (true)
             {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    return;
-                }
+                cancellationToken.ThrowIfCancellationRequested();
 
                 var response = await _pageRequestHandler(_pageQuery, cancellationToken);
 

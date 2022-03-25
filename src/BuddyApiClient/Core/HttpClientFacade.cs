@@ -82,7 +82,7 @@
                 return;
             }
 
-            var errors = (await JsonSerializer.DeserializeAsync<ErrorResponse>(stream, cancellationToken: cancellationToken))?.Errors?.ToArray() ?? Array.Empty<Error>();
+            var errors = (await JsonSerializer.DeserializeAsync<ErrorResponse>(stream, cancellationToken: cancellationToken))?.Errors.ToArray() ?? Array.Empty<Error>();
 
             if (!errors.Any())
             {

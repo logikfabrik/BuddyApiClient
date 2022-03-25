@@ -53,8 +53,8 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"Workspaces/.testdata/List_Should_Return_Workspaces_If_Any_Exists.json")]
-            public async Task Should_Return_Workspaces_If_Any_Exists(string responseJson)
+            [FileData(@"Workspaces/.testdata/List_Should_Return_Workspaces.json")]
+            public async Task Should_Return_Workspaces(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -65,21 +65,6 @@
                 var workspaces = await sut.List();
 
                 workspaces?.Workspaces.Should().NotBeEmpty();
-            }
-
-            [Theory]
-            [FileData(@"Workspaces/.testdata/List_Should_Not_Return_Workspaces_If_None_Exist.json")]
-            public async Task Should_Not_Return_Workspaces_If_None_Exist(string responseJson)
-            {
-                var handlerStub = new MockHttpMessageHandler();
-
-                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces").Respond(MediaTypeNames.Application.Json, responseJson);
-
-                var sut = CreateClient(handlerStub);
-
-                var workspaces = await sut.List();
-
-                workspaces?.Workspaces.Should().BeEmpty();
             }
         }
     }

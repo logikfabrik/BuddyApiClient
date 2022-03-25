@@ -6,35 +6,68 @@
     using FluentAssertions;
     using Xunit;
 
-    [Collection(nameof(BuddyClientCollection))]
     public sealed class CurrentUserClientTest
     {
-        private readonly BuddyClientFixture _fixture;
-
-        public CurrentUserClientTest(BuddyClientFixture fixture)
+        public sealed class Get : BuddyClientTest
         {
-            _fixture = fixture;
+            public Get(BuddyClientFixture fixture) : base(fixture)
+            {
+            }
+
+            [Fact]
+            public async Task Should_Return_The_Current_User()
+            {
+                var sut = Fixture.BuddyClient.CurrentUser;
+
+                var currentUser = await sut.Get();
+
+                currentUser.Should().NotBeNull();
+            }
         }
 
-        [Fact]
-        public async Task Get_Should_Return_The_Current_User()
+        public sealed class Update : BuddyClientTest
         {
-            var sut = _fixture.BuddyClient.CurrentUser;
+            private string? _name;
 
-            var currentUser = await sut.Get();
+            public Update(BuddyClientFixture fixture) : base(fixture)
+            {
+            }
 
-            currentUser.Should().NotBeNull();
-        }
+            public override async Task InitializeAsync()
+            {
+                await base.InitializeAsync();
 
-        [Theory]
-        [AutoData]
-        public async Task Update_Should_Update_And_Return_The_Current_User(string name)
-        {
-            var sut = _fixture.BuddyClient.CurrentUser;
+                var client = Fixture.BuddyClient.CurrentUser;
 
-            var currentUser = await sut.Update(new UpdateUser { Name = name });
+                var currentUser = await client.Get();
 
-            currentUser?.Name.Should().Be(name);
+                _name = currentUser?.Name;
+            }
+
+            public override async Task DisposeAsync()
+            {
+                await base.DisposeAsync();
+
+                if (_name is null)
+                {
+                    return;
+                }
+
+                var client = Fixture.BuddyClient.CurrentUser;
+
+                await client.Update(new UpdateUser { Name = _name });
+            }
+
+            [Theory]
+            [AutoData]
+            public async Task Should_Update_And_Return_The_Current_User(string name)
+            {
+                var sut = Fixture.BuddyClient.CurrentUser;
+
+                var currentUser = await sut.Update(new UpdateUser { Name = name });
+
+                currentUser?.Name.Should().Be(name);
+            }
         }
     }
 }

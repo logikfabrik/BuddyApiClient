@@ -40,8 +40,8 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"CurrentUserEmails/.testdata/List_Should_Return_Emails_If_Any_Exists.json")]
-            public async Task Should_Return_Emails_If_Any_Exists(string responseJson)
+            [FileData(@"CurrentUserEmails/.testdata/List_Should_Return_Emails.json")]
+            public async Task Should_Return_Emails(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -52,21 +52,6 @@
                 var emails = await sut.List();
 
                 emails?.Emails.Should().NotBeEmpty();
-            }
-
-            [Theory]
-            [FileData(@"CurrentUserEmails/.testdata/List_Should_Not_Return_Emails_If_None_Exist.json")]
-            public async Task Should_Not_Return_Emails_If_None_Exist(string responseJson)
-            {
-                var handlerStub = new MockHttpMessageHandler();
-
-                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/user/emails").Respond(MediaTypeNames.Application.Json, responseJson);
-
-                var sut = CreateClient(handlerStub);
-
-                var emails = await sut.List();
-
-                emails?.Emails.Should().BeEmpty();
             }
         }
 

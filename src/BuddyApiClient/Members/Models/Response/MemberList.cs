@@ -6,8 +6,8 @@
     public sealed record MemberList : PageResponse
     {
         [JsonPropertyName("members")]
-        public IEnumerable<MemberSummary>? Members { get; set; }
+        public IEnumerable<MemberSummary> Members { get; set; } = Enumerable.Empty<MemberSummary>();
 
-        public override int Count => Members?.Count() ?? 0;
+        public override int Count => Members.Count();
     }
 }
