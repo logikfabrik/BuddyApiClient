@@ -6,7 +6,7 @@
     public sealed record PermissionSetDetails : Response
     {
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public PermissionSetId Id { get; set; }
 
         [JsonPropertyName("name")]
         public string? Name { get; set; }

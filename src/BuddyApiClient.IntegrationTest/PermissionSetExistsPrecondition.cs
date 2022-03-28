@@ -1,47 +1,53 @@
 ﻿namespace BuddyApiClient.IntegrationTest
 {
     using System;
+    using System.Net;
+    using System.Net.Http;
     using System.Threading.Tasks;
+    using BuddyApiClient.PermissionSets;
+    using BuddyApiClient.PermissionSets.Models;
     using BuddyApiClient.PermissionSets.Models.Request;
+    using BuddyApiClient.Workspaces.Models;
 
-    public sealed class PermissionSetExistsPrecondition : Precondition<int>
+    internal sealed class PermissionSetExistsPrecondition : Precondition<PermissionSetId>
     {
-        private readonly Func<Task> _dispose;
+        private readonly Func<Task> _tearDown;
 
-        private bool _disposed;
-
-        public PermissionSetExistsPrecondition(IBuddyClient client, Precondition<string> domainExistsPrecondition, string name) : base(Arrange(client, domainExistsPrecondition, name))
+        public PermissionSetExistsPrecondition(IPermissionSetsClient client, Precondition<Domain> domainExistsPrecondition, string name) : base(SetUp(client, domainExistsPrecondition, name))
         {
-            _dispose = async () => { await client.PermissionSets.Delete(await domainExistsPrecondition.Arrange(), await Arrange()); };
-        }
-
-        private static Func<Task<int>> Arrange(IBuddyClient client, Precondition<string> domainExistsPrecondition, string name)
-        {
-            return async () =>
+            _tearDown = async () =>
             {
-                var permissionSet = await client.PermissionSets.Create(await domainExistsPrecondition.Arrange(), new CreatePermissionSet(name));
-
-                return permissionSet?.Id ?? throw new Exception();
+                try
+                {
+                    await client.Delete(await domainExistsPrecondition.SetUp(), await SetUp());
+                }
+                catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.NotFound)
+                {
+                    // Do nothing
+                }
             };
         }
 
-        protected override async ValueTask Dispose(bool disposing)
+        private static Func<Task<PermissionSetId>> SetUp(IPermissionSetsClient client, Precondition<Domain> domainExistsPrecondition, string name)
         {
-            await base.Dispose(disposing);
+            return async () =>
+            {
+                var permissionSet = await client.Create(await domainExistsPrecondition.SetUp(), new CreatePermissionSet(name));
 
-            if (_disposed)
+                return permissionSet?.Id ?? throw new PreconditionSetUpException();
+            };
+        }
+
+        public override async Task TearDown()
+        {
+            await base.TearDown();
+
+            if (!IsSetUp)
             {
                 return;
             }
 
-            _disposed = true;
-
-            if (!HasBeenArranged)
-            {
-                return;
-            }
-
-            await _dispose();
+            await _tearDown();
         }
     }
 }

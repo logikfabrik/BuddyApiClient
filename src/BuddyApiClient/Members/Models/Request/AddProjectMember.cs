@@ -11,7 +11,7 @@
         }
 
         [JsonPropertyName("id")]
-        public int MemberId { get; set; }
+        public MemberId MemberId { get; set; }
 
         [JsonPropertyName("permission_set")]
         public PermissionSet PermissionSet { get; }

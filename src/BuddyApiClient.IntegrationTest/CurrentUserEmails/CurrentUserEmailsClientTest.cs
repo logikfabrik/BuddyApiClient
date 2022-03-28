@@ -2,11 +2,10 @@
 {
     using System;
     using System.Linq;
+    using System.Net;
     using System.Net.Http;
-    using System.Net.Mail;
     using System.Threading.Tasks;
-    using AutoFixture;
-    using AutoFixture.Xunit2;
+    using Bogus;
     using BuddyApiClient.CurrentUserEmails.Models.Request;
     using FluentAssertions;
     using Xunit;
@@ -37,28 +36,26 @@
                 _email = null;
             }
 
-            [Theory]
-            [AutoData]
-            public async Task Should_Add_And_Return_The_Email(MailAddress address)
+            [Fact]
+            public async Task Should_Add_And_Return_The_Email()
             {
                 var sut = Fixture.BuddyClient.CurrentUserEmails;
 
-                var email = await sut.Add(new AddEmail(address.Address));
+                var email = await sut.Add(new AddEmail(new Faker().Internet.ExampleEmail()));
 
                 _email = email?.Email;
 
                 email.Should().NotBeNull();
             }
 
-            [Theory]
-            [AutoData]
-            public async Task Should_Throw_If_The_Email_Is_Invalid(string invalidEmail)
+            [Fact]
+            public async Task Should_Throw_If_The_Email_Is_Invalid()
             {
                 var sut = Fixture.BuddyClient.CurrentUserEmails;
 
-                var act = FluentActions.Awaiting(() => sut.Add(new AddEmail(invalidEmail)));
+                var act = FluentActions.Awaiting(() => sut.Add(new AddEmail(new Faker().Lorem.Word())));
 
-                await act.Should().ThrowAsync<HttpRequestException>();
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             }
         }
 
@@ -93,9 +90,7 @@
 
                 var client = Fixture.BuddyClient.CurrentUserEmails;
 
-                var address = new Fixture().Create<MailAddress>();
-
-                var email = await client.Add(new AddEmail(address.Address));
+                var email = await client.Add(new AddEmail(new Faker().Internet.ExampleEmail()));
 
                 _email = email?.Email;
             }

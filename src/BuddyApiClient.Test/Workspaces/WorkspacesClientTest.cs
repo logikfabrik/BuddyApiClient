@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using BuddyApiClient.Core;
     using BuddyApiClient.Workspaces;
+    using BuddyApiClient.Workspaces.Models;
     using FluentAssertions;
     using RichardSzalay.MockHttp;
     using Xunit;
@@ -30,7 +31,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var workspace = await sut.Get("buddy");
+                var workspace = await sut.Get(new Domain("buddy"));
 
                 workspace.Should().NotBeNull();
             }
@@ -44,9 +45,9 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var act = FluentActions.Awaiting(() => sut.Get("buddy"));
+                var act = FluentActions.Awaiting(() => sut.Get(new Domain("buddy")));
 
-                await act.Should().ThrowAsync<HttpRequestException>();
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
         }
 

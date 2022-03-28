@@ -3,12 +3,14 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
-    using System.Net.Mail;
     using System.Threading.Tasks;
-    using AutoFixture;
-    using AutoFixture.Xunit2;
+    using Bogus;
+    using BuddyApiClient.Members.Models;
     using BuddyApiClient.Members.Models.Request;
     using BuddyApiClient.Members.Models.Response;
+    using BuddyApiClient.PermissionSets.Models;
+    using BuddyApiClient.Projects.Models;
+    using BuddyApiClient.Workspaces.Models;
     using FluentAssertions;
     using Xunit;
     using Xunit.Priority;
@@ -19,11 +21,11 @@
     [TestCaseOrderer(PriorityOrderer.Name, PriorityOrderer.Assembly)]
     public sealed class MembersClientTest
     {
-        private const string Domain = "logikfabrik";
+        private static readonly Domain Domain = new("logikfabrik");
 
-        private const string ProjectName = "testproj";
+        private static readonly ProjectName ProjectName = new("424dc608-b925-4389-9e0b-893a9a06c2b2");
 
-        private static int? _memberId;
+        private static MemberId? _memberId;
 
         private readonly BuddyClientFixture _fixture;
 
@@ -42,7 +44,7 @@
 
             member.Should().NotBeNull();
 
-            _memberId = member.Id;
+            _memberId = member?.Id;
         }
 
         [Fact]
@@ -51,7 +53,7 @@
         {
             var sut = _fixture.BuddyClient.Members;
 
-            var member = await sut.Add(Domain, ProjectName, new AddProjectMember(new PermissionSet { Id = 251343 }) { MemberId = _memberId!.Value });
+            var member = await sut.Add(Domain, ProjectName, new AddProjectMember(new PermissionSet { Id = new PermissionSetId(251343) }) { MemberId = _memberId!.Value });
 
             member.Should().NotBeNull();
         }
@@ -72,7 +74,7 @@
         {
             var sut = _fixture.BuddyClient.Members;
 
-            var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Get(Domain, 1));
+            var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Get(Domain, new MemberId(10000000)));
 
             e.Should().NotBeNull();
         }
@@ -84,7 +86,7 @@
 
             var members = await sut.List(Domain);
 
-            members?.Members?.Any().Should().BeTrue();
+            members?.Members.Any().Should().BeTrue();
         }
 
         [Fact]
@@ -94,7 +96,7 @@
 
             var members = await sut.List(Domain, ProjectName);
 
-            members?.Members?.Any().Should().BeTrue();
+            members?.Members.Any().Should().BeTrue();
         }
 
         [Fact]
@@ -156,7 +158,7 @@
         {
             var sut = _fixture.BuddyClient.Members;
 
-            var member = await sut.Update(Domain, ProjectName, _memberId!.Value, new UpdateProjectMember(new PermissionSet { Id = 251346 }));
+            var member = await sut.Update(Domain, ProjectName, _memberId!.Value, new UpdateProjectMember(new PermissionSet { Id = new PermissionSetId(251346) }));
 
             member.Should().NotBeNull();
         }
@@ -183,38 +185,39 @@
 
         public sealed class Add : BuddyClientTest
         {
-            private readonly Precondition<string> _domainExistsPrecondition;
-            private readonly Precondition<int> _memberExistsPrecondition;
-            private readonly Precondition<int> _permissionSetExistsPrecondition;
-            private readonly Precondition<string> _projectExistsPrecondition;
+            private readonly Precondition<Domain> _domainExistsPrecondition;
+            private readonly Precondition<MemberId> _memberExistsPrecondition;
+            private readonly Precondition<PermissionSetId> _permissionSetExistsPrecondition;
+            private readonly Precondition<ProjectName> _projectExistsPrecondition;
 
             public Add(BuddyClientFixture fixture) : base(fixture)
             {
-                _domainExistsPrecondition = new DomainExistsPrecondition(fixture.BuddyClient);
-                _memberExistsPrecondition = new MemberExistsPrecondition(fixture.BuddyClient, _domainExistsPrecondition, new Fixture().Create<MailAddress>().Address);
-                _permissionSetExistsPrecondition = new PermissionSetExistsPrecondition(fixture.BuddyClient, _domainExistsPrecondition, new Fixture().Create<string>());
-                _projectExistsPrecondition = new ProjectExistsPrecondition(fixture.BuddyClient, _domainExistsPrecondition, new Fixture().Create<string>());
+                var faker = new Faker();
+
+                _domainExistsPrecondition = new DomainExistsPrecondition(fixture.BuddyClient.Workspaces);
+                _memberExistsPrecondition = new MemberExistsPrecondition(fixture.BuddyClient.Members, _domainExistsPrecondition, faker.Internet.ExampleEmail());
+                _permissionSetExistsPrecondition = new PermissionSetExistsPrecondition(fixture.BuddyClient.PermissionSets, _domainExistsPrecondition, faker.Lorem.Word());
+                _projectExistsPrecondition = new ProjectExistsPrecondition(fixture.BuddyClient.Projects, _domainExistsPrecondition, faker.Lorem.Word());
             }
 
             public override async Task DisposeAsync()
             {
                 await base.DisposeAsync();
 
-                await _domainExistsPrecondition.DisposeAsync();
-                await _memberExistsPrecondition.DisposeAsync();
-                await _permissionSetExistsPrecondition.DisposeAsync();
-                await _projectExistsPrecondition.DisposeAsync();
+                await _domainExistsPrecondition.TearDown();
+                await _memberExistsPrecondition.TearDown();
+                await _permissionSetExistsPrecondition.TearDown();
+                await _projectExistsPrecondition.TearDown();
             }
 
-            [Theory]
-            [AutoData]
-            public async Task Should_Add_And_Return_The_Member(MailAddress address)
+            [Fact]
+            public async Task Should_Add_And_Return_The_Member()
             {
-                var domain = await _domainExistsPrecondition.Arrange();
+                var domain = await _domainExistsPrecondition.SetUp();
 
                 var sut = Fixture.BuddyClient.Members;
 
-                var member = await sut.Add(domain, new AddMember(address.Address));
+                var member = await sut.Add(domain, new AddMember(new Faker().Internet.ExampleEmail()));
 
                 member.Should().NotBeNull();
             }
@@ -222,10 +225,10 @@
             [Fact]
             public async Task Should_Add_And_Return_The_Project_Member()
             {
-                var domain = await _domainExistsPrecondition.Arrange();
-                var projectName = await _projectExistsPrecondition.Arrange();
-                var memberId = await _memberExistsPrecondition.Arrange();
-                var permissionSetId = await _permissionSetExistsPrecondition.Arrange();
+                var domain = await _domainExistsPrecondition.SetUp();
+                var projectName = await _projectExistsPrecondition.SetUp();
+                var memberId = await _memberExistsPrecondition.SetUp();
+                var permissionSetId = await _permissionSetExistsPrecondition.SetUp();
 
                 var sut = Fixture.BuddyClient.Members;
 

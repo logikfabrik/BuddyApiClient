@@ -1,97 +1,180 @@
 ﻿namespace BuddyApiClient.IntegrationTest.PermissionSets
 {
-    using System.Linq;
+    using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using AutoFixture.Xunit2;
+    using Bogus;
     using BuddyApiClient.PermissionSets.Models.Request;
     using FluentAssertions;
     using Xunit;
-    using Xunit.Priority;
 
-    // TODO: Rewrite using preconditions
-
-    [Collection(nameof(BuddyClientCollection))]
-    [TestCaseOrderer(PriorityOrderer.Name, PriorityOrderer.Assembly)]
     public sealed class PermissionSetsClientTest
     {
-        private const string Domain = "logikfabrik";
-
-        private static int? _permissionSetId;
-
-        private readonly BuddyClientFixture _fixture;
-
-        public PermissionSetsClientTest(BuddyClientFixture fixture)
+        public sealed class Create : BuddyClientTest
         {
-            _fixture = fixture;
+            private readonly Faker _faker;
+            private readonly Preconditions _preconditions;
+
+            public Create(BuddyClientFixture fixture) : base(fixture)
+            {
+                _faker = new Faker();
+                _preconditions = new Preconditions();
+            }
+
+            [Fact]
+            public async Task Should_Create_And_Return_The_PermissionSet()
+            {
+                await _preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out _, out var domain)
+                    .SetUp();
+
+                var sut = Fixture.BuddyClient.PermissionSets;
+
+                var permissionSet = await sut.Create(await domain(), new CreatePermissionSet(_faker.Lorem.Word()) { Description = _faker.Lorem.Slug() });
+
+                permissionSet.Should().NotBeNull();
+            }
+
+            public override async Task DisposeAsync()
+            {
+                await base.DisposeAsync();
+
+                await _preconditions.TearDown();
+            }
         }
 
-        [Theory]
-        [AutoData]
-        [Priority(0)]
-        public async Task Create_Should_Create_And_Return_The_Created_Permission_Set(string name, string description)
+        public sealed class Get : BuddyClientTest
         {
-            var sut = _fixture.BuddyClient.PermissionSets;
+            private readonly Preconditions _preconditions;
 
-            var permissionSet = await sut.Create(Domain, new CreatePermissionSet(name) { Description = description });
+            public Get(BuddyClientFixture fixture) : base(fixture)
+            {
+                _preconditions = new Preconditions();
+            }
 
-            permissionSet.Should().NotBeNull();
+            [Fact]
+            public async Task Should_Return_The_PermissionSet_If_It_Exists()
+            {
+                await _preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domainPrecondition, out var domain)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domainPrecondition, new Faker().Lorem.Word()), out _, out var permissionSetId)
+                    .SetUp();
 
-            _permissionSetId = permissionSet.Id;
+                var sut = Fixture.BuddyClient.PermissionSets;
+
+                var permissionSet = await sut.Get(await domain(), await permissionSetId());
+
+                permissionSet.Should().NotBeNull();
+            }
+
+            public override async Task DisposeAsync()
+            {
+                await base.DisposeAsync();
+
+                await _preconditions.TearDown();
+            }
         }
 
-        [Fact]
-        [Priority(1)]
-        public async Task Get_For_Permission_Set_That_Exists_Should_Return_The_Permission_Set()
+        public sealed class List : BuddyClientTest
         {
-            var sut = _fixture.BuddyClient.PermissionSets;
+            private readonly Preconditions _preconditions;
 
-            var permissionSet = await sut.Get(Domain, _permissionSetId!.Value);
+            public List(BuddyClientFixture fixture) : base(fixture)
+            {
+                _preconditions = new Preconditions();
+            }
 
-            permissionSet.Should().NotBeNull();
+            [Fact]
+            public async Task Should_Return_PermissionSets_If_Any_Exists()
+            {
+                await _preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domainPrecondition, out var domain)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domainPrecondition, new Faker().Lorem.Word()))
+                    .SetUp();
+
+                var sut = Fixture.BuddyClient.PermissionSets;
+
+                var permissionSets = await sut.List(await domain());
+
+                permissionSets?.PermissionSets.Should().NotBeEmpty();
+            }
+
+            public override async Task DisposeAsync()
+            {
+                await base.DisposeAsync();
+
+                await _preconditions.TearDown();
+            }
         }
 
-        [Fact]
-        public async Task Get_For_Permission_Set_That_Does_Not_Exist_Should_Throw()
+        public sealed class Delete : BuddyClientTest
         {
-            var sut = _fixture.BuddyClient.PermissionSets;
+            private readonly Preconditions _preconditions;
 
-            var e = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Get(Domain, 1));
+            public Delete(BuddyClientFixture fixture) : base(fixture)
+            {
+                _preconditions = new Preconditions();
+            }
 
-            e.Should().NotBeNull();
+            [Fact]
+            public async Task Should_Delete_The_PermissionSet_And_Return_Nothing()
+            {
+                await _preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domainPrecondition, out var domain)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domainPrecondition, new Faker().Lorem.Word()), out _, out var permissionSetId)
+                    .SetUp();
+
+                var sut = Fixture.BuddyClient.PermissionSets;
+
+                await sut.Delete(await domain(), await permissionSetId());
+
+                var assert = FluentActions.Awaiting(async () => await sut.Get(await domain(), await permissionSetId()));
+
+                (await assert.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            }
+
+            public override async Task DisposeAsync()
+            {
+                await base.DisposeAsync();
+
+                await _preconditions.TearDown();
+            }
         }
 
-        [Fact]
-        public async Task List_Should_Return_The_Permission_Sets()
+        public sealed class Update : BuddyClientTest
         {
-            var sut = _fixture.BuddyClient.PermissionSets;
+            private readonly Faker _faker;
+            private readonly Preconditions _preconditions;
 
-            var members = await sut.List(Domain);
+            public Update(BuddyClientFixture fixture) : base(fixture)
+            {
+                _faker = new Faker();
+                _preconditions = new Preconditions();
+            }
 
-            members?.PermissionSets.Any().Should().BeTrue();
-        }
+            [Fact]
+            public async Task Should_Update_And_Return_The_Permission_Set()
+            {
+                await _preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domainPrecondition, out var domain)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domainPrecondition, _faker.Lorem.Word()), out _, out var permissionSetId)
+                    .SetUp();
 
-        [Theory]
-        [AutoData]
-        [Priority(2)]
-        public async Task Update_Should_Update_And_Return_The_Permission_Set(string name)
-        {
-            var sut = _fixture.BuddyClient.PermissionSets;
+                var name = _faker.Lorem.Word();
 
-            var permissionSet = await sut.Update(Domain, _permissionSetId!.Value, new UpdatePermissionSet { Name = name });
+                var sut = Fixture.BuddyClient.PermissionSets;
 
-            permissionSet.Should().NotBeNull();
-        }
+                var permissionSet = await sut.Update(await domain(), await permissionSetId(), new UpdatePermissionSet { Name = name });
 
-        [Fact]
-        [Priority(3)]
-        public async Task Delete_Should_Delete_The_Permission_Set_And_Return_Nothing()
-        {
-            var sut = _fixture.BuddyClient.PermissionSets;
+                permissionSet?.Name.Should().Be(name);
+            }
 
-            await sut.Delete(Domain, _permissionSetId!.Value);
+            public override async Task DisposeAsync()
+            {
+                await base.DisposeAsync();
 
-            _permissionSetId = null;
+                await _preconditions.TearDown();
+            }
         }
     }
 }

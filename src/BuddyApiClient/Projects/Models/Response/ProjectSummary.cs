@@ -11,7 +11,7 @@
         public Uri? HtmlUrl { get; set; }
 
         [JsonPropertyName("name")]
-        public string? Name { get; set; }
+        public ProjectName Name { get; set; }
 
         [JsonPropertyName("display_name")]
         public string? DisplayName { get; set; }

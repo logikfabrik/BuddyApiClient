@@ -6,8 +6,9 @@
     public sealed record WorkspaceDetails : Response
     {
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public WorkspaceId Id { get; set; }
 
+        // TODO: Is this a user ID?
         [JsonPropertyName("owner_id")]
         public int OwnerId { get; set; }
 
@@ -15,7 +16,7 @@
         public string? Name { get; set; }
 
         [JsonPropertyName("domain")]
-        public string? Domain { get; set; }
+        public Domain Domain { get; set; }
 
         [JsonPropertyName("frozen")]
         public bool Frozen { get; set; }

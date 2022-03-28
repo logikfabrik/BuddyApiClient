@@ -7,7 +7,7 @@
     public sealed record ProjectDetails : Response
     {
         [JsonPropertyName("name")]
-        public string? Name { get; set; }
+        public ProjectName Name { get; set; }
 
         [JsonPropertyName("display_name")]
         public string? DisplayName { get; set; }

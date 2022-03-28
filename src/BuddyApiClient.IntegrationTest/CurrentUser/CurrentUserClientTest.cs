@@ -1,7 +1,7 @@
 ﻿namespace BuddyApiClient.IntegrationTest.CurrentUser
 {
     using System.Threading.Tasks;
-    using AutoFixture.Xunit2;
+    using Bogus;
     using BuddyApiClient.CurrentUser.Models.Request;
     using FluentAssertions;
     using Xunit;
@@ -58,10 +58,11 @@
                 await client.Update(new UpdateUser { Name = _name });
             }
 
-            [Theory]
-            [AutoData]
-            public async Task Should_Update_And_Return_The_Current_User(string name)
+            [Fact]
+            public async Task Should_Update_And_Return_The_Current_User()
             {
+                var name = new Faker().Name.FullName();
+
                 var sut = Fixture.BuddyClient.CurrentUser;
 
                 var currentUser = await sut.Update(new UpdateUser { Name = name });

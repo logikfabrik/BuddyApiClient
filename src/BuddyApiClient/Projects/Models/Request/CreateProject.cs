@@ -14,7 +14,7 @@
         public string DisplayName { get; }
 
         [JsonPropertyName("name")]
-        public string? Name { get; set; }
+        public ProjectName? Name { get; set; }
 
         [JsonPropertyName("integration")]
         public Integration? Integration { get; set; }

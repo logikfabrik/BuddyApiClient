@@ -1,47 +1,53 @@
 ﻿namespace BuddyApiClient.IntegrationTest
 {
     using System;
+    using System.Net;
+    using System.Net.Http;
     using System.Threading.Tasks;
+    using BuddyApiClient.Projects;
+    using BuddyApiClient.Projects.Models;
     using BuddyApiClient.Projects.Models.Request;
+    using BuddyApiClient.Workspaces.Models;
 
-    public sealed class ProjectExistsPrecondition : Precondition<string>
+    internal sealed class ProjectExistsPrecondition : Precondition<ProjectName>
     {
-        private readonly Func<Task> _dispose;
+        private readonly Func<Task> _tearDown;
 
-        private bool _disposed;
-
-        public ProjectExistsPrecondition(IBuddyClient client, Precondition<string> domainExistsPrecondition, string displayName) : base(Arrange(client, domainExistsPrecondition, displayName))
+        public ProjectExistsPrecondition(IProjectsClient client, Precondition<Domain> domainExistsPrecondition, string displayName) : base(SetUp(client, domainExistsPrecondition, displayName))
         {
-            _dispose = async () => { await client.Projects.Delete(await domainExistsPrecondition.Arrange(), await Arrange()); };
-        }
-
-        private static Func<Task<string>> Arrange(IBuddyClient client, Precondition<string> domainExistsPrecondition, string displayName)
-        {
-            return async () =>
+            _tearDown = async () =>
             {
-                var project = await client.Projects.Create(await domainExistsPrecondition.Arrange(), new CreateProject(displayName));
-
-                return project?.Name ?? throw new Exception();
+                try
+                {
+                    await client.Delete(await domainExistsPrecondition.SetUp(), await SetUp());
+                }
+                catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.NotFound)
+                {
+                    // Do nothing
+                }
             };
         }
 
-        protected override async ValueTask Dispose(bool disposing)
+        private static Func<Task<ProjectName>> SetUp(IProjectsClient client, Precondition<Domain> domainExistsPrecondition, string displayName)
         {
-            await base.Dispose(disposing);
+            return async () =>
+            {
+                var project = await client.Create(await domainExistsPrecondition.SetUp(), new CreateProject(displayName));
 
-            if (_disposed)
+                return project?.Name ?? throw new PreconditionSetUpException();
+            };
+        }
+
+        public override async Task TearDown()
+        {
+            await base.TearDown();
+
+            if (!IsSetUp)
             {
                 return;
             }
 
-            _disposed = true;
-
-            if (!HasBeenArranged)
-            {
-                return;
-            }
-
-            await _dispose();
+            await _tearDown();
         }
     }
 }

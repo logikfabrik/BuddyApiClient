@@ -8,21 +8,23 @@
     {
         public sealed class Get : BuddyClientTest
         {
-            private readonly Precondition<string> _domainExistsPrecondition;
+            private readonly Preconditions _preconditions;
 
             public Get(BuddyClientFixture fixture) : base(fixture)
             {
-                _domainExistsPrecondition = new DomainExistsPrecondition(fixture.BuddyClient);
+                _preconditions = new Preconditions();
             }
 
             [Fact]
             public async Task Should_Return_The_Workspace_If_It_Exists()
             {
-                var domain = await _domainExistsPrecondition.Arrange();
+                await _preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out _, out var domain)
+                    .SetUp();
 
                 var sut = Fixture.BuddyClient.Workspaces;
 
-                var workspace = await sut.Get(domain);
+                var workspace = await sut.Get(await domain());
 
                 workspace.Should().NotBeNull();
             }
@@ -31,7 +33,7 @@
             {
                 await base.DisposeAsync();
 
-                await _domainExistsPrecondition.DisposeAsync();
+                await _preconditions.TearDown();
             }
         }
 

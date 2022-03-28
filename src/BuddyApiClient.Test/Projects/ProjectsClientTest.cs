@@ -10,8 +10,10 @@
     using BuddyApiClient.Core;
     using BuddyApiClient.Core.Models.Request;
     using BuddyApiClient.Projects;
+    using BuddyApiClient.Projects.Models;
     using BuddyApiClient.Projects.Models.Request;
     using BuddyApiClient.Projects.Models.Response;
+    using BuddyApiClient.Workspaces.Models;
     using FluentAssertions;
     using RichardSzalay.MockHttp;
     using Xunit;
@@ -35,7 +37,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var project = await sut.Create("buddy", new CreateProject("Landing page"));
+                var project = await sut.Create(new Domain("buddy"), new CreateProject("Landing page"));
 
                 project.Should().NotBeNull();
             }
@@ -53,7 +55,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var project = await sut.Get("buddy", "company-website");
+                var project = await sut.Get(new Domain("buddy"), new ProjectName("company-website"));
 
                 project.Should().NotBeNull();
             }
@@ -67,9 +69,9 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var act = FluentActions.Awaiting(() => sut.Get("buddy", "company-website"));
+                var act = FluentActions.Awaiting(() => sut.Get(new Domain("buddy"), new ProjectName("company-website")));
 
-                await act.Should().ThrowAsync<HttpRequestException>();
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
         }
 
@@ -85,7 +87,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var projects = await sut.List("buddy");
+                var projects = await sut.List(new Domain("buddy"));
 
                 projects?.Projects.Should().NotBeEmpty();
             }
@@ -100,7 +102,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var projects = await sut.List("buddy");
+                var projects = await sut.List(new Domain("buddy"));
 
                 projects?.Projects.Should().BeEmpty();
             }
@@ -122,7 +124,7 @@
 
                 var pageQuery = new ListProjectsQuery();
 
-                var pageIterator = sut.ListAll("buddy", pageQuery, (_, response, _) =>
+                var pageIterator = sut.ListAll(new Domain("buddy"), pageQuery, (_, response, _) =>
                 {
                     projects.AddRange(response?.Projects ?? Enumerable.Empty<ProjectSummary>());
 
@@ -148,7 +150,7 @@
 
                 var pageQuery = new ListProjectsQuery();
 
-                var pageIterator = sut.ListAll("buddy", pageQuery, (_, response, _) =>
+                var pageIterator = sut.ListAll(new Domain("buddy"), pageQuery, (_, response, _) =>
                 {
                     projects.AddRange(response?.Projects ?? Enumerable.Empty<ProjectSummary>());
 
@@ -172,7 +174,7 @@
 
                 var sut = CreateClient(handlerMock);
 
-                await sut.Delete("buddy", "company-website");
+                await sut.Delete(new Domain("buddy"), new ProjectName("company-website"));
 
                 handlerMock.VerifyNoOutstandingExpectation();
             }
@@ -190,7 +192,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var permissionSet = await sut.Update("buddy", "company-website", new UpdateProject());
+                var permissionSet = await sut.Update(new Domain("buddy"), new ProjectName("company-website"), new UpdateProject());
 
                 permissionSet.Should().NotBeNull();
             }

@@ -7,7 +7,9 @@
     using System.Threading.Tasks;
     using BuddyApiClient.Core;
     using BuddyApiClient.PermissionSets;
+    using BuddyApiClient.PermissionSets.Models;
     using BuddyApiClient.PermissionSets.Models.Request;
+    using BuddyApiClient.Workspaces.Models;
     using FluentAssertions;
     using RichardSzalay.MockHttp;
     using Xunit;
@@ -31,7 +33,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var permissionSet = await sut.Create("buddy", new CreatePermissionSet("Artist") { Description = "Artists can access view source" });
+                var permissionSet = await sut.Create(new Domain("buddy"), new CreatePermissionSet("Artist") { Description = "Artists can access view source" });
 
                 permissionSet.Should().NotBeNull();
             }
@@ -49,7 +51,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var permissionSet = await sut.Get("buddy", 3);
+                var permissionSet = await sut.Get(new Domain("buddy"), new PermissionSetId(3));
 
                 permissionSet.Should().NotBeNull();
             }
@@ -63,9 +65,9 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var act = FluentActions.Awaiting(() => sut.Get("buddy", 3));
+                var act = FluentActions.Awaiting(() => sut.Get(new Domain("buddy"), new PermissionSetId(3)));
 
-                await act.Should().ThrowAsync<HttpRequestException>();
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
         }
 
@@ -81,7 +83,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var permissionSets = await sut.List("buddy");
+                var permissionSets = await sut.List(new Domain("buddy"));
 
                 permissionSets?.PermissionSets.Should().NotBeEmpty();
             }
@@ -96,7 +98,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var permissionSets = await sut.List("buddy");
+                var permissionSets = await sut.List(new Domain("buddy"));
 
                 permissionSets?.PermissionSets.Should().BeEmpty();
             }
@@ -113,7 +115,7 @@
 
                 var sut = CreateClient(handlerMock);
 
-                await sut.Delete("buddy", 3);
+                await sut.Delete(new Domain("buddy"), new PermissionSetId(3));
 
                 handlerMock.VerifyNoOutstandingExpectation();
             }
@@ -131,7 +133,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var permissionSet = await sut.Update("buddy", 3, new UpdatePermissionSet());
+                var permissionSet = await sut.Update(new Domain("buddy"), new PermissionSetId(3), new UpdatePermissionSet());
 
                 permissionSet.Should().NotBeNull();
             }

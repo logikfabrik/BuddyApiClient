@@ -10,8 +10,12 @@
     using BuddyApiClient.Core;
     using BuddyApiClient.Core.Models.Request;
     using BuddyApiClient.Members;
+    using BuddyApiClient.Members.Models;
     using BuddyApiClient.Members.Models.Request;
     using BuddyApiClient.Members.Models.Response;
+    using BuddyApiClient.PermissionSets.Models;
+    using BuddyApiClient.Projects.Models;
+    using BuddyApiClient.Workspaces.Models;
     using FluentAssertions;
     using RichardSzalay.MockHttp;
     using Xunit;
@@ -35,7 +39,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var member = await sut.Add("buddy", new AddMember("mike.benson@buddy.works"));
+                var member = await sut.Add(new Domain("buddy"), new AddMember("mike.benson@buddy.works"));
 
                 member.Should().NotBeNull();
             }
@@ -50,7 +54,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var member = await sut.Add("buddy", "company-website", new AddProjectMember(new PermissionSet { Id = 2 }) { MemberId = 2 });
+                var member = await sut.Add(new Domain("buddy"), new ProjectName("company-website"), new AddProjectMember(new PermissionSet { Id = new PermissionSetId(2) }) { MemberId = new MemberId(2) });
 
                 member.Should().NotBeNull();
             }
@@ -68,7 +72,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var member = await sut.Get("buddy", 1);
+                var member = await sut.Get(new Domain("buddy"), new MemberId(1));
 
                 member.Should().NotBeNull();
             }
@@ -82,9 +86,9 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var act = FluentActions.Awaiting(() => sut.Get("buddy", 1));
+                var act = FluentActions.Awaiting(() => sut.Get(new Domain("buddy"), new MemberId(1)));
 
-                await act.Should().ThrowAsync<HttpRequestException>();
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
         }
 
@@ -100,7 +104,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var members = await sut.List("buddy");
+                var members = await sut.List(new Domain("buddy"));
 
                 members?.Members.Should().NotBeEmpty();
             }
@@ -115,7 +119,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var members = await sut.List("buddy");
+                var members = await sut.List(new Domain("buddy"));
 
                 members?.Members.Should().BeEmpty();
             }
@@ -130,7 +134,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var members = await sut.List("buddy", "company-website");
+                var members = await sut.List(new Domain("buddy"), new ProjectName("company-website"));
 
                 members?.Members.Should().NotBeEmpty();
             }
@@ -145,7 +149,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var members = await sut.List("buddy", "company-website");
+                var members = await sut.List(new Domain("buddy"), new ProjectName("company-website"));
 
                 members?.Members.Should().BeEmpty();
             }
@@ -167,7 +171,7 @@
 
                 var pageQuery = new ListMembersQuery();
 
-                var pageIterator = sut.ListAll("buddy", pageQuery, (_, response, _) =>
+                var pageIterator = sut.ListAll(new Domain("buddy"), pageQuery, (_, response, _) =>
                 {
                     members.AddRange(response?.Members ?? Enumerable.Empty<MemberSummary>());
 
@@ -193,7 +197,7 @@
 
                 var pageQuery = new ListMembersQuery();
 
-                var pageIterator = sut.ListAll("buddy", "company-website", pageQuery, (_, response, _) =>
+                var pageIterator = sut.ListAll(new Domain("buddy"), new ProjectName("company-website"), pageQuery, (_, response, _) =>
                 {
                     members.AddRange(response?.Members ?? Enumerable.Empty<MemberSummary>());
 
@@ -217,7 +221,7 @@
 
                 var sut = CreateClient(handlerMock);
 
-                await sut.Remove("buddy", 1);
+                await sut.Remove(new Domain("buddy"), new MemberId(1));
 
                 handlerMock.VerifyNoOutstandingExpectation();
             }
@@ -231,7 +235,7 @@
 
                 var sut = CreateClient(handlerMock);
 
-                await sut.Remove("buddy", "company-website", 1);
+                await sut.Remove(new Domain("buddy"), new ProjectName("company-website"), new MemberId(1));
 
                 handlerMock.VerifyNoOutstandingExpectation();
             }
@@ -249,7 +253,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var member = await sut.Update("buddy", 1, new UpdateMember());
+                var member = await sut.Update(new Domain("buddy"), new MemberId(1), new UpdateMember());
 
                 member.Should().NotBeNull();
             }
@@ -264,7 +268,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var member = await sut.Update("buddy", "company-website", 1, new UpdateProjectMember(new PermissionSet { Id = 1 }));
+                var member = await sut.Update(new Domain("buddy"), new ProjectName("company-website"), new MemberId(1), new UpdateProjectMember(new PermissionSet { Id = new PermissionSetId(1) }));
 
                 member.Should().NotBeNull();
             }

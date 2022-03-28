@@ -1,47 +1,53 @@
 ﻿namespace BuddyApiClient.IntegrationTest
 {
     using System;
+    using System.Net;
+    using System.Net.Http;
     using System.Threading.Tasks;
+    using BuddyApiClient.Members;
+    using BuddyApiClient.Members.Models;
     using BuddyApiClient.Members.Models.Request;
+    using BuddyApiClient.Workspaces.Models;
 
-    public sealed class MemberExistsPrecondition : Precondition<int>
+    internal sealed class MemberExistsPrecondition : Precondition<MemberId>
     {
-        private readonly Func<Task> _dispose;
+        private readonly Func<Task> _tearDown;
 
-        private bool _disposed;
-
-        public MemberExistsPrecondition(IBuddyClient client, Precondition<string> domainExistsPrecondition, string email) : base(Arrange(client, domainExistsPrecondition, email))
+        public MemberExistsPrecondition(IMembersClient client, Precondition<Domain> domainExistsPrecondition, string email) : base(SetUp(client, domainExistsPrecondition, email))
         {
-            _dispose = async () => { await client.Members.Remove(await domainExistsPrecondition.Arrange(), await Arrange()); };
-        }
-
-        private static Func<Task<int>> Arrange(IBuddyClient client, Precondition<string> domainExistsPrecondition, string email)
-        {
-            return async () =>
+            _tearDown = async () =>
             {
-                var member = await client.Members.Add(await domainExistsPrecondition.Arrange(), new AddMember(email));
-
-                return member?.Id ?? throw new Exception();
+                try
+                {
+                    await client.Remove(await domainExistsPrecondition.SetUp(), await SetUp());
+                }
+                catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.NotFound)
+                {
+                    // Do nothing
+                }
             };
         }
 
-        protected override async ValueTask Dispose(bool disposing)
+        private static Func<Task<MemberId>> SetUp(IMembersClient client, Precondition<Domain> domainExistsPrecondition, string email)
         {
-            await base.Dispose(disposing);
+            return async () =>
+            {
+                var member = await client.Add(await domainExistsPrecondition.SetUp(), new AddMember(email));
 
-            if (_disposed)
+                return member?.Id ?? throw new PreconditionSetUpException();
+            };
+        }
+
+        public override async Task TearDown()
+        {
+            await base.TearDown();
+
+            if (!IsSetUp)
             {
                 return;
             }
 
-            _disposed = true;
-
-            if (!HasBeenArranged)
-            {
-                return;
-            }
-
-            await _dispose();
+            await _tearDown();
         }
     }
 }

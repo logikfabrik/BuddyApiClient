@@ -1,10 +1,11 @@
 ﻿namespace BuddyApiClient.Members.Models.Request
 {
     using System.Text.Json.Serialization;
+    using BuddyApiClient.PermissionSets.Models;
 
     public sealed record PermissionSet
     {
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public PermissionSetId Id { get; set; }
     }
 }

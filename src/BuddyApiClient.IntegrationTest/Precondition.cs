@@ -1,62 +1,52 @@
 ﻿namespace BuddyApiClient.IntegrationTest
 {
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
-    public abstract class Precondition : IAsyncDisposable
+    internal abstract class Precondition
     {
-        private bool _disposed;
+        public abstract Task SetUp();
 
-        public async ValueTask DisposeAsync()
+        public virtual async Task TearDown()
         {
-            await Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual async ValueTask Dispose(bool disposing)
-        {
-            _disposed = true;
-
             await Task.CompletedTask;
-        }
-
-        protected void ThrowIfDisposed()
-        {
-            if (!_disposed)
-            {
-                return;
-            }
-
-            throw new ObjectDisposedException(GetType().Name);
         }
     }
 
-    public abstract class Precondition<T> : Precondition
+    internal abstract class Precondition<T> : Precondition where T : struct
     {
-        private readonly Func<Task<T>> _arrange;
+        private readonly Func<Task<T>> _setUp;
+        private readonly SemaphoreSlim _setUpLock;
         private T? _value;
 
-        protected Precondition(Func<Task<T>> arrange)
+        protected Precondition(Func<Task<T>> setUp)
         {
-            _arrange = arrange;
+            _setUp = setUp;
+            _setUpLock = new SemaphoreSlim(1, 1);
         }
 
-        protected bool HasBeenArranged { get; private set; }
+        protected bool IsSetUp => _value.HasValue;
 
-        public async Task<T> Arrange()
+        public override async Task<T> SetUp()
         {
-            if (HasBeenArranged && _value is not null)
+            if (_value.HasValue)
             {
-                return _value;
+                return _value.Value;
             }
 
-            ThrowIfDisposed();
+            await _setUpLock.WaitAsync();
 
-            _value = await _arrange();
+            try
+            {
+                _value ??= await _setUp();
+            }
+            finally
+            {
+                _setUpLock.Release();
+            }
 
-            HasBeenArranged = true;
-
-            return _value;
+            return _value.Value;
         }
     }
 }
