@@ -184,7 +184,7 @@
         {
             [Theory]
             [FileData(@"Projects/.testdata/Update_Should_Update_And_Return_The_Project.json")]
-            public async Task Should_Update_And_Return_The_Permission_Set(string responseJson)
+            public async Task Should_Update_And_Return_The_Project(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -192,9 +192,9 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var permissionSet = await sut.Update(new Domain("buddy"), new ProjectName("company-website"), new UpdateProject());
+                var project = await sut.Update(new Domain("buddy"), new ProjectName("company-website"), new UpdateProject());
 
-                permissionSet.Should().NotBeNull();
+                project.Should().NotBeNull();
             }
         }
     }
