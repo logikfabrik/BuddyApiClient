@@ -90,6 +90,35 @@
 
                 (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
+
+            [Theory]
+            [FileData(@"Members/.testdata/Get_Should_Return_The_Project_Member_If_It_Exists.json")]
+            public async Task Should_Return_The_Project_Member_If_It_Exists(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/projects/company-website/members/1").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var member = await sut.Get(new Domain("buddy"), new ProjectName("company-website"), new MemberId(1));
+
+                member.Should().NotBeNull();
+            }
+
+            [Fact]
+            public async Task Should_Throw_If_The_Project_Member_Does_Not_Exist()
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/projects/company-website/members/1").Respond(HttpStatusCode.NotFound);
+
+                var sut = CreateClient(handlerStub);
+
+                var act = FluentActions.Awaiting(() => sut.Get(new Domain("buddy"), new ProjectName("company-website"), new MemberId(1)));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            }
         }
 
         public sealed class List

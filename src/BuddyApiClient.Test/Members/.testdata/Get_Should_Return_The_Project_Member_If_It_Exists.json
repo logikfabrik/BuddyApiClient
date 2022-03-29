@@ -1,0 +1,19 @@
+{
+  "url": "https://api.buddy.works/workspaces/buddy/projects/2/member/1",
+  "html_url": "https://app.buddy.works/buddy/company-website/members/profile/1",
+  "id": 1,
+  "name": "Mike Benson",
+  "avatar_url": "https://app.buddy.works/image-server/user/0/0/0/0/0/0/1/d643744fbe5ebf2906a4d075a5b97110/w/32/32/AVATAR.png",
+  "admin": true,
+  "workspace_owner": true,
+  "permission_set": {
+    "url": "https://api.buddy.works/workspaces/buddy/permissions/1",
+    "html_url": "https://app.buddy.works/buddy/permissions/edit/1",
+    "id": 1,
+    "name": "Developer",
+    "description": null,
+    "type": "DEVELOPER",
+    "repository_access_level": "READ_WRITE",
+    "pipeline_access_level": "READ_WRITE"
+  }
+}

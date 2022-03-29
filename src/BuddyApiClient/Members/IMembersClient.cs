@@ -11,9 +11,11 @@
     {
         Task<MemberDetails?> Add(Domain domain, AddMember content, CancellationToken cancellationToken = default);
 
-        Task<MemberDetails?> Add(Domain domain, ProjectName projectName, AddProjectMember content, CancellationToken cancellationToken = default);
+        Task<ProjectMemberDetails?> Add(Domain domain, ProjectName projectName, AddProjectMember content, CancellationToken cancellationToken = default);
 
         Task<MemberDetails?> Get(Domain domain, MemberId id, CancellationToken cancellationToken = default);
+
+        Task<ProjectMemberDetails?> Get(Domain domain, ProjectName projectName, MemberId id, CancellationToken cancellationToken = default);
 
         Task<MemberList?> List(Domain domain, ListMembersQuery? query = default, CancellationToken cancellationToken = default);
 
@@ -29,6 +31,6 @@
 
         Task<MemberDetails?> Update(Domain domain, MemberId id, UpdateMember content, CancellationToken cancellationToken = default);
 
-        Task<MemberDetails?> Update(Domain domain, ProjectName projectName, MemberId id, UpdateProjectMember content, CancellationToken cancellationToken = default);
+        Task<ProjectMemberDetails?> Update(Domain domain, ProjectName projectName, MemberId id, UpdateProjectMember content, CancellationToken cancellationToken = default);
     }
 }

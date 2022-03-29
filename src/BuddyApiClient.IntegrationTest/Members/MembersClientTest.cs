@@ -116,6 +116,24 @@
                 member.Should().NotBeNull();
             }
 
+            [Fact]
+            public async Task Should_Return_The_Project_Member_If_It_Exists()
+            {
+                await _preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new ProjectMemberExistsPrecondition(Fixture.BuddyClient.Members, domain, projectName, permissionSetId, memberId), out var projectMemberId)
+                    .SetUp();
+
+                var sut = Fixture.BuddyClient.Members;
+
+                var member = await sut.Get(await domain(), await projectName(), await projectMemberId());
+
+                member.Should().NotBeNull();
+            }
+
             public override async Task DisposeAsync()
             {
                 await base.DisposeAsync();
@@ -305,8 +323,9 @@
 
                 await sut.Remove(await domain(), await memberId());
 
-                // TODO: Is there a GET method for project member?
-                (await sut.List(await domain(), await projectName()))?.Members.Should().NotContainEquivalentOf(new { Id = await projectMemberId() });
+                var assert = FluentActions.Awaiting(async () => await sut.Get(await domain(), await projectName(), await projectMemberId()));
+
+                (await assert.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
 
             public override async Task DisposeAsync()
@@ -361,11 +380,9 @@
 
                 var sut = Fixture.BuddyClient.Members;
 
-                await sut.Update(await domain(), await projectName(), await projectMemberId(), new UpdateProjectMember(new PermissionSet { Id = await newPermissionSetId() }));
+                var member = await sut.Update(await domain(), await projectName(), await projectMemberId(), new UpdateProjectMember(new PermissionSet { Id = await newPermissionSetId() }));
 
-                throw new NotImplementedException();
-
-                // TODO: Is there a GET method for project member?
+                member?.PermissionSet?.Id.Should().BeEquivalentTo(await newPermissionSetId());
             }
 
             public override async Task DisposeAsync()

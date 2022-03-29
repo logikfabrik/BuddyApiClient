@@ -34,6 +34,9 @@
     <Content Include="Members\.testdata\Get_Should_Return_The_Member_If_It_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Members\.testdata\Get_Should_Return_The_Project_Member_If_It_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Members\.testdata\ListAll_Should_Return_Members_If_Any_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -21,11 +21,11 @@
             return await HttpClientFacade.Post<MemberDetails>(url, content, cancellationToken);
         }
 
-        public async Task<MemberDetails?> Add(Domain domain, ProjectName projectName, AddProjectMember content, CancellationToken cancellationToken = default)
+        public async Task<ProjectMemberDetails?> Add(Domain domain, ProjectName projectName, AddProjectMember content, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/projects/{projectName}/members";
 
-            return await HttpClientFacade.Post<MemberDetails>(url, content, cancellationToken);
+            return await HttpClientFacade.Post<ProjectMemberDetails>(url, content, cancellationToken);
         }
 
         public async Task<MemberDetails?> Get(Domain domain, MemberId id, CancellationToken cancellationToken = default)
@@ -33,6 +33,13 @@
             var url = $"workspaces/{domain}/members/{id}";
 
             return await HttpClientFacade.Get<MemberDetails>(url, cancellationToken);
+        }
+
+        public async Task<ProjectMemberDetails?> Get(Domain domain, ProjectName projectName, MemberId id, CancellationToken cancellationToken = default)
+        {
+            var url = $"workspaces/{domain}/projects/{projectName}/members/{id}";
+
+            return await HttpClientFacade.Get<ProjectMemberDetails>(url, cancellationToken);
         }
 
         public async Task<MemberList?> List(Domain domain, ListMembersQuery? query = default, CancellationToken cancellationToken = default)
@@ -80,11 +87,11 @@
             return await HttpClientFacade.Patch<MemberDetails>(url, content, cancellationToken);
         }
 
-        public async Task<MemberDetails?> Update(Domain domain, ProjectName projectName, MemberId id, UpdateProjectMember content, CancellationToken cancellationToken = default)
+        public async Task<ProjectMemberDetails?> Update(Domain domain, ProjectName projectName, MemberId id, UpdateProjectMember content, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/projects/{projectName}/members/{id}";
 
-            return await HttpClientFacade.Patch<MemberDetails>(url, content, cancellationToken);
+            return await HttpClientFacade.Patch<ProjectMemberDetails>(url, content, cancellationToken);
         }
     }
 }
