@@ -8,7 +8,7 @@
 
     internal sealed class DomainExistsPrecondition : Precondition<Domain>
     {
-        public DomainExistsPrecondition(IWorkspacesClient client) : base(SetUp(client))
+        public DomainExistsPrecondition(IWorkspacesClient client) : base(SetUp(client), _ => () => Task.CompletedTask)
         {
         }
 

@@ -5,7 +5,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Bogus;
+    using Bogus.DataSets;
     using BuddyApiClient.CurrentUserEmails.Models.Request;
     using FluentAssertions;
     using Xunit;
@@ -41,7 +41,7 @@
             {
                 var sut = Fixture.BuddyClient.CurrentUserEmails;
 
-                var email = await sut.Add(new AddEmail(new Faker().Internet.ExampleEmail()));
+                var email = await sut.Add(new AddEmail(new Internet().ExampleEmail()));
 
                 _email = email?.Email;
 
@@ -53,7 +53,7 @@
             {
                 var sut = Fixture.BuddyClient.CurrentUserEmails;
 
-                var act = FluentActions.Awaiting(() => sut.Add(new AddEmail(new Faker().Lorem.Word())));
+                var act = FluentActions.Awaiting(() => sut.Add(new AddEmail(new Lorem().Word())));
 
                 (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             }
@@ -90,7 +90,7 @@
 
                 var client = Fixture.BuddyClient.CurrentUserEmails;
 
-                var email = await client.Add(new AddEmail(new Faker().Internet.ExampleEmail()));
+                var email = await client.Add(new AddEmail(new Internet().ExampleEmail()));
 
                 _email = email?.Email;
             }

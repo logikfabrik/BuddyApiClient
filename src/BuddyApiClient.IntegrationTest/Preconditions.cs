@@ -1,34 +1,32 @@
 ﻿namespace BuddyApiClient.IntegrationTest
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     internal sealed class Preconditions
     {
-        private readonly ISet<Precondition> _preconditions;
+        private readonly ConcurrentStack<Precondition> _preconditions;
 
         public Preconditions()
         {
-            _preconditions = new HashSet<Precondition>();
+            _preconditions = new ConcurrentStack<Precondition>();
         }
 
-        public Preconditions Add(Precondition preconditionToAdd)
+        public Preconditions Add(Precondition precondition)
         {
-            _preconditions.Add(preconditionToAdd);
+            _preconditions.Push(precondition);
 
             return this;
         }
 
-        public Preconditions Add<T>(Precondition<T> preconditionToAdd, out Precondition<T> precondition, out Func<Task<T>> setUp) where T : struct
+        public Preconditions Add<T>(Precondition<T> precondition, out Func<Task<T>> setUp) where T : struct
         {
-            _preconditions.Add(preconditionToAdd);
+            setUp = precondition.SetUp;
 
-            precondition = preconditionToAdd;
-            setUp = preconditionToAdd.SetUp;
-
-            return this;
+            return Add(precondition);
         }
 
         public async Task SetUp()
@@ -36,9 +34,19 @@
             await Task.WhenAll(_preconditions.Select(precondition => precondition.SetUp()));
         }
 
-        public async Task TearDown()
+        public async IAsyncEnumerable<Precondition> TearDown()
         {
-            await Task.WhenAll(_preconditions.Select(precondition => precondition.TearDown()));
+            while (!_preconditions.IsEmpty)
+            {
+                if (!_preconditions.TryPop(out var precondition))
+                {
+                    continue;
+                }
+
+                await precondition.TearDown();
+
+                yield return precondition;
+            }
         }
     }
 }

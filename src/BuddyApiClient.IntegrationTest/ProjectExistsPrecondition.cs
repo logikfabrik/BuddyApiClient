@@ -11,43 +11,33 @@
 
     internal sealed class ProjectExistsPrecondition : Precondition<ProjectName>
     {
-        private readonly Func<Task> _tearDown;
-
-        public ProjectExistsPrecondition(IProjectsClient client, Precondition<Domain> domainExistsPrecondition, string displayName) : base(SetUp(client, domainExistsPrecondition, displayName))
+        public ProjectExistsPrecondition(IProjectsClient client, Func<Task<Domain>> domainSetUp, string displayName) : base(SetUp(client, domainSetUp, displayName), setUp => TearDown(client, domainSetUp, setUp))
         {
-            _tearDown = async () =>
+        }
+
+        private static Func<Task<ProjectName>> SetUp(IProjectsClient client, Func<Task<Domain>> domainSetUp, string displayName)
+        {
+            return async () =>
+            {
+                var project = await client.Create(await domainSetUp(), new CreateProject(displayName));
+
+                return project?.Name ?? throw new PreconditionSetUpException();
+            };
+        }
+
+        private static Func<Task> TearDown(IProjectsClient client, Func<Task<Domain>> domainSetUp, Func<Task<ProjectName>> setUp)
+        {
+            return async () =>
             {
                 try
                 {
-                    await client.Delete(await domainExistsPrecondition.SetUp(), await SetUp());
+                    await client.Delete(await domainSetUp(), await setUp());
                 }
                 catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.NotFound)
                 {
                     // Do nothing
                 }
             };
-        }
-
-        private static Func<Task<ProjectName>> SetUp(IProjectsClient client, Precondition<Domain> domainExistsPrecondition, string displayName)
-        {
-            return async () =>
-            {
-                var project = await client.Create(await domainExistsPrecondition.SetUp(), new CreateProject(displayName));
-
-                return project?.Name ?? throw new PreconditionSetUpException();
-            };
-        }
-
-        public override async Task TearDown()
-        {
-            await base.TearDown();
-
-            if (!IsSetUp)
-            {
-                return;
-            }
-
-            await _tearDown();
         }
     }
 }

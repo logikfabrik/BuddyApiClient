@@ -8,25 +8,29 @@
     {
         public abstract Task SetUp();
 
-        public virtual async Task TearDown()
-        {
-            await Task.CompletedTask;
-        }
+        public abstract Task TearDown();
     }
 
-    internal abstract class Precondition<T> : Precondition where T : struct
+    internal abstract class Precondition<T> : Precondition, IDisposable where T : struct
     {
         private readonly Func<Task<T>> _setUp;
-        private readonly SemaphoreSlim _setUpLock;
+        private readonly Func<Func<Task<T>>, Func<Task>> _tearDown;
+        private readonly SemaphoreSlim _valueLock;
+        private bool _disposed;
         private T? _value;
 
-        protected Precondition(Func<Task<T>> setUp)
+        protected Precondition(Func<Task<T>> setUp, Func<Func<Task<T>>, Func<Task>> tearDown)
         {
             _setUp = setUp;
-            _setUpLock = new SemaphoreSlim(1, 1);
+            _tearDown = tearDown;
+            _valueLock = new SemaphoreSlim(1, 1);
         }
 
-        protected bool IsSetUp => _value.HasValue;
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         public override async Task<T> SetUp()
         {
@@ -35,7 +39,7 @@
                 return _value.Value;
             }
 
-            await _setUpLock.WaitAsync();
+            await _valueLock.WaitAsync();
 
             try
             {
@@ -43,10 +47,49 @@
             }
             finally
             {
-                _setUpLock.Release();
+                _valueLock.Release();
             }
 
             return _value.Value;
+        }
+
+        public override async Task TearDown()
+        {
+            if (!_value.HasValue)
+            {
+                return;
+            }
+
+            await _valueLock.WaitAsync();
+
+            try
+            {
+                if (_value.HasValue)
+                {
+                    await _tearDown(SetUp)();
+
+                    _value = null;
+                }
+            }
+            finally
+            {
+                _valueLock.Release();
+            }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                _valueLock.Dispose();
+            }
+
+            _disposed = true;
         }
     }
 }

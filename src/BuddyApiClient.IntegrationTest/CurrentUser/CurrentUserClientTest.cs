@@ -1,7 +1,7 @@
 ﻿namespace BuddyApiClient.IntegrationTest.CurrentUser
 {
     using System.Threading.Tasks;
-    using Bogus;
+    using Bogus.DataSets;
     using BuddyApiClient.CurrentUser.Models.Request;
     using FluentAssertions;
     using Xunit;
@@ -27,7 +27,7 @@
 
         public sealed class Update : BuddyClientTest
         {
-            private string? _name;
+            private string? _currentName;
 
             public Update(BuddyClientFixture fixture) : base(fixture)
             {
@@ -41,33 +41,33 @@
 
                 var currentUser = await client.Get();
 
-                _name = currentUser?.Name;
+                _currentName = currentUser?.Name;
+            }
+
+            [Fact]
+            public async Task Should_Update_And_Return_The_Current_User()
+            {
+                var newName = new Name().FullName();
+
+                var sut = Fixture.BuddyClient.CurrentUser;
+
+                var currentUser = await sut.Update(new UpdateUser { Name = newName });
+
+                currentUser?.Name.Should().Be(newName);
             }
 
             public override async Task DisposeAsync()
             {
                 await base.DisposeAsync();
 
-                if (_name is null)
+                if (_currentName is null)
                 {
                     return;
                 }
 
                 var client = Fixture.BuddyClient.CurrentUser;
 
-                await client.Update(new UpdateUser { Name = _name });
-            }
-
-            [Fact]
-            public async Task Should_Update_And_Return_The_Current_User()
-            {
-                var name = new Faker().Name.FullName();
-
-                var sut = Fixture.BuddyClient.CurrentUser;
-
-                var currentUser = await sut.Update(new UpdateUser { Name = name });
-
-                currentUser?.Name.Should().Be(name);
+                await client.Update(new UpdateUser { Name = _currentName });
             }
         }
     }

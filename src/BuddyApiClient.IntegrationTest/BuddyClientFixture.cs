@@ -17,7 +17,7 @@
             var serviceProvider = new ServiceCollection()
                 .AddBuddyClient(configuration)
                 .AddHttpClient(nameof(IBuddyClient))
-                .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { ServerCertificateCustomValidationCallback = ServerCertificateCustomValidation })
+                .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { ServerCertificateCustomValidationCallback = SslCertificateValidator })
                 .Services
                 .BuildServiceProvider();
 
@@ -26,7 +26,7 @@
 
         public IBuddyClient BuddyClient { get; }
 
-        private static bool ServerCertificateCustomValidation(HttpRequestMessage? requestMessage, X509Certificate2? certificate, X509Chain? chain, SslPolicyErrors sslErrors)
+        private static bool SslCertificateValidator(HttpRequestMessage? requestMessage, X509Certificate2? certificate, X509Chain? chain, SslPolicyErrors sslPolicyErrors)
         {
             return true;
         }

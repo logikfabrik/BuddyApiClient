@@ -1,5 +1,6 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Workspaces
 {
+    using System;
     using System.Threading.Tasks;
     using FluentAssertions;
     using Xunit;
@@ -19,7 +20,7 @@
             public async Task Should_Return_The_Workspace_If_It_Exists()
             {
                 await _preconditions
-                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out _, out var domain)
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Workspaces;
@@ -33,7 +34,13 @@
             {
                 await base.DisposeAsync();
 
-                await _preconditions.TearDown();
+                await foreach (var precondition in _preconditions.TearDown())
+                {
+                    if (precondition is IDisposable disposable)
+                    {
+                        disposable.Dispose();
+                    }
+                }
             }
         }
 

@@ -11,43 +11,33 @@
 
     internal sealed class PermissionSetExistsPrecondition : Precondition<PermissionSetId>
     {
-        private readonly Func<Task> _tearDown;
-
-        public PermissionSetExistsPrecondition(IPermissionSetsClient client, Precondition<Domain> domainExistsPrecondition, string name) : base(SetUp(client, domainExistsPrecondition, name))
+        public PermissionSetExistsPrecondition(IPermissionSetsClient client, Func<Task<Domain>> domainSetUp, string name) : base(SetUp(client, domainSetUp, name), setUp => TearDown(client, domainSetUp, setUp))
         {
-            _tearDown = async () =>
+        }
+
+        private static Func<Task<PermissionSetId>> SetUp(IPermissionSetsClient client, Func<Task<Domain>> domainSetUp, string name)
+        {
+            return async () =>
+            {
+                var permissionSet = await client.Create(await domainSetUp(), new CreatePermissionSet(name));
+
+                return permissionSet?.Id ?? throw new PreconditionSetUpException();
+            };
+        }
+
+        private static Func<Task> TearDown(IPermissionSetsClient client, Func<Task<Domain>> domainSetUp, Func<Task<PermissionSetId>> setUp)
+        {
+            return async () =>
             {
                 try
                 {
-                    await client.Delete(await domainExistsPrecondition.SetUp(), await SetUp());
+                    await client.Delete(await domainSetUp(), await setUp());
                 }
                 catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.NotFound)
                 {
                     // Do nothing
                 }
             };
-        }
-
-        private static Func<Task<PermissionSetId>> SetUp(IPermissionSetsClient client, Precondition<Domain> domainExistsPrecondition, string name)
-        {
-            return async () =>
-            {
-                var permissionSet = await client.Create(await domainExistsPrecondition.SetUp(), new CreatePermissionSet(name));
-
-                return permissionSet?.Id ?? throw new PreconditionSetUpException();
-            };
-        }
-
-        public override async Task TearDown()
-        {
-            await base.TearDown();
-
-            if (!IsSetUp)
-            {
-                return;
-            }
-
-            await _tearDown();
         }
     }
 }

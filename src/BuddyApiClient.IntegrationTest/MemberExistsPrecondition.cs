@@ -11,43 +11,33 @@
 
     internal sealed class MemberExistsPrecondition : Precondition<MemberId>
     {
-        private readonly Func<Task> _tearDown;
-
-        public MemberExistsPrecondition(IMembersClient client, Precondition<Domain> domainExistsPrecondition, string email) : base(SetUp(client, domainExistsPrecondition, email))
+        public MemberExistsPrecondition(IMembersClient client, Func<Task<Domain>> domainSetUp, string email) : base(SetUp(client, domainSetUp, email), setUp => TearDown(client, domainSetUp, setUp))
         {
-            _tearDown = async () =>
+        }
+
+        private static Func<Task<MemberId>> SetUp(IMembersClient client, Func<Task<Domain>> domainSetUp, string email)
+        {
+            return async () =>
+            {
+                var member = await client.Add(await domainSetUp(), new AddMember(email));
+
+                return member?.Id ?? throw new PreconditionSetUpException();
+            };
+        }
+
+        private static Func<Task> TearDown(IMembersClient client, Func<Task<Domain>> domainSetUp, Func<Task<MemberId>> setUp)
+        {
+            return async () =>
             {
                 try
                 {
-                    await client.Remove(await domainExistsPrecondition.SetUp(), await SetUp());
+                    await client.Remove(await domainSetUp(), await setUp());
                 }
                 catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.NotFound)
                 {
                     // Do nothing
                 }
             };
-        }
-
-        private static Func<Task<MemberId>> SetUp(IMembersClient client, Precondition<Domain> domainExistsPrecondition, string email)
-        {
-            return async () =>
-            {
-                var member = await client.Add(await domainExistsPrecondition.SetUp(), new AddMember(email));
-
-                return member?.Id ?? throw new PreconditionSetUpException();
-            };
-        }
-
-        public override async Task TearDown()
-        {
-            await base.TearDown();
-
-            if (!IsSetUp)
-            {
-                return;
-            }
-
-            await _tearDown();
         }
     }
 }
