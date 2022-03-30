@@ -7,13 +7,22 @@
     public sealed record ProjectDetails : Response
     {
         [JsonPropertyName("name")]
-        public string? Name { get; set; }
+        public ProjectName Name { get; set; }
 
         [JsonPropertyName("display_name")]
         public string? DisplayName { get; set; }
 
+        [JsonIgnore]
+        public Status Status { get; set; }
+
+        /// <summary>
+        ///     For JSON serialization/deserialization. Use property <see cref="Status" />.
+        /// </summary>
         [JsonPropertyName("status")]
-        public string? Status { get; set; }
+        public string StatusJson
+        {
+            set => Status = StatusJsonConverter.ConvertFrom(value);
+        }
 
         [JsonPropertyName("create_date")]
         public DateTime CreateDate { get; set; }
@@ -22,7 +31,7 @@
         public MemberSummary? CreatedBy { get; set; }
 
         [JsonPropertyName("http_repository")]
-        public string? HttpRepository { get; set; }
+        public Uri? HttpRepository { get; set; }
 
         [JsonPropertyName("ssh_repository")]
         public string? SshRepository { get; set; }

@@ -1,0 +1,19 @@
+{
+  "url": "https://api.buddy.works/workspaces/buddy/projects/2/member/2",
+  "html_url": "https://app.buddy.works/buddy/company-website/members/profile/2",
+  "id": 2,
+  "name": "Sylvia Jones",
+  "avatar_url": "https://app.buddy.works/image-server/user/0/0/0/0/0/0/2/71f5a2ec2e1f4af1cf357e631cd2518e/w/32/32/AVATAR.png",
+  "admin": false,
+  "workspace_owner": false,
+  "permission_set": {
+    "url": "https://api.buddy.works/workspaces/buddy/permissions/2",
+    "html_url": "https://app.buddy.works/buddy/permissions/edit/2",
+    "id": 2,
+    "name": "Read-only",
+    "description": null,
+    "type": "READ_ONLY",
+    "repository_access_level": "READ_ONLY",
+    "pipeline_access_level": "READ_ONLY"
+  }
+}

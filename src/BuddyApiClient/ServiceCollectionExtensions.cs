@@ -9,18 +9,14 @@
         {
             services.Configure<BuddyClientOptions>(namedConfigurationSection);
 
-            services.AddHttpClient<IBuddyClient, BuddyClient>();
-
-            return services;
+            return services.AddBuddyClients();
         }
 
         public static IServiceCollection AddBuddyClient(this IServiceCollection services, Action<BuddyClientOptions> configureOptions)
         {
             services.Configure(configureOptions);
 
-            services.AddHttpClient<IBuddyClient, BuddyClient>();
-
-            return services;
+            return services.AddBuddyClients();
         }
 
         public static IServiceCollection AddBuddyClient(this IServiceCollection services, BuddyClientOptions userOptions)
@@ -31,7 +27,20 @@
                 options.AccessToken = userOptions.AccessToken;
             });
 
+            return services.AddBuddyClients();
+        }
+
+        internal static IServiceCollection AddBuddyClients(this IServiceCollection services)
+        {
             services.AddHttpClient<IBuddyClient, BuddyClient>();
+
+            services
+                .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().CurrentUser)
+                .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().CurrentUserEmails)
+                .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().Members)
+                .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().PermissionSets)
+                .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().Projects)
+                .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().Workspaces);
 
             return services;
         }

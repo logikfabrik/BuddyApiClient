@@ -2,45 +2,51 @@
 {
     using System;
     using BuddyApiClient.PermissionSets.Models;
-    using Shouldly;
+    using FluentAssertions;
     using Xunit;
 
     public sealed class RepositoryAccessLevelJsonConverterTest
     {
-        [Theory]
-        [InlineData(RepositoryAccessLevelJsonConverter.ReadOnlyAsJson, RepositoryAccessLevel.ReadOnly)]
-        [InlineData(RepositoryAccessLevelJsonConverter.ReadWriteAsJson, RepositoryAccessLevel.ReadWrite)]
-        public void ConvertFrom_For_Valid_Json_Should_Return_Enum_Value(string json, RepositoryAccessLevel expected)
+        public sealed class ConvertFrom
         {
-            var enumValue = RepositoryAccessLevelJsonConverter.ConvertFrom(json);
+            [Theory]
+            [InlineData(RepositoryAccessLevelJsonConverter.ReadOnlyAsJson, RepositoryAccessLevel.ReadOnly)]
+            [InlineData(RepositoryAccessLevelJsonConverter.ReadWriteAsJson, RepositoryAccessLevel.ReadWrite)]
+            public void Should_Return_Enum_Value_For_Valid_Json(string json, RepositoryAccessLevel expected)
+            {
+                var enumValue = RepositoryAccessLevelJsonConverter.ConvertFrom(json);
 
-            enumValue.ShouldBe(expected);
+                enumValue.Should().Be(expected);
+            }
+
+            [Fact]
+            public void Should_Throw_For_Invalid_Json()
+            {
+                var act = FluentActions.Invoking(() => RepositoryAccessLevelJsonConverter.ConvertFrom(null));
+
+                act.Should().Throw<NotSupportedException>();
+            }
         }
 
-        [Fact]
-        public void ConvertFrom_For_Invalid_Json_Should_Throw()
+        public sealed class ConvertTo
         {
-            var e = Assert.Throws<NotSupportedException>(() => RepositoryAccessLevelJsonConverter.ConvertFrom(null));
+            [Theory]
+            [InlineData(RepositoryAccessLevel.ReadOnly, RepositoryAccessLevelJsonConverter.ReadOnlyAsJson)]
+            [InlineData(RepositoryAccessLevel.ReadWrite, RepositoryAccessLevelJsonConverter.ReadWriteAsJson)]
+            public void Should_Return_Json_For_Valid_Enum_Value(RepositoryAccessLevel enumValue, string expected)
+            {
+                var json = RepositoryAccessLevelJsonConverter.ConvertTo(enumValue);
 
-            e.ShouldNotBeNull();
-        }
+                json.Should().Be(expected);
+            }
 
-        [Theory]
-        [InlineData(RepositoryAccessLevel.ReadOnly, RepositoryAccessLevelJsonConverter.ReadOnlyAsJson)]
-        [InlineData(RepositoryAccessLevel.ReadWrite, RepositoryAccessLevelJsonConverter.ReadWriteAsJson)]
-        public void ConvertTo_For_Valid_Enum_Value_Should_Return_Json(RepositoryAccessLevel enumValue, string expected)
-        {
-            var json = RepositoryAccessLevelJsonConverter.ConvertTo(enumValue);
+            [Fact]
+            public void Should_Throw_For_Invalid_Enum_Value()
+            {
+                var act = FluentActions.Invoking(() => RepositoryAccessLevelJsonConverter.ConvertTo(null));
 
-            json.ShouldBe(expected);
-        }
-
-        [Fact]
-        public void ConvertTo_For_Invalid_Enum_Value_Should_Throw()
-        {
-            var e = Assert.Throws<NotSupportedException>(() => RepositoryAccessLevelJsonConverter.ConvertTo(null));
-
-            e.ShouldNotBeNull();
+                act.Should().Throw<NotSupportedException>();
+            }
         }
     }
 }

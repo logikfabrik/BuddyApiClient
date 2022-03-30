@@ -10,6 +10,7 @@
     <PackageIcon>lf-128x128.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>A .NET client for the Buddy (https://buddy.works) API.</Description>
+    <CodeAnalysisRuleSet>..\.sonarlint\logikfabrik_buddyapiclientcsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,13 +20,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="..\.sonarlint\logikfabrik_buddyapiclient\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Ensure.That" Version="10.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
+    <PackageReference Include="StronglyTypedId" Version="0.2.1" PrivateAssets="all" ExcludeAssets="runtime" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Groups\" />
     <Folder Include="Pipelines\Models\Request\" />
   </ItemGroup>
 

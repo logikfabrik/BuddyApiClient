@@ -1,0 +1,15 @@
+{
+  "ServerUri": "https://sonarcloud.io/",
+  "Organization": {
+    "Key": "logikfabrik",
+    "Name": "Anton Frennevi"
+  },
+  "ProjectKey": "logikfabrik_BuddyApiClient",
+  "ProjectName": "BuddyApiClient",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "AX8bKUOcEkGyB1-mC5JW",
+      "ProfileTimestamp": "2021-11-22T10:44:23Z"
+    }
+  }
+}

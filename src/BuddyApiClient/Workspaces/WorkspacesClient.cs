@@ -1,8 +1,8 @@
 ﻿namespace BuddyApiClient.Workspaces
 {
     using BuddyApiClient.Core;
+    using BuddyApiClient.Workspaces.Models;
     using BuddyApiClient.Workspaces.Models.Response;
-    using EnsureThat;
 
     internal sealed class WorkspacesClient : ClientBase, IWorkspacesClient
     {
@@ -10,10 +10,8 @@
         {
         }
 
-        public async Task<WorkspaceDetails?> Get(string domain, CancellationToken cancellationToken = default)
+        public async Task<WorkspaceDetails?> Get(Domain domain, CancellationToken cancellationToken = default)
         {
-            Ensure.String.IsNotNullOrEmpty(domain, nameof(domain));
-
             var url = $"workspaces/{domain}";
 
             return await HttpClientFacade.Get<WorkspaceDetails>(url, cancellationToken);

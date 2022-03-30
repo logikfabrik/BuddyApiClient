@@ -6,7 +6,7 @@
     public sealed record CurrentUserDetails : Response
     {
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public UserId Id { get; set; }
 
         [JsonPropertyName("name")]
         public string? Name { get; set; }

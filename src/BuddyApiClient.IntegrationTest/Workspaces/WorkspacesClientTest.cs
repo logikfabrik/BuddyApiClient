@@ -1,39 +1,64 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Workspaces
 {
+    using System;
     using System.Threading.Tasks;
-    using Shouldly;
+    using FluentAssertions;
     using Xunit;
 
-    [Collection(nameof(BuddyClientCollection))]
     public sealed class WorkspacesClientTest
     {
-        private const string Domain = "logikfabrik";
-
-        private readonly BuddyClientFixture _fixture;
-
-        public WorkspacesClientTest(BuddyClientFixture fixture)
+        public sealed class Get : BuddyClientTest
         {
-            _fixture = fixture;
+            private readonly Preconditions _preconditions;
+
+            public Get(BuddyClientFixture fixture) : base(fixture)
+            {
+                _preconditions = new Preconditions();
+            }
+
+            [Fact]
+            public async Task Should_Return_The_Workspace_If_It_Exists()
+            {
+                await _preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .SetUp();
+
+                var sut = Fixture.BuddyClient.Workspaces;
+
+                var workspace = await sut.Get(await domain());
+
+                workspace.Should().NotBeNull();
+            }
+
+            public override async Task DisposeAsync()
+            {
+                await base.DisposeAsync();
+
+                await foreach (var precondition in _preconditions.TearDown())
+                {
+                    if (precondition is IDisposable disposable)
+                    {
+                        disposable.Dispose();
+                    }
+                }
+            }
         }
 
-        [Fact]
-        public async Task Get_For_Workspace_That_Exists_Should_Return_The_Workspace()
+        public sealed class List : BuddyClientTest
         {
-            var sut = _fixture.BuddyClient.Workspaces;
+            public List(BuddyClientFixture fixture) : base(fixture)
+            {
+            }
 
-            var workspace = await sut.Get(Domain);
+            [Fact]
+            public async Task Should_Return_Workspaces()
+            {
+                var sut = Fixture.BuddyClient.Workspaces;
 
-            workspace.ShouldNotBeNull();
-        }
+                var workspaces = await sut.List();
 
-        [Fact]
-        public async Task List_Should_Return_The_Workspaces()
-        {
-            var sut = _fixture.BuddyClient.Workspaces;
-
-            var workspaces = await sut.List();
-
-            workspaces.ShouldNotBeNull();
+                workspaces?.Workspaces.Should().NotBeEmpty();
+            }
         }
     }
 }

@@ -1,0 +1,13 @@
+{
+  "url": "https://api.buddy.works/workspaces/buddy/projects",
+  "html_url": "https://app.buddy.works/buddy",
+  "projects": [
+    {
+      "url": "https://api.buddy.works/workspaces/buddy/projects/company-website",
+      "html_url": "https://app.buddy.works/buddy/company-website",
+      "name": "company-website",
+      "display_name": "Company Website",
+      "status": "ACTIVE"
+    }
+  ]
+}

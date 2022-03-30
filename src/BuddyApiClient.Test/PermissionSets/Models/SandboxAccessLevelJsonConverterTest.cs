@@ -2,47 +2,53 @@
 {
     using System;
     using BuddyApiClient.PermissionSets.Models;
-    using Shouldly;
+    using FluentAssertions;
     using Xunit;
 
     public sealed class SandboxAccessLevelJsonConverterTest
     {
-        [Theory]
-        [InlineData(SandboxAccessLevelJsonConverter.DeniedAsJson, SandboxAccessLevel.Denied)]
-        [InlineData(SandboxAccessLevelJsonConverter.ReadOnlyAsJson, SandboxAccessLevel.ReadOnly)]
-        [InlineData(SandboxAccessLevelJsonConverter.ReadWriteAsJson, SandboxAccessLevel.ReadWrite)]
-        public void ConvertFrom_For_Valid_Json_Should_Return_Enum_Value(string json, SandboxAccessLevel expected)
+        public sealed class ConvertFrom
         {
-            var enumValue = SandboxAccessLevelJsonConverter.ConvertFrom(json);
+            [Theory]
+            [InlineData(SandboxAccessLevelJsonConverter.DeniedAsJson, SandboxAccessLevel.Denied)]
+            [InlineData(SandboxAccessLevelJsonConverter.ReadOnlyAsJson, SandboxAccessLevel.ReadOnly)]
+            [InlineData(SandboxAccessLevelJsonConverter.ReadWriteAsJson, SandboxAccessLevel.ReadWrite)]
+            public void Should_Return_Enum_Value_For_Valid_Json(string json, SandboxAccessLevel expected)
+            {
+                var enumValue = SandboxAccessLevelJsonConverter.ConvertFrom(json);
 
-            enumValue.ShouldBe(expected);
+                enumValue.Should().Be(expected);
+            }
+
+            [Fact]
+            public void Should_Throw_For_Invalid_Json()
+            {
+                var act = FluentActions.Invoking(() => SandboxAccessLevelJsonConverter.ConvertFrom(null));
+
+                act.Should().Throw<NotSupportedException>();
+            }
         }
 
-        [Fact]
-        public void ConvertFrom_For_Invalid_Json_Should_Throw()
+        public sealed class ConvertTo
         {
-            var e = Assert.Throws<NotSupportedException>(() => SandboxAccessLevelJsonConverter.ConvertFrom(null));
+            [Theory]
+            [InlineData(SandboxAccessLevel.Denied, SandboxAccessLevelJsonConverter.DeniedAsJson)]
+            [InlineData(SandboxAccessLevel.ReadOnly, SandboxAccessLevelJsonConverter.ReadOnlyAsJson)]
+            [InlineData(SandboxAccessLevel.ReadWrite, SandboxAccessLevelJsonConverter.ReadWriteAsJson)]
+            public void Should_Return_Json_For_Valid_Enum_Value(SandboxAccessLevel enumValue, string expected)
+            {
+                var json = SandboxAccessLevelJsonConverter.ConvertTo(enumValue);
 
-            e.ShouldNotBeNull();
-        }
+                json.Should().Be(expected);
+            }
 
-        [Theory]
-        [InlineData(SandboxAccessLevel.Denied, SandboxAccessLevelJsonConverter.DeniedAsJson)]
-        [InlineData(SandboxAccessLevel.ReadOnly, SandboxAccessLevelJsonConverter.ReadOnlyAsJson)]
-        [InlineData(SandboxAccessLevel.ReadWrite, SandboxAccessLevelJsonConverter.ReadWriteAsJson)]
-        public void ConvertTo_For_Valid_Enum_Value_Should_Return_Json(SandboxAccessLevel enumValue, string expected)
-        {
-            var json = SandboxAccessLevelJsonConverter.ConvertTo(enumValue);
+            [Fact]
+            public void Should_Throw_For_Invalid_Enum_Value()
+            {
+                var act = FluentActions.Invoking(() => SandboxAccessLevelJsonConverter.ConvertTo(null));
 
-            json.ShouldBe(expected);
-        }
-
-        [Fact]
-        public void ConvertTo_For_Invalid_Enum_Value_Should_Throw()
-        {
-            var e = Assert.Throws<NotSupportedException>(() => SandboxAccessLevelJsonConverter.ConvertTo(null));
-
-            e.ShouldNotBeNull();
+                act.Should().Throw<NotSupportedException>();
+            }
         }
     }
 }

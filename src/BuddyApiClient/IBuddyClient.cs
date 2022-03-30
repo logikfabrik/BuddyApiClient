@@ -4,6 +4,7 @@
     using BuddyApiClient.CurrentUserEmails;
     using BuddyApiClient.Members;
     using BuddyApiClient.PermissionSets;
+    using BuddyApiClient.Projects;
     using BuddyApiClient.Workspaces;
 
     public interface IBuddyClient
@@ -15,6 +16,8 @@
         IMembersClient Members { get; }
 
         IPermissionSetsClient PermissionSets { get; }
+
+        IProjectsClient Projects { get; }
 
         IWorkspacesClient Workspaces { get; }
     }
