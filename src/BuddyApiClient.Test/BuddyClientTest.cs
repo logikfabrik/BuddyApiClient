@@ -59,7 +59,7 @@
             {
                 var sut = CreateClient();
 
-                sut.PermissionSets.Should().NotBeNull();
+                sut.Workspaces.Should().NotBeNull();
             }
         }
     }

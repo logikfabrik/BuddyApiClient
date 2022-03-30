@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal sealed class PreconditionSetUpException : Exception
+    public sealed class PreconditionSetUpException : Exception
     {
     }
 }
