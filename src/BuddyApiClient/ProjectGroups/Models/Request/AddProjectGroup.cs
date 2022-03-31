@@ -1,17 +1,18 @@
-﻿namespace BuddyApiClient.Members.Models.Request
+﻿namespace BuddyApiClient.ProjectGroups.Models.Request
 {
     using System.Text.Json.Serialization;
+    using BuddyApiClient.Groups.Models;
     using EnsureThat;
 
-    public sealed record AddProjectMember
+    public sealed record AddProjectGroup
     {
-        public AddProjectMember(PermissionSet permissionSet)
+        public AddProjectGroup(PermissionSet permissionSet)
         {
             PermissionSet = Ensure.Any.HasValue(permissionSet, nameof(permissionSet));
         }
 
         [JsonPropertyName("id")]
-        public MemberId MemberId { get; set; }
+        public GroupId GroupId { get; set; }
 
         [JsonPropertyName("permission_set")]
         public PermissionSet PermissionSet { get; }

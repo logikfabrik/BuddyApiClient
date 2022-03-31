@@ -1,11 +1,11 @@
-﻿namespace BuddyApiClient.Members.Models.Request
+﻿namespace BuddyApiClient.ProjectGroups.Models.Request
 {
     using System.Text.Json.Serialization;
     using EnsureThat;
 
-    public sealed record UpdateProjectMember
+    public sealed record UpdateProjectGroup
     {
-        public UpdateProjectMember(PermissionSet permissionSet)
+        public UpdateProjectGroup(PermissionSet permissionSet)
         {
             PermissionSet = Ensure.Any.HasValue(permissionSet, nameof(permissionSet));
         }

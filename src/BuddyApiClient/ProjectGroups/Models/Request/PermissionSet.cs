@@ -1,4 +1,4 @@
-﻿namespace BuddyApiClient.Members.Models.Request
+﻿namespace BuddyApiClient.ProjectGroups.Models.Request
 {
     using System.Text.Json.Serialization;
     using BuddyApiClient.PermissionSets.Models;

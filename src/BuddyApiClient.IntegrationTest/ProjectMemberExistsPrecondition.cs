@@ -4,20 +4,20 @@
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using BuddyApiClient.Members;
     using BuddyApiClient.Members.Models;
-    using BuddyApiClient.Members.Models.Request;
     using BuddyApiClient.PermissionSets.Models;
+    using BuddyApiClient.ProjectMembers;
+    using BuddyApiClient.ProjectMembers.Models.Request;
     using BuddyApiClient.Projects.Models;
     using BuddyApiClient.Workspaces.Models;
 
     internal sealed class ProjectMemberExistsPrecondition : Precondition<MemberId>
     {
-        public ProjectMemberExistsPrecondition(IMembersClient client, Func<Task<Domain>> domainSetUp, Func<Task<ProjectName>> projectSetUp, Func<Task<PermissionSetId>> permissionSetSetUp, Func<Task<MemberId>> memberSetUp) : base(SetUp(client, domainSetUp, projectSetUp, permissionSetSetUp, memberSetUp), setUp => TearDown(client, domainSetUp, projectSetUp, setUp))
+        public ProjectMemberExistsPrecondition(IProjectMembersClient client, Func<Task<Domain>> domainSetUp, Func<Task<ProjectName>> projectSetUp, Func<Task<PermissionSetId>> permissionSetSetUp, Func<Task<MemberId>> memberSetUp) : base(SetUp(client, domainSetUp, projectSetUp, permissionSetSetUp, memberSetUp), setUp => TearDown(client, domainSetUp, projectSetUp, setUp))
         {
         }
 
-        private static Func<Task<MemberId>> SetUp(IMembersClient client, Func<Task<Domain>> domainSetUp, Func<Task<ProjectName>> projectSetUp, Func<Task<PermissionSetId>> permissionSetSetUp, Func<Task<MemberId>> memberSetUp)
+        private static Func<Task<MemberId>> SetUp(IProjectMembersClient client, Func<Task<Domain>> domainSetUp, Func<Task<ProjectName>> projectSetUp, Func<Task<PermissionSetId>> permissionSetSetUp, Func<Task<MemberId>> memberSetUp)
         {
             return async () =>
             {
@@ -27,7 +27,7 @@
             };
         }
 
-        private static Func<Task> TearDown(IMembersClient client, Func<Task<Domain>> domainSetUp, Func<Task<ProjectName>> projectSetUp, Func<Task<MemberId>> setUp)
+        private static Func<Task> TearDown(IProjectMembersClient client, Func<Task<Domain>> domainSetUp, Func<Task<ProjectName>> projectSetUp, Func<Task<MemberId>> setUp)
         {
             return async () =>
             {

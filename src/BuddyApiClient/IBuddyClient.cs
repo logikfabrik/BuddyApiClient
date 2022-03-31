@@ -2,8 +2,12 @@
 {
     using BuddyApiClient.CurrentUser;
     using BuddyApiClient.CurrentUserEmails;
+    using BuddyApiClient.GroupMembers;
+    using BuddyApiClient.Groups;
     using BuddyApiClient.Members;
     using BuddyApiClient.PermissionSets;
+    using BuddyApiClient.ProjectGroups;
+    using BuddyApiClient.ProjectMembers;
     using BuddyApiClient.Projects;
     using BuddyApiClient.Workspaces;
 
@@ -13,9 +17,17 @@
 
         ICurrentUserEmailsClient CurrentUserEmails { get; }
 
+        IGroupMembersClient GroupMembers { get; }
+
+        IGroupsClient Groups { get; }
+
         IMembersClient Members { get; }
 
         IPermissionSetsClient PermissionSets { get; }
+
+        IProjectGroupsClient ProjectGroups { get; }
+
+        IProjectMembersClient ProjectMembers { get; }
 
         IProjectsClient Projects { get; }
 

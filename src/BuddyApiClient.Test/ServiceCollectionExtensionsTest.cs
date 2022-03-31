@@ -3,8 +3,12 @@
     using System;
     using BuddyApiClient.CurrentUser;
     using BuddyApiClient.CurrentUserEmails;
+    using BuddyApiClient.GroupMembers;
+    using BuddyApiClient.Groups;
     using BuddyApiClient.Members;
     using BuddyApiClient.PermissionSets;
+    using BuddyApiClient.ProjectGroups;
+    using BuddyApiClient.ProjectMembers;
     using BuddyApiClient.Projects;
     using BuddyApiClient.Workspaces;
     using FluentAssertions;
@@ -84,6 +88,22 @@
             }
 
             [Fact]
+            public void Should_Return_GroupMembersClient()
+            {
+                var groupMembersClient = _sut.GetService<IGroupMembersClient>();
+
+                groupMembersClient.Should().NotBeNull();
+            }
+
+            [Fact]
+            public void Should_Return_GroupsClient()
+            {
+                var groupsClient = _sut.GetService<IGroupsClient>();
+
+                groupsClient.Should().NotBeNull();
+            }
+
+            [Fact]
             public void Should_Return_MembersClient()
             {
                 var membersClient = _sut.GetService<IMembersClient>();
@@ -97,6 +117,22 @@
                 var permissionSetsClient = _sut.GetService<IPermissionSetsClient>();
 
                 permissionSetsClient.Should().NotBeNull();
+            }
+
+            [Fact]
+            public void Should_Return_ProjectGroupsClient()
+            {
+                var projectGroupsClient = _sut.GetService<IProjectGroupsClient>();
+
+                projectGroupsClient.Should().NotBeNull();
+            }
+
+            [Fact]
+            public void Should_Return_ProjectMembersClient()
+            {
+                var projectMembersClient = _sut.GetService<IProjectMembersClient>();
+
+                projectMembersClient.Should().NotBeNull();
             }
 
             [Fact]

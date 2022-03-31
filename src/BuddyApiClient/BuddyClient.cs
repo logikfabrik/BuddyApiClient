@@ -3,8 +3,12 @@
     using BuddyApiClient.Core;
     using BuddyApiClient.CurrentUser;
     using BuddyApiClient.CurrentUserEmails;
+    using BuddyApiClient.GroupMembers;
+    using BuddyApiClient.Groups;
     using BuddyApiClient.Members;
     using BuddyApiClient.PermissionSets;
+    using BuddyApiClient.ProjectGroups;
+    using BuddyApiClient.ProjectMembers;
     using BuddyApiClient.Projects;
     using BuddyApiClient.Workspaces;
     using Microsoft.Extensions.Options;
@@ -27,8 +31,12 @@
 
             CurrentUser = new CurrentUserClient(httpClientFacade);
             CurrentUserEmails = new CurrentUserEmailsClient(httpClientFacade);
+            GroupMembers = new GroupMembersClient(httpClientFacade);
+            Groups = new GroupsClient(httpClientFacade);
             Members = new MembersClient(httpClientFacade);
             PermissionSets = new PermissionSetsClient(httpClientFacade);
+            ProjectGroups = new ProjectGroupsClient(httpClientFacade);
+            ProjectMembers = new ProjectMembersClient(httpClientFacade);
             Projects = new ProjectsClient(httpClientFacade);
             Workspaces = new WorkspacesClient(httpClientFacade);
         }
@@ -37,9 +45,17 @@
 
         public ICurrentUserEmailsClient CurrentUserEmails { get; }
 
+        public IGroupMembersClient GroupMembers { get; }
+
+        public IGroupsClient Groups { get; }
+
         public IMembersClient Members { get; }
 
         public IPermissionSetsClient PermissionSets { get; }
+
+        public IProjectGroupsClient ProjectGroups { get; }
+
+        public IProjectMembersClient ProjectMembers { get; }
 
         public IProjectsClient Projects { get; }
 

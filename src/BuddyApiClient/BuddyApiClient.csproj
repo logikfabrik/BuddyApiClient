@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Groups\" />
+    <Folder Include="Groups\Models\Request\" />
     <Folder Include="Pipelines\Models\Request\" />
   </ItemGroup>
 

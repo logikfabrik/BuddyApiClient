@@ -31,6 +31,22 @@
             }
 
             [Fact]
+            public void Should_Return_Instance_With_GroupMembers_Set()
+            {
+                var sut = CreateClient();
+
+                sut.GroupMembers.Should().NotBeNull();
+            }
+
+            [Fact]
+            public void Should_Return_Instance_With_Groups_Set()
+            {
+                var sut = CreateClient();
+
+                sut.Groups.Should().NotBeNull();
+            }
+
+            [Fact]
             public void Should_Return_Instance_With_Members_Set()
             {
                 var sut = CreateClient();
@@ -44,6 +60,22 @@
                 var sut = CreateClient();
 
                 sut.PermissionSets.Should().NotBeNull();
+            }
+
+            [Fact]
+            public void Should_Return_Instance_With_ProjectGroups_Set()
+            {
+                var sut = CreateClient();
+
+                sut.ProjectGroups.Should().NotBeNull();
+            }
+
+            [Fact]
+            public void Should_Return_Instance_With_ProjectMembers_Set()
+            {
+                var sut = CreateClient();
+
+                sut.ProjectMembers.Should().NotBeNull();
             }
 
             [Fact]

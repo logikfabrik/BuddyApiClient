@@ -34,7 +34,7 @@
     <Content Include="Members\.testdata\Get_Should_Return_The_Member_If_It_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\Get_Should_Return_The_Project_Member_If_It_Exists.json">
+    <Content Include="ProjectMembers\.testdata\Get_Should_Return_The_Project_Member_If_It_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Members\.testdata\ListAll_Should_Return_Members_If_Any_Exists.json">
@@ -46,19 +46,19 @@
     <Content Include="Members\.testdata\List_Should_Return_Members_If_Any_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\Add_Should_Add_And_Return_The_Project_Member.json">
+    <Content Include="ProjectMembers\.testdata\Add_Should_Add_And_Return_The_Project_Member.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\ListAll_Should_Return_Project_Members_If_Any_Exists.json">
+    <Content Include="ProjectMembers\.testdata\ListAll_Should_Return_Project_Members_If_Any_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\List_Should_Not_Return_Project_Members_If_None_Exist.json">
+    <Content Include="ProjectMembers\.testdata\List_Should_Not_Return_Project_Members_If_None_Exist.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\List_Should_Return_Project_Members_If_Any_Exists.json">
+    <Content Include="ProjectMembers\.testdata\List_Should_Return_Project_Members_If_Any_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\Update_Should_Update_And_Return_The_Project_Member.json">
+    <Content Include="ProjectMembers\.testdata\Update_Should_Update_And_Return_The_Project_Member.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="PermissionSets\.testdata\Create_Should_Create_And_Return_The_PermissionSet.json">

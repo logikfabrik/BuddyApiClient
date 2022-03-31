@@ -1,12 +1,20 @@
 ﻿namespace BuddyApiClient.Groups
 {
+    using BuddyApiClient.Groups.Models;
+    using BuddyApiClient.Groups.Models.Request;
+    using BuddyApiClient.Groups.Models.Response;
+    using BuddyApiClient.Workspaces.Models;
+
     public interface IGroupsClient
     {
-        // See https://buddy.works/docs/api/general/groups
-        // See https://buddy.works/docs/api/general/projects/list#groups
-        // See https://buddy.works/docs/api/general/projects/manage-access/add#add-a-group
-        // See https://buddy.works/docs/api/general/projects/manage-access/update#user-group-permission-set
-        // See https://buddy.works/docs/api/general/projects/manage-access/delete#delete-user-group
-        // See https://buddy.works/docs/api/general/projects/get#group-in-project
+        Task<GroupDetails?> Create(Domain domain, CreateGroup content, CancellationToken cancellationToken = default);
+
+        Task<GroupDetails?> Get(Domain domain, GroupId id, CancellationToken cancellationToken = default);
+
+        Task<GroupList?> List(Domain domain, CancellationToken cancellationToken = default);
+
+        Task<GroupDetails?> Update(Domain domain, GroupId id, UpdateGroup content, CancellationToken cancellationToken = default);
+
+        Task Delete(Domain domain, GroupId id, CancellationToken cancellationToken = default);
     }
 }
