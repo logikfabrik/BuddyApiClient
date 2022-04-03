@@ -3,6 +3,7 @@
     using System.Threading.Tasks;
     using Bogus.DataSets;
     using BuddyApiClient.CurrentUser.Models.Request;
+    using BuddyApiClient.IntegrationTest.Testing;
     using FluentAssertions;
     using Xunit;
 

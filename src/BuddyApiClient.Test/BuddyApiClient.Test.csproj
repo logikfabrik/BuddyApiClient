@@ -25,6 +25,33 @@
     <Content Include="CurrentUser/.testdata/Get_Should_Return_The_Current_User.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="GroupMembers\.testdata\Add_Should_Add_And_Return_The_Group_Member.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GroupMembers\.testdata\Get_Should_Return_The_Group_Member_If_It_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GroupMembers\.testdata\List_Should_Not_Return_Group_Members_If_None_Exist.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GroupMembers\.testdata\List_Should_Return_Group_Members_If_Any_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Groups\.testdata\Create_Should_Create_And_Return_The_Group.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Groups\.testdata\Get_Should_Return_The_Group_If_It_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Groups\.testdata\List_Should_Not_Return_Groups_If_None_Exist.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Groups\.testdata\List_Should_Return_Groups_If_Any_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Groups\.testdata\Update_Should_Update_And_Return_The_Group.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Members/.testdata/Update_Should_Update_And_Return_The_Member.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -127,10 +154,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BuddyApiClient\BuddyApiClient.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Projects\Models\" />
   </ItemGroup>
 
 </Project>

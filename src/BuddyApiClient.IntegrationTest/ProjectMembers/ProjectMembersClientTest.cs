@@ -7,6 +7,8 @@
     using System.Net.Http;
     using System.Threading.Tasks;
     using Bogus.DataSets;
+    using BuddyApiClient.IntegrationTest.Testing;
+    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
     using BuddyApiClient.Members.Models.Request;
     using BuddyApiClient.Members.Models.Response;
     using BuddyApiClient.ProjectMembers.Models.Request;

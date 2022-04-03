@@ -16,6 +16,7 @@
     using BuddyApiClient.ProjectMembers;
     using BuddyApiClient.ProjectMembers.Models.Request;
     using BuddyApiClient.Projects.Models;
+    using BuddyApiClient.Test.Testing;
     using BuddyApiClient.Workspaces.Models;
     using FluentAssertions;
     using RichardSzalay.MockHttp;
@@ -68,7 +69,7 @@
             {
                 var handlerStub = new MockHttpMessageHandler();
 
-                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/projects/company-website/ProjectMembers/1").Respond(HttpStatusCode.NotFound);
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/projects/company-website/members/1").Respond(HttpStatusCode.NotFound);
 
                 var sut = CreateClient(handlerStub);
 

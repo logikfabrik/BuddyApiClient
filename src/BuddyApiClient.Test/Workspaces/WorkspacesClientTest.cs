@@ -6,6 +6,7 @@
     using System.Net.Mime;
     using System.Threading.Tasks;
     using BuddyApiClient.Core;
+    using BuddyApiClient.Test.Testing;
     using BuddyApiClient.Workspaces;
     using BuddyApiClient.Workspaces.Models;
     using FluentAssertions;

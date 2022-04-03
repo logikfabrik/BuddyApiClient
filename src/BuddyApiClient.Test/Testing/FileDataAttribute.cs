@@ -1,4 +1,4 @@
-﻿namespace BuddyApiClient.Test
+﻿namespace BuddyApiClient.Test.Testing
 {
     using System.Collections.Generic;
     using System.IO;

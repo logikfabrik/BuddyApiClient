@@ -9,6 +9,7 @@
     using BuddyApiClient.PermissionSets;
     using BuddyApiClient.PermissionSets.Models;
     using BuddyApiClient.PermissionSets.Models.Request;
+    using BuddyApiClient.Test.Testing;
     using BuddyApiClient.Workspaces.Models;
     using FluentAssertions;
     using RichardSzalay.MockHttp;
@@ -125,7 +126,7 @@
         {
             [Theory]
             [FileData(@"PermissionSets/.testdata/Update_Should_Update_And_Return_The_PermissionSet.json")]
-            public async Task Should_Update_And_Return_The_Permission_Set(string responseJson)
+            public async Task Should_Update_And_Return_The_PermissionSet(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 

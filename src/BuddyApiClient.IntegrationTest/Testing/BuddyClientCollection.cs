@@ -1,4 +1,4 @@
-﻿namespace BuddyApiClient.IntegrationTest
+﻿namespace BuddyApiClient.IntegrationTest.Testing
 {
     using Xunit;
 

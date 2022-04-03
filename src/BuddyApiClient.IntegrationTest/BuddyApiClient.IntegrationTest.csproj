@@ -25,12 +25,4 @@
     <ProjectReference Include="..\BuddyApiClient\BuddyApiClient.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CurrentUser\" />
-    <Folder Include="CurrentUserEmails\" />
-    <Folder Include="ProjectMembers\" />
-    <Folder Include="Projects\" />
-    <Folder Include="PermissionSets\" />
-  </ItemGroup>
-
 </Project>

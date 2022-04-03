@@ -13,6 +13,7 @@
     using BuddyApiClient.Members.Models;
     using BuddyApiClient.Members.Models.Request;
     using BuddyApiClient.Members.Models.Response;
+    using BuddyApiClient.Test.Testing;
     using BuddyApiClient.Workspaces.Models;
     using FluentAssertions;
     using RichardSzalay.MockHttp;

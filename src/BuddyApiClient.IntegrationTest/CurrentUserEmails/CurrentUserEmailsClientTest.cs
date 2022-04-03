@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using Bogus.DataSets;
     using BuddyApiClient.CurrentUserEmails.Models.Request;
+    using BuddyApiClient.IntegrationTest.Testing;
     using FluentAssertions;
     using Xunit;
 

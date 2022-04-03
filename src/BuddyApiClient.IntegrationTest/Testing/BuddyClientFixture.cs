@@ -1,4 +1,4 @@
-﻿namespace BuddyApiClient.IntegrationTest
+﻿namespace BuddyApiClient.IntegrationTest.Testing
 {
     using System.Net.Http;
     using System.Net.Security;
