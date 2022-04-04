@@ -10,7 +10,7 @@
             Name = Ensure.String.IsNotNullOrEmpty(name, nameof(name));
         }
 
-        [JsonPropertyName("email")]
+        [JsonPropertyName("name")]
         public string Name { get; }
 
         [JsonPropertyName("description")]

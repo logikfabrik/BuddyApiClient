@@ -1,0 +1,23 @@
+{
+  "url": "https://api.buddy.works/workspaces/buddy/projects/company-website/groups",
+  "html_url": "https://app.buddy.works/buddy/company-website/team",
+  "groups": [
+    {
+      "url": "https://api.buddy.works/workspaces/buddy/projects/company-website/groups/2",
+      "html_url": "https://app.buddy.works/buddy/company-website/team",
+      "id": 2,
+      "name": "Developers",
+      "permission_set": {
+        "url": "https://api.buddy.works/workspaces/buddy/permissions/2",
+        "html_url": "https://app.buddy.works/buddy/permissions/edit/2",
+        "id": 2,
+        "name": "Read-only",
+        "description": null,
+        "type": "READ_ONLY",
+        "repository_access_level": "READ_ONLY",
+        "pipeline_access_level": "READ_ONLY",
+        "sandbox_access_level": "READ_ONLY"
+      }
+    }
+  ]
+}

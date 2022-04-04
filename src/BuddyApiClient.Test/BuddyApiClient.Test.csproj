@@ -61,6 +61,21 @@
     <Content Include="Members\.testdata\Get_Should_Return_The_Member_If_It_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ProjectGroups\.testdata\Add_Should_Add_And_Return_The_Project_Group.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectGroups\.testdata\Get_Should_Return_The_Project_Group_If_It_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectGroups\.testdata\List_Should_Not_Return_Project_Groups_If_None_Exist.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectGroups\.testdata\List_Should_Return_Project_Groups_If_Any_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectGroups\.testdata\Update_Should_Update_And_Return_The_Project_Group.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ProjectMembers\.testdata\Get_Should_Return_The_Project_Member_If_It_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -25,4 +25,8 @@
     <ProjectReference Include="..\BuddyApiClient\BuddyApiClient.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ProjectGroups\" />
+  </ItemGroup>
+
 </Project>
