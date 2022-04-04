@@ -7,6 +7,7 @@
     using BuddyApiClient.Core;
     using BuddyApiClient.CurrentUser;
     using BuddyApiClient.CurrentUser.Models.Request;
+    using BuddyApiClient.Test.Testing;
     using FluentAssertions;
     using RichardSzalay.MockHttp;
     using Xunit;

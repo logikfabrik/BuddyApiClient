@@ -5,6 +5,8 @@
     using System.Net.Http;
     using System.Threading.Tasks;
     using Bogus.DataSets;
+    using BuddyApiClient.IntegrationTest.Testing;
+    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
     using BuddyApiClient.PermissionSets.Models.Request;
     using BuddyApiClient.PermissionSets.Models.Response;
     using FluentAssertions;
@@ -187,7 +189,7 @@
             }
 
             [Fact]
-            public async Task Should_Update_And_Return_The_Permission_Set()
+            public async Task Should_Update_And_Return_The_PermissionSet()
             {
                 await _preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)

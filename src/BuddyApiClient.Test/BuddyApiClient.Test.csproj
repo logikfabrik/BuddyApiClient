@@ -25,6 +25,33 @@
     <Content Include="CurrentUser/.testdata/Get_Should_Return_The_Current_User.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="GroupMembers\.testdata\Add_Should_Add_And_Return_The_Group_Member.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GroupMembers\.testdata\Get_Should_Return_The_Group_Member_If_It_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GroupMembers\.testdata\List_Should_Not_Return_Group_Members_If_None_Exist.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GroupMembers\.testdata\List_Should_Return_Group_Members_If_Any_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Groups\.testdata\Create_Should_Create_And_Return_The_Group.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Groups\.testdata\Get_Should_Return_The_Group_If_It_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Groups\.testdata\List_Should_Not_Return_Groups_If_None_Exist.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Groups\.testdata\List_Should_Return_Groups_If_Any_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Groups\.testdata\Update_Should_Update_And_Return_The_Group.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Members/.testdata/Update_Should_Update_And_Return_The_Member.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -34,7 +61,22 @@
     <Content Include="Members\.testdata\Get_Should_Return_The_Member_If_It_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\Get_Should_Return_The_Project_Member_If_It_Exists.json">
+    <Content Include="ProjectGroups\.testdata\Add_Should_Add_And_Return_The_Project_Group.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectGroups\.testdata\Get_Should_Return_The_Project_Group_If_It_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectGroups\.testdata\List_Should_Not_Return_Project_Groups_If_None_Exist.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectGroups\.testdata\List_Should_Return_Project_Groups_If_Any_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectGroups\.testdata\Update_Should_Update_And_Return_The_Project_Group.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectMembers\.testdata\Get_Should_Return_The_Project_Member_If_It_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Members\.testdata\ListAll_Should_Return_Members_If_Any_Exists.json">
@@ -46,19 +88,19 @@
     <Content Include="Members\.testdata\List_Should_Return_Members_If_Any_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\Add_Should_Add_And_Return_The_Project_Member.json">
+    <Content Include="ProjectMembers\.testdata\Add_Should_Add_And_Return_The_Project_Member.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\ListAll_Should_Return_Project_Members_If_Any_Exists.json">
+    <Content Include="ProjectMembers\.testdata\ListAll_Should_Return_Project_Members_If_Any_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\List_Should_Not_Return_Project_Members_If_None_Exist.json">
+    <Content Include="ProjectMembers\.testdata\List_Should_Not_Return_Project_Members_If_None_Exist.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\List_Should_Return_Project_Members_If_Any_Exists.json">
+    <Content Include="ProjectMembers\.testdata\List_Should_Return_Project_Members_If_Any_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\Update_Should_Update_And_Return_The_Project_Member.json">
+    <Content Include="ProjectMembers\.testdata\Update_Should_Update_And_Return_The_Project_Member.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="PermissionSets\.testdata\Create_Should_Create_And_Return_The_PermissionSet.json">
@@ -110,8 +152,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="FluentAssertions" Version="6.5.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+    <PackageReference Include="FluentAssertions" Version="6.6.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="RichardSzalay.MockHttp" Version="6.0.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -127,10 +169,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BuddyApiClient\BuddyApiClient.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Projects\Models\" />
   </ItemGroup>
 
 </Project>

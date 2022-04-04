@@ -1,0 +1,17 @@
+{
+  "url": "https://api.buddy.works/workspaces/buddy/projects/company-website/groups/2",
+  "html_url": "https://app.buddy.works/buddy/company-website/team",
+  "id": 2,
+  "name": "Developers",
+  "permission_set": {
+    "url": "https://api.buddy.works/workspaces/buddy/permissions/1",
+    "html_url": "https://app.buddy.works/buddy/permissions/edit/1",
+    "id": 1,
+    "name": "Read-write",
+    "description": null,
+    "type": "CUSTOM",
+    "repository_access_level": "READ_WRITE",
+    "pipeline_access_level": "READ_WRITE",
+    "sandbox_access_level": "READ_WRITE"
+  }
+}

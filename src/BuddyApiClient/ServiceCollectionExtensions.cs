@@ -37,8 +37,12 @@
             services
                 .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().CurrentUser)
                 .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().CurrentUserEmails)
+                .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().GroupMembers)
+                .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().Groups)
                 .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().Members)
                 .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().PermissionSets)
+                .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().ProjectGroups)
+                .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().ProjectMembers)
                 .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().Projects)
                 .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().Workspaces);
 

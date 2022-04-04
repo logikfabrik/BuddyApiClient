@@ -8,6 +8,7 @@
     using BuddyApiClient.Core;
     using BuddyApiClient.CurrentUserEmails;
     using BuddyApiClient.CurrentUserEmails.Models.Request;
+    using BuddyApiClient.Test.Testing;
     using FluentAssertions;
     using RichardSzalay.MockHttp;
     using Xunit;

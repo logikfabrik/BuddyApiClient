@@ -7,6 +7,8 @@
     using System.Net.Http;
     using System.Threading.Tasks;
     using Bogus.DataSets;
+    using BuddyApiClient.IntegrationTest.Testing;
+    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
     using BuddyApiClient.Members.Models.Request;
     using BuddyApiClient.Members.Models.Response;
     using FluentAssertions;
@@ -49,35 +51,6 @@
                 }
             }
 
-            [Fact]
-            public async Task Should_Add_And_Return_The_Project_Member()
-            {
-                await _preconditions
-                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
-                    .SetUp();
-
-                var sut = Fixture.BuddyClient.Members;
-
-                MemberDetails? member = null;
-
-                try
-                {
-                    member = await sut.Add(await domain(), await projectName(), new AddProjectMember(new PermissionSet { Id = await permissionSetId() }) { MemberId = await memberId() });
-
-                    member.Should().NotBeNull();
-                }
-                finally
-                {
-                    if (member is not null)
-                    {
-                        await sut.Remove(await domain(), await projectName(), member.Id);
-                    }
-                }
-            }
-
             public override async Task DisposeAsync()
             {
                 await base.DisposeAsync();
@@ -116,24 +89,6 @@
                 member.Should().NotBeNull();
             }
 
-            [Fact]
-            public async Task Should_Return_The_Project_Member_If_It_Exists()
-            {
-                await _preconditions
-                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
-                    .Add(new ProjectMemberExistsPrecondition(Fixture.BuddyClient.Members, domain, projectName, permissionSetId, memberId), out var projectMemberId)
-                    .SetUp();
-
-                var sut = Fixture.BuddyClient.Members;
-
-                var member = await sut.Get(await domain(), await projectName(), await projectMemberId());
-
-                member.Should().NotBeNull();
-            }
-
             public override async Task DisposeAsync()
             {
                 await base.DisposeAsync();
@@ -168,24 +123,6 @@
                 var sut = Fixture.BuddyClient.Members;
 
                 var members = await sut.List(await domain());
-
-                members?.Members.Should().NotBeEmpty();
-            }
-
-            [Fact]
-            public async Task Should_Return_Project_Members_If_Any_Exists()
-            {
-                await _preconditions
-                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
-                    .Add(new ProjectMemberExistsPrecondition(Fixture.BuddyClient.Members, domain, projectName, permissionSetId, memberId))
-                    .SetUp();
-
-                var sut = Fixture.BuddyClient.Members;
-
-                var members = await sut.List(await domain(), await projectName());
 
                 members?.Members.Should().NotBeEmpty();
             }
@@ -239,35 +176,6 @@
                 members.Should().NotBeEmpty();
             }
 
-            [Fact]
-            public async Task Should_Return_Project_Members_If_Any_Exists()
-            {
-                await _preconditions
-                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
-                    .Add(new ProjectMemberExistsPrecondition(Fixture.BuddyClient.Members, domain, projectName, permissionSetId, memberId))
-                    .SetUp();
-
-                var sut = Fixture.BuddyClient.Members;
-
-                var members = new List<MemberSummary>();
-
-                var pageQuery = new ListMembersQuery();
-
-                var pageIterator = sut.ListAll(await domain(), await projectName(), pageQuery, (_, response, _) =>
-                {
-                    members.AddRange(response?.Members ?? Enumerable.Empty<MemberSummary>());
-
-                    return Task.FromResult(true);
-                });
-
-                await pageIterator.Iterate();
-
-                members.Should().NotBeEmpty();
-            }
-
             public override async Task DisposeAsync()
             {
                 await base.DisposeAsync();
@@ -308,26 +216,6 @@
                 (await assert.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
 
-            [Fact]
-            public async Task Should_Remove_The_Project_Member_And_Return_Nothing()
-            {
-                await _preconditions
-                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
-                    .Add(new ProjectMemberExistsPrecondition(Fixture.BuddyClient.Members, domain, projectName, permissionSetId, memberId), out var projectMemberId)
-                    .SetUp();
-
-                var sut = Fixture.BuddyClient.Members;
-
-                await sut.Remove(await domain(), await memberId());
-
-                var assert = FluentActions.Awaiting(async () => await sut.Get(await domain(), await projectName(), await projectMemberId()));
-
-                (await assert.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
-            }
-
             public override async Task DisposeAsync()
             {
                 await base.DisposeAsync();
@@ -364,25 +252,6 @@
                 var member = await sut.Update(await domain(), await memberId(), new UpdateMember { Admin = true });
 
                 member?.Admin.Should().BeTrue();
-            }
-
-            [Fact]
-            public async Task Should_Update_And_Return_The_Project_Member()
-            {
-                await _preconditions
-                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var currentPermissionSetId)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var newPermissionSetId)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
-                    .Add(new ProjectMemberExistsPrecondition(Fixture.BuddyClient.Members, domain, projectName, currentPermissionSetId, memberId), out var projectMemberId)
-                    .SetUp();
-
-                var sut = Fixture.BuddyClient.Members;
-
-                var member = await sut.Update(await domain(), await projectName(), await projectMemberId(), new UpdateProjectMember(new PermissionSet { Id = await newPermissionSetId() }));
-
-                member?.PermissionSet?.Id.Should().BeEquivalentTo(await newPermissionSetId());
             }
 
             public override async Task DisposeAsync()

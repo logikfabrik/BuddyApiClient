@@ -1,6 +1,6 @@
 # BuddyApiClient
 
-A .NET client for the [Buddy](https://buddy.works/) API.
+A .NET client for the [Buddy](https://buddy.works) API.
 
 ## How to use BuddyApiClient
 
@@ -28,7 +28,7 @@ If you have a bug report, feature request, or suggestion, please open a new issu
 
 ### How to run the integration tests
 
-To run the integration tests, run [Buddy On-Premises](https://buddy.works/docs/on-premises) in Docker. Set up a Buddy user, workspace, and personal access token.
+To run the integration tests, run [Buddy On-Premises](https://buddy.works/docs/on-premises) in Docker. Set up a Buddy user, workspace, and personal access token. Then configure BuddyApiClient.IntegrationTest in VS, and run the tests.
 
 #### How to create the Buddy container
 
@@ -70,7 +70,7 @@ To run the integration tests, run [Buddy On-Premises](https://buddy.works/docs/o
 
 3. Done!
 
-#### How to set up Buddy
+#### How to set up Buddy (and to generate a new token)
 
 1. Start the Buddy container, if stopped.
 
@@ -86,4 +86,12 @@ To run the integration tests, run [Buddy On-Premises](https://buddy.works/docs/o
 
 7. Copy the token.
 
-8. ...
+8. Done!
+
+#### How to configure BuddyApiClient.IntegrationTest in VS
+
+1. Open *BuddyApiClient.sln* in VS.
+
+2. In the Solution Explorer window pane, right-click *BuddyApiClient.IntegrationTest*, then click *Manage User Secrets*.
+
+3. ...
