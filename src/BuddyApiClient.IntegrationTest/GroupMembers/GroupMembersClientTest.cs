@@ -4,12 +4,10 @@
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Bogus;
     using Bogus.DataSets;
     using BuddyApiClient.GroupMembers.Models.Request;
     using BuddyApiClient.IntegrationTest.Testing;
     using BuddyApiClient.IntegrationTest.Testing.Preconditions;
-    using BuddyApiClient.Members.Models;
     using BuddyApiClient.Members.Models.Response;
     using FluentAssertions;
     using Xunit;
@@ -99,13 +97,13 @@
                 await _preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
                     .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Lorem().Word()), out var groupId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.GroupMembers;
+                
+                var act = FluentActions.Awaiting(async () => await sut.Get(await domain(), await groupId(), await memberId()));
 
-                var act = FluentActions.Awaiting(async () => await sut.Get(await domain(), await groupId(), new MemberId(new Randomizer().Int())));
-
-                // Expecting HTTP 404 to be returned, but the Buddy API returns HTTP 403.
                 (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.Forbidden);
             }
 
@@ -188,7 +186,6 @@
 
                 var assert = FluentActions.Awaiting(async () => await sut.Get(await domain(), await groupId(), await groupMemberId()));
 
-                // Expecting HTTP 404 to be returned, but the Buddy API returns HTTP 403.
                 (await assert.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.Forbidden);
             }
 
