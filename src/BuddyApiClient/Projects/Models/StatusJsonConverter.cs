@@ -1,6 +1,6 @@
 ﻿namespace BuddyApiClient.Projects.Models
 {
-    public static class StatusJsonConverter
+    internal static class StatusJsonConverter
     {
         public const string ActiveAsJson = "ACTIVE";
         public const string ClosedAsJson = "CLOSED";

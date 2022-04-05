@@ -1,6 +1,5 @@
 ﻿namespace BuddyApiClient.IntegrationTest.ProjectMembers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
@@ -20,17 +19,14 @@
     {
         public sealed class Add : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public Add(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
             public async Task Should_Add_And_Return_The_Project_Member()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
                     .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
                     .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
@@ -55,34 +51,18 @@
                     }
                 }
             }
-
-            public override async Task DisposeAsync()
-            {
-                await base.DisposeAsync();
-
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
-            }
         }
 
         public sealed class Get : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public Get(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
             public async Task Should_Return_The_Project_Member_If_It_Exists()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
                     .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
                     .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
@@ -96,34 +76,18 @@
 
                 projectMember.Should().NotBeNull();
             }
-
-            public override async Task DisposeAsync()
-            {
-                await base.DisposeAsync();
-
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
-            }
         }
 
         public sealed class List : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public List(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
             public async Task Should_Return_Project_Members_If_Any_Exists()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
                     .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
                     .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
@@ -137,34 +101,18 @@
 
                 projectMembers?.Members.Should().NotBeEmpty();
             }
-
-            public override async Task DisposeAsync()
-            {
-                await base.DisposeAsync();
-
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
-            }
         }
 
         public sealed class ListAll : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public ListAll(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
             public async Task Should_Return_Project_Members_If_Any_Exists()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
                     .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
                     .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
@@ -189,34 +137,18 @@
 
                 projectMembers.Should().NotBeEmpty();
             }
-
-            public override async Task DisposeAsync()
-            {
-                await base.DisposeAsync();
-
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
-            }
         }
 
         public sealed class Remove : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public Remove(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
             public async Task Should_Remove_The_Project_Member_And_Return_Nothing()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
                     .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
                     .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
@@ -232,34 +164,18 @@
 
                 (await assert.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
-
-            public override async Task DisposeAsync()
-            {
-                await base.DisposeAsync();
-
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
-            }
         }
 
         public sealed class Update : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public Update(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
             public async Task Should_Update_And_Return_The_Project_Member()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
                     .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
                     .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var currentPermissionSetId)
@@ -273,19 +189,6 @@
                 var projectMember = await sut.Update(await domain(), await projectName(), await projectMemberId(), new UpdateProjectMember(new PermissionSet { Id = await newPermissionSetId() }));
 
                 projectMember?.PermissionSet?.Id.Should().BeEquivalentTo(await newPermissionSetId());
-            }
-
-            public override async Task DisposeAsync()
-            {
-                await base.DisposeAsync();
-
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
             }
         }
     }

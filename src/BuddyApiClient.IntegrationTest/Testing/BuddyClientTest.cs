@@ -1,10 +1,10 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Testing
 {
-    using System.Threading.Tasks;
+    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
     using Xunit;
 
     [Collection(nameof(BuddyClientCollection))]
-    public abstract class BuddyClientTest : IAsyncLifetime
+    public abstract class BuddyClientTest : IntegrationTest
     {
         protected BuddyClientTest(BuddyClientFixture fixture)
         {
@@ -12,15 +12,5 @@
         }
 
         protected BuddyClientFixture Fixture { get; }
-
-        public virtual async Task InitializeAsync()
-        {
-            await Task.CompletedTask;
-        }
-
-        public virtual async Task DisposeAsync()
-        {
-            await Task.CompletedTask;
-        }
     }
 }

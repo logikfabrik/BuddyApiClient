@@ -4,14 +4,14 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    internal abstract class Precondition
+    public abstract class Precondition
     {
         public abstract Task SetUp();
 
         public abstract Task TearDown();
     }
 
-    internal abstract class Precondition<T> : Precondition, IDisposable where T : struct
+    public abstract class Precondition<T> : Precondition, IDisposable where T : struct
     {
         private readonly Func<Task<T>> _setUp;
         private readonly Func<Func<Task<T>>, Func<Task>> _tearDown;

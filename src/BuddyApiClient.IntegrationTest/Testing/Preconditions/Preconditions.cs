@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    internal sealed class Preconditions
+    public sealed class Preconditions
     {
         private readonly ConcurrentStack<Precondition> _preconditions;
 
