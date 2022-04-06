@@ -10,6 +10,7 @@
     using BuddyApiClient.ProjectGroups;
     using BuddyApiClient.ProjectMembers;
     using BuddyApiClient.Projects;
+    using BuddyApiClient.Variables;
     using BuddyApiClient.Workspaces;
     using Microsoft.Extensions.Options;
 
@@ -38,6 +39,7 @@
             ProjectGroups = new ProjectGroupsClient(httpClientFacade);
             ProjectMembers = new ProjectMembersClient(httpClientFacade);
             Projects = new ProjectsClient(httpClientFacade);
+            Variables = new VariablesClient(httpClientFacade);
             Workspaces = new WorkspacesClient(httpClientFacade);
         }
 
@@ -58,6 +60,8 @@
         public IProjectMembersClient ProjectMembers { get; }
 
         public IProjectsClient Projects { get; }
+
+        public IVariablesClient Variables { get; }
 
         public IWorkspacesClient Workspaces { get; }
     }

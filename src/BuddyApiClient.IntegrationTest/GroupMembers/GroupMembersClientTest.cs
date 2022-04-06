@@ -3,10 +3,12 @@
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Bogus.DataSets;
     using BuddyApiClient.GroupMembers.Models.Request;
+    using BuddyApiClient.IntegrationTest.GroupMembers.Preconditions;
+    using BuddyApiClient.IntegrationTest.Groups.Preconditions;
+    using BuddyApiClient.IntegrationTest.Members.Preconditions;
     using BuddyApiClient.IntegrationTest.Testing;
-    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
+    using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using BuddyApiClient.Members.Models.Response;
     using FluentAssertions;
     using Xunit;
@@ -24,8 +26,8 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Lorem().Word()), out var groupId)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.GroupMembers;
@@ -59,8 +61,8 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Lorem().Word()), out var groupId)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
                     .Add(new GroupMemberExistsPrecondition(Fixture.BuddyClient.GroupMembers, domain, groupId, memberId), out var groupMemberId)
                     .SetUp();
 
@@ -76,8 +78,8 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Lorem().Word()), out var groupId)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.GroupMembers;
@@ -99,8 +101,8 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Lorem().Word()), out var groupId)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
                     .Add(new GroupMemberExistsPrecondition(Fixture.BuddyClient.GroupMembers, domain, groupId, memberId))
                     .SetUp();
 
@@ -123,8 +125,8 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Lorem().Word()), out var groupId)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
                     .Add(new GroupMemberExistsPrecondition(Fixture.BuddyClient.GroupMembers, domain, groupId, memberId), out var groupMemberId)
                     .SetUp();
 

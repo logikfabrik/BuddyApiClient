@@ -4,8 +4,10 @@
     using System.Net.Http;
     using System.Threading.Tasks;
     using Bogus.DataSets;
+    using BuddyApiClient.IntegrationTest.PermissionSets.FakeModelFactories;
+    using BuddyApiClient.IntegrationTest.PermissionSets.Preconditions;
     using BuddyApiClient.IntegrationTest.Testing;
-    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
+    using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using BuddyApiClient.PermissionSets.Models.Request;
     using BuddyApiClient.PermissionSets.Models.Response;
     using FluentAssertions;
@@ -32,7 +34,7 @@
 
                 try
                 {
-                    permissionSet = await sut.Create(await domain(), new CreatePermissionSet(new Lorem().Word()) { Description = new Lorem().Slug() });
+                    permissionSet = await sut.Create(await domain(), CreatePermissionSetFactory.Create());
 
                     permissionSet.Should().NotBeNull();
                 }
@@ -57,7 +59,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var permissionSetId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.PermissionSets;
@@ -79,7 +81,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()))
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain))
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.PermissionSets;
@@ -101,7 +103,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var permissionSetId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.PermissionSets;
@@ -125,16 +127,16 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var permissionSetId)
                     .SetUp();
 
-                var name = new Lorem().Word();
+                var newName = new Lorem().Word();
 
                 var sut = Fixture.BuddyClient.PermissionSets;
 
-                var permissionSet = await sut.Update(await domain(), await permissionSetId(), new UpdatePermissionSet { Name = name });
+                var permissionSet = await sut.Update(await domain(), await permissionSetId(), new UpdatePermissionSet { Name = newName });
 
-                permissionSet?.Name.Should().Be(name);
+                permissionSet?.Name.Should().Be(newName);
             }
         }
     }

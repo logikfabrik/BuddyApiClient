@@ -3,9 +3,12 @@
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Bogus.DataSets;
+    using BuddyApiClient.IntegrationTest.Groups.Preconditions;
+    using BuddyApiClient.IntegrationTest.PermissionSets.Preconditions;
+    using BuddyApiClient.IntegrationTest.ProjectGroups.Preconditions;
+    using BuddyApiClient.IntegrationTest.Projects.Preconditions;
     using BuddyApiClient.IntegrationTest.Testing;
-    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
+    using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using BuddyApiClient.ProjectGroups.Models.Request;
     using BuddyApiClient.ProjectGroups.Models.Response;
     using FluentAssertions;
@@ -24,9 +27,9 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Internet().ExampleEmail()), out var groupId)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var permissionSetId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.ProjectGroups;
@@ -60,9 +63,9 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Internet().ExampleEmail()), out var groupId)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var permissionSetId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
                     .Add(new ProjectGroupExistsPrecondition(Fixture.BuddyClient.ProjectGroups, domain, projectName, permissionSetId, groupId), out var projectGroupId)
                     .SetUp();
 
@@ -85,9 +88,9 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Internet().ExampleEmail()), out var groupId)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var permissionSetId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
                     .Add(new ProjectGroupExistsPrecondition(Fixture.BuddyClient.ProjectGroups, domain, projectName, permissionSetId, groupId))
                     .SetUp();
 
@@ -110,9 +113,9 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Internet().ExampleEmail()), out var groupId)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var permissionSetId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
                     .Add(new ProjectGroupExistsPrecondition(Fixture.BuddyClient.ProjectGroups, domain, projectName, permissionSetId, groupId), out var projectGroupId)
                     .SetUp();
 
@@ -137,10 +140,10 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var currentPermissionSetId)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var newPermissionSetId)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Internet().ExampleEmail()), out var groupId)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var currentPermissionSetId)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var newPermissionSetId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
                     .Add(new ProjectGroupExistsPrecondition(Fixture.BuddyClient.ProjectGroups, domain, projectName, currentPermissionSetId, groupId), out var projectGroupId)
                     .SetUp();
 

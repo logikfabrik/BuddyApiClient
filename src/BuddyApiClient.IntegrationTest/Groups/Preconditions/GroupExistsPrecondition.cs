@@ -1,4 +1,4 @@
-﻿namespace BuddyApiClient.IntegrationTest.Testing.Preconditions
+﻿namespace BuddyApiClient.IntegrationTest.Groups.Preconditions
 {
     using System;
     using System.Net;
@@ -6,20 +6,21 @@
     using System.Threading.Tasks;
     using BuddyApiClient.Groups;
     using BuddyApiClient.Groups.Models;
-    using BuddyApiClient.Groups.Models.Request;
+    using BuddyApiClient.IntegrationTest.Groups.FakeModelFactories;
+    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
     using BuddyApiClient.Workspaces.Models;
 
     internal sealed class GroupExistsPrecondition : Precondition<GroupId>
     {
-        public GroupExistsPrecondition(IGroupsClient client, Func<Task<Domain>> domainSetUp, string name) : base(SetUp(client, domainSetUp, name), setUp => TearDown(client, domainSetUp, setUp))
+        public GroupExistsPrecondition(IGroupsClient client, Func<Task<Domain>> domainSetUp) : base(SetUp(client, domainSetUp), setUp => TearDown(client, domainSetUp, setUp))
         {
         }
 
-        private static Func<Task<GroupId>> SetUp(IGroupsClient client, Func<Task<Domain>> domainSetUp, string name)
+        private static Func<Task<GroupId>> SetUp(IGroupsClient client, Func<Task<Domain>> domainSetUp)
         {
             return async () =>
             {
-                var group = await client.Create(await domainSetUp(), new CreateGroup(name));
+                var group = await client.Create(await domainSetUp(), CreateGroupFactory.Create());
 
                 return group?.Id ?? throw new PreconditionSetUpException();
             };

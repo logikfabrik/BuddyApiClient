@@ -1,25 +1,26 @@
-﻿namespace BuddyApiClient.IntegrationTest.Testing.Preconditions
+﻿namespace BuddyApiClient.IntegrationTest.Projects.Preconditions
 {
     using System;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using BuddyApiClient.IntegrationTest.Projects.FakeModelFactories;
+    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
     using BuddyApiClient.Projects;
     using BuddyApiClient.Projects.Models;
-    using BuddyApiClient.Projects.Models.Request;
     using BuddyApiClient.Workspaces.Models;
 
     internal sealed class ProjectExistsPrecondition : Precondition<ProjectName>
     {
-        public ProjectExistsPrecondition(IProjectsClient client, Func<Task<Domain>> domainSetUp, string displayName) : base(SetUp(client, domainSetUp, displayName), setUp => TearDown(client, domainSetUp, setUp))
+        public ProjectExistsPrecondition(IProjectsClient client, Func<Task<Domain>> domainSetUp) : base(SetUp(client, domainSetUp), setUp => TearDown(client, domainSetUp, setUp))
         {
         }
 
-        private static Func<Task<ProjectName>> SetUp(IProjectsClient client, Func<Task<Domain>> domainSetUp, string displayName)
+        private static Func<Task<ProjectName>> SetUp(IProjectsClient client, Func<Task<Domain>> domainSetUp)
         {
             return async () =>
             {
-                var project = await client.Create(await domainSetUp(), new CreateProject(displayName));
+                var project = await client.Create(await domainSetUp(), CreateProjectFactory.Create());
 
                 return project?.Name ?? throw new PreconditionSetUpException();
             };

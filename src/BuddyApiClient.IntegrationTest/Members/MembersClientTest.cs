@@ -5,9 +5,10 @@
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Bogus.DataSets;
+    using BuddyApiClient.IntegrationTest.Members.FakeModelFactories;
+    using BuddyApiClient.IntegrationTest.Members.Preconditions;
     using BuddyApiClient.IntegrationTest.Testing;
-    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
+    using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using BuddyApiClient.Members.Models.Request;
     using BuddyApiClient.Members.Models.Response;
     using FluentAssertions;
@@ -34,7 +35,7 @@
 
                 try
                 {
-                    member = await sut.Add(await domain(), new AddMember(new Internet().ExampleEmail()));
+                    member = await sut.Add(await domain(), AddMemberFactory.Create());
 
                     member.Should().NotBeNull();
                 }
@@ -59,7 +60,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Members;
@@ -81,7 +82,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()))
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain))
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Members;
@@ -103,7 +104,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()))
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain))
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Members;
@@ -136,7 +137,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Members;
@@ -160,7 +161,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Members;

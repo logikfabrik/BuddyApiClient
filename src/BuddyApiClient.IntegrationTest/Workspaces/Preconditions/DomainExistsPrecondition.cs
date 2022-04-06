@@ -1,8 +1,9 @@
-﻿namespace BuddyApiClient.IntegrationTest.Testing.Preconditions
+﻿namespace BuddyApiClient.IntegrationTest.Workspaces.Preconditions
 {
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
     using BuddyApiClient.Workspaces;
     using BuddyApiClient.Workspaces.Models;
 

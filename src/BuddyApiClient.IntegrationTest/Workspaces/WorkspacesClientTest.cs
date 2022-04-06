@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
     using BuddyApiClient.IntegrationTest.Testing;
-    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
+    using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using FluentAssertions;
     using Xunit;
 

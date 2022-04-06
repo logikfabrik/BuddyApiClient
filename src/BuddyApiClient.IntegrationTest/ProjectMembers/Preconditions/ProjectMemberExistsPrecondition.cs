@@ -1,9 +1,10 @@
-﻿namespace BuddyApiClient.IntegrationTest.Testing.Preconditions
+﻿namespace BuddyApiClient.IntegrationTest.ProjectMembers.Preconditions
 {
     using System;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
     using BuddyApiClient.Members.Models;
     using BuddyApiClient.PermissionSets.Models;
     using BuddyApiClient.ProjectMembers;

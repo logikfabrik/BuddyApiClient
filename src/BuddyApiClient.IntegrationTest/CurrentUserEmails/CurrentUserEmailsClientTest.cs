@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using Bogus.DataSets;
     using BuddyApiClient.CurrentUserEmails.Models.Request;
+    using BuddyApiClient.IntegrationTest.CurrentUserEmails.FakeModelFactories;
     using BuddyApiClient.IntegrationTest.Testing;
     using FluentAssertions;
     using Xunit;
@@ -42,7 +43,7 @@
             {
                 var sut = Fixture.BuddyClient.CurrentUserEmails;
 
-                var email = await sut.Add(new AddEmail(new Internet().ExampleEmail()));
+                var email = await sut.Add(AddEmailFactory.Create());
 
                 _email = email?.Email;
 
@@ -91,7 +92,7 @@
 
                 var client = Fixture.BuddyClient.CurrentUserEmails;
 
-                var email = await client.Add(new AddEmail(new Internet().ExampleEmail()));
+                var email = await client.Add(AddEmailFactory.Create());
 
                 _email = email?.Email;
             }

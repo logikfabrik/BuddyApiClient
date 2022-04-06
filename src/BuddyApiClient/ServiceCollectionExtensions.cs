@@ -44,6 +44,7 @@
                 .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().ProjectGroups)
                 .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().ProjectMembers)
                 .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().Projects)
+                .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().Variables)
                 .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().Workspaces);
 
             return services;

@@ -87,6 +87,14 @@
             }
 
             [Fact]
+            public void Should_Return_Instance_With_Variables_Set()
+            {
+                var sut = CreateClient();
+
+                sut.Variables.Should().NotBeNull();
+            }
+
+            [Fact]
             public void Should_Return_Instance_With_Workspaces_Set()
             {
                 var sut = CreateClient();

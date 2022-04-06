@@ -10,6 +10,7 @@
     using BuddyApiClient.ProjectGroups;
     using BuddyApiClient.ProjectMembers;
     using BuddyApiClient.Projects;
+    using BuddyApiClient.Variables;
     using BuddyApiClient.Workspaces;
     using FluentAssertions;
     using Microsoft.Extensions.Configuration;
@@ -141,6 +142,14 @@
                 var projectsClient = _sut.GetService<IProjectsClient>();
 
                 projectsClient.Should().NotBeNull();
+            }
+
+            [Fact]
+            public void Should_Return_VariablesClient()
+            {
+                var variablesClient = _sut.GetService<IVariablesClient>();
+
+                variablesClient.Should().NotBeNull();
             }
 
             [Fact]

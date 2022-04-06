@@ -1,25 +1,26 @@
-﻿namespace BuddyApiClient.IntegrationTest.Testing.Preconditions
+﻿namespace BuddyApiClient.IntegrationTest.Members.Preconditions
 {
     using System;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using BuddyApiClient.IntegrationTest.Members.FakeModelFactories;
+    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
     using BuddyApiClient.Members;
     using BuddyApiClient.Members.Models;
-    using BuddyApiClient.Members.Models.Request;
     using BuddyApiClient.Workspaces.Models;
 
     internal sealed class MemberExistsPrecondition : Precondition<MemberId>
     {
-        public MemberExistsPrecondition(IMembersClient client, Func<Task<Domain>> domainSetUp, string email) : base(SetUp(client, domainSetUp, email), setUp => TearDown(client, domainSetUp, setUp))
+        public MemberExistsPrecondition(IMembersClient client, Func<Task<Domain>> domainSetUp) : base(SetUp(client, domainSetUp), setUp => TearDown(client, domainSetUp, setUp))
         {
         }
 
-        private static Func<Task<MemberId>> SetUp(IMembersClient client, Func<Task<Domain>> domainSetUp, string email)
+        private static Func<Task<MemberId>> SetUp(IMembersClient client, Func<Task<Domain>> domainSetUp)
         {
             return async () =>
             {
-                var member = await client.Add(await domainSetUp(), new AddMember(email));
+                var member = await client.Add(await domainSetUp(), AddMemberFactory.Create());
 
                 return member?.Id ?? throw new PreconditionSetUpException();
             };

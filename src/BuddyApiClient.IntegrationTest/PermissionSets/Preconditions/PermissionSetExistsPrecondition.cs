@@ -1,25 +1,26 @@
-﻿namespace BuddyApiClient.IntegrationTest.Testing.Preconditions
+﻿namespace BuddyApiClient.IntegrationTest.PermissionSets.Preconditions
 {
     using System;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using BuddyApiClient.IntegrationTest.PermissionSets.FakeModelFactories;
+    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
     using BuddyApiClient.PermissionSets;
     using BuddyApiClient.PermissionSets.Models;
-    using BuddyApiClient.PermissionSets.Models.Request;
     using BuddyApiClient.Workspaces.Models;
 
     internal sealed class PermissionSetExistsPrecondition : Precondition<PermissionSetId>
     {
-        public PermissionSetExistsPrecondition(IPermissionSetsClient client, Func<Task<Domain>> domainSetUp, string name) : base(SetUp(client, domainSetUp, name), setUp => TearDown(client, domainSetUp, setUp))
+        public PermissionSetExistsPrecondition(IPermissionSetsClient client, Func<Task<Domain>> domainSetUp) : base(SetUp(client, domainSetUp), setUp => TearDown(client, domainSetUp, setUp))
         {
         }
 
-        private static Func<Task<PermissionSetId>> SetUp(IPermissionSetsClient client, Func<Task<Domain>> domainSetUp, string name)
+        private static Func<Task<PermissionSetId>> SetUp(IPermissionSetsClient client, Func<Task<Domain>> domainSetUp)
         {
             return async () =>
             {
-                var permissionSet = await client.Create(await domainSetUp(), new CreatePermissionSet(name));
+                var permissionSet = await client.Create(await domainSetUp(), CreatePermissionSetFactory.Create());
 
                 return permissionSet?.Id ?? throw new PreconditionSetUpException();
             };

@@ -6,8 +6,10 @@
     using Bogus.DataSets;
     using BuddyApiClient.Groups.Models.Request;
     using BuddyApiClient.Groups.Models.Response;
+    using BuddyApiClient.IntegrationTest.Groups.FakeModelFactories;
+    using BuddyApiClient.IntegrationTest.Groups.Preconditions;
     using BuddyApiClient.IntegrationTest.Testing;
-    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
+    using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using FluentAssertions;
     using Xunit;
 
@@ -32,7 +34,7 @@
 
                 try
                 {
-                    group = await sut.Create(await domain(), new CreateGroup(new Lorem().Word()));
+                    group = await sut.Create(await domain(), CreateGroupFactory.Create());
 
                     group.Should().NotBeNull();
                 }
@@ -57,7 +59,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Lorem().Word()), out var groupId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Groups;
@@ -79,7 +81,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Lorem().Word()))
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain))
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Groups;
@@ -101,7 +103,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Lorem().Word()), out var groupId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Groups;
@@ -125,7 +127,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Lorem().Word()), out var groupId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
                     .SetUp();
 
                 var newName = new Lorem().Word();

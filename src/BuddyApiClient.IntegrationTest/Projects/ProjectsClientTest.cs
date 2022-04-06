@@ -6,8 +6,10 @@
     using System.Net.Http;
     using System.Threading.Tasks;
     using Bogus.DataSets;
+    using BuddyApiClient.IntegrationTest.Projects.FakeModelFactories;
+    using BuddyApiClient.IntegrationTest.Projects.Preconditions;
     using BuddyApiClient.IntegrationTest.Testing;
-    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
+    using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using BuddyApiClient.Projects.Models.Request;
     using BuddyApiClient.Projects.Models.Response;
     using FluentAssertions;
@@ -34,7 +36,7 @@
 
                 try
                 {
-                    project = await sut.Create(await domain(), new CreateProject(new Lorem().Word()));
+                    project = await sut.Create(await domain(), CreateProjectFactory.Create());
 
                     project.Should().NotBeNull();
                 }
@@ -59,7 +61,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Projects;
@@ -81,7 +83,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()))
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain))
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Projects;
@@ -103,7 +105,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()))
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain))
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Projects;
@@ -136,7 +138,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Projects;
@@ -160,7 +162,7 @@
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
                     .SetUp();
 
                 var newDisplayName = new Lorem().Word();

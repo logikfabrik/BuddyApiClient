@@ -1,4 +1,4 @@
-﻿namespace BuddyApiClient.IntegrationTest.Testing.Preconditions
+﻿namespace BuddyApiClient.IntegrationTest.GroupMembers.Preconditions
 {
     using System;
     using System.Net;
@@ -7,6 +7,7 @@
     using BuddyApiClient.GroupMembers;
     using BuddyApiClient.GroupMembers.Models.Request;
     using BuddyApiClient.Groups.Models;
+    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
     using BuddyApiClient.Members.Models;
     using BuddyApiClient.Workspaces.Models;
 
