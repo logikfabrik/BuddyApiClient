@@ -139,6 +139,15 @@
     <Content Include="Projects\.testdata\Update_Should_Update_And_Return_The_Project.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Variables\.testdata\Create_Should_Create_And_Return_The_SSH_Key_Variable.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Variables\.testdata\Create_Should_Create_And_Return_The_Variable.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Variables\.testdata\Get_Should_Return_The_Variable_If_It_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Workspaces\.testdata\List_Should_Return_Workspaces.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
