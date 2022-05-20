@@ -12,7 +12,7 @@
             [Theory]
             [InlineData(FilePlaceJsonConverter.NoneAsJson, FilePlace.None)]
             [InlineData(FilePlaceJsonConverter.ContainerAsJson, FilePlace.Container)]
-            public void Should_Return_Enum_Value_For_Valid_Json(string json, FilePlace expected)
+            public void Should_Return_Enum_If_Json_Is_Valid(string json, FilePlace expected)
             {
                 var enumValue = FilePlaceJsonConverter.ConvertFrom(json);
 
@@ -20,7 +20,7 @@
             }
 
             [Fact]
-            public void Should_Throw_For_Invalid_Json()
+            public void Should_Throw_If_Json_Is_Invalid()
             {
                 var act = FluentActions.Invoking(() => FilePlaceJsonConverter.ConvertFrom(null));
 
@@ -33,7 +33,7 @@
             [Theory]
             [InlineData(FilePlace.None, FilePlaceJsonConverter.NoneAsJson)]
             [InlineData(FilePlace.Container, FilePlaceJsonConverter.ContainerAsJson)]
-            public void Should_Return_Json_For_Valid_Enum_Value(FilePlace enumValue, string expected)
+            public void Should_Return_Json_If_Enum_Is_Valid(FilePlace enumValue, string expected)
             {
                 var json = FilePlaceJsonConverter.ConvertTo(enumValue);
 
@@ -41,7 +41,7 @@
             }
 
             [Fact]
-            public void Should_Throw_For_Invalid_Enum_Value()
+            public void Should_Throw_If_Enum_Is_Invalid()
             {
                 var act = FluentActions.Invoking(() => FilePlaceJsonConverter.ConvertTo(null));
 

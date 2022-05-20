@@ -1,6 +1,5 @@
 ﻿namespace BuddyApiClient.Projects.Models.Request
 {
-    using System.Collections.Specialized;
     using BuddyApiClient.Core.Models.Request;
 
     public sealed record ListProjectsQuery : SortQuery
@@ -13,12 +12,13 @@
 
         protected override string? GetSortBy()
         {
-            if (!SortBy.HasValue)
+            return SortBy switch
             {
-                return null;
-            }
-
-            throw new NotImplementedException();
+                SortProjectsBy.Name => "name",
+                SortProjectsBy.CreateDate => "create_date",
+                SortProjectsBy.RepositorySize => "repository_size",
+                _ => null
+            };
         }
 
         private string? GetMembership()
@@ -31,31 +31,17 @@
             return Status is null ? null : StatusJsonConverter.ConvertTo(Status);
         }
 
-        private void AddMembership(NameValueCollection parameters)
+        private void AddMembership(QueryStringParameters parameters)
         {
-            var membership = GetMembership();
-
-            if (membership is null)
-            {
-                return;
-            }
-
-            parameters.Add("membership", membership);
+            parameters.Add("membership", GetMembership);
         }
 
-        private void AddStatus(NameValueCollection parameters)
+        private void AddStatus(QueryStringParameters parameters)
         {
-            var status = GetStatus();
-
-            if (status is null)
-            {
-                return;
-            }
-
-            parameters.Add("status", status);
+            parameters.Add("status", GetStatus);
         }
 
-        protected override void AddParameters(NameValueCollection parameters)
+        protected override void AddParameters(QueryStringParameters parameters)
         {
             base.AddParameters(parameters);
 

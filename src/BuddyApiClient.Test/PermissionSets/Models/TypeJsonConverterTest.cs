@@ -13,7 +13,7 @@
             [InlineData(TypeJsonConverter.DeveloperAsJson, BuddyApiClient.PermissionSets.Models.Type.Developer)]
             [InlineData(TypeJsonConverter.ReadOnlyAsJson, BuddyApiClient.PermissionSets.Models.Type.ReadOnly)]
             [InlineData(TypeJsonConverter.CustomAsJson, BuddyApiClient.PermissionSets.Models.Type.Custom)]
-            public void Should_Return_Enum_Value_For_Valid_Json(string json, BuddyApiClient.PermissionSets.Models.Type expected)
+            public void Should_Return_Enum_If_Json_Is_Valid(string json, BuddyApiClient.PermissionSets.Models.Type expected)
             {
                 var enumValue = TypeJsonConverter.ConvertFrom(json);
 
@@ -21,7 +21,7 @@
             }
 
             [Fact]
-            public void Should_Throw_For_Invalid_Json()
+            public void Should_Throw_If_Json_Is_Invalid()
             {
                 var act = FluentActions.Invoking(() => TypeJsonConverter.ConvertFrom(null));
 

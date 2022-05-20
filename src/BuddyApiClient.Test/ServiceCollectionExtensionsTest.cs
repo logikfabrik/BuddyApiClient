@@ -22,7 +22,7 @@
         public sealed class AddBuddyClient
         {
             [Fact]
-            public void Should_Return_BuddyClient_When_Added_Using_Configuration_Parameter()
+            public void Should_Return_BuddyClient_If_Added_Using_Configuration_Parameter()
             {
                 var configuration = new ConfigurationBuilder()
                     .Build();
@@ -37,7 +37,7 @@
             }
 
             [Fact]
-            public void Should_Return_BuddyClient_When_Added_Using_Action_Parameter()
+            public void Should_Return_BuddyClient_If_Added_Using_Action_Parameter()
             {
                 var sut = new ServiceCollection()
                     .AddBuddyClient(_ => { })
@@ -49,7 +49,7 @@
             }
 
             [Fact]
-            public void Should_Return_BuddyClient_When_Added_Using_Options_Parameter()
+            public void Should_Return_BuddyClient_If_Added_Using_Options_Parameter()
             {
                 var sut = new ServiceCollection()
                     .AddBuddyClient(new BuddyClientOptions())

@@ -1,6 +1,5 @@
 ﻿namespace BuddyApiClient.Core.Models.Request
 {
-    using System.Collections.Specialized;
     using EnsureThat;
 
     public abstract record PageQuery : Query
@@ -40,27 +39,27 @@
             }
         }
 
-        protected void AddPageIndex(NameValueCollection parameters)
+        private string? GetPageIndex()
         {
-            if (_pageIndex is null)
-            {
-                return;
-            }
-
-            parameters.Add("page", _pageIndex.ToString());
+            return _pageIndex?.ToString();
         }
 
-        protected void AddPageSize(NameValueCollection parameters)
+        private string? GetPageSize()
         {
-            if (_pageSize is null)
-            {
-                return;
-            }
-
-            parameters.Add("per_page", _pageSize.ToString());
+            return _pageSize?.ToString();
         }
 
-        protected override void AddParameters(NameValueCollection parameters)
+        private void AddPageIndex(QueryStringParameters parameters)
+        {
+            parameters.Add("page", GetPageIndex);
+        }
+
+        private void AddPageSize(QueryStringParameters parameters)
+        {
+            parameters.Add("per_page", GetPageSize);
+        }
+
+        protected override void AddParameters(QueryStringParameters parameters)
         {
             AddPageIndex(parameters);
             AddPageSize(parameters);
