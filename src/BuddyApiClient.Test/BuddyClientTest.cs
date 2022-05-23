@@ -12,92 +12,125 @@
             return new BuddyClient(new MockHttpMessageHandler().ToHttpClient(), new OptionsWrapper<BuddyClientOptions>(new BuddyClientOptions()));
         }
 
-        [Fact]
-        public void CurrentUser_Should_Return_A_Client()
+        public sealed class CurrentUser
         {
-            var sut = CreateClient();
+            [Fact]
+            public void Should_Return_A_Client()
+            {
+                var sut = CreateClient();
 
-            sut.CurrentUser.Should().NotBeNull();
+                sut.CurrentUser.Should().NotBeNull();
+            }
         }
 
-        [Fact]
-        public void CurrentUserEmails_Should_Return_A_Client()
+        public sealed class CurrentUserEmails
         {
-            var sut = CreateClient();
+            [Fact]
+            public void Should_Return_A_Client()
+            {
+                var sut = CreateClient();
 
-            sut.CurrentUserEmails.Should().NotBeNull();
+                sut.CurrentUserEmails.Should().NotBeNull();
+            }
         }
 
-        [Fact]
-        public void GroupMembers_Should_Return_A_Client()
+        public sealed class GroupMembers
         {
-            var sut = CreateClient();
+            [Fact]
+            public void Should_Return_A_Client()
+            {
+                var sut = CreateClient();
 
-            sut.GroupMembers.Should().NotBeNull();
+                sut.GroupMembers.Should().NotBeNull();
+            }
         }
 
-        [Fact]
-        public void Groups_Should_Return_A_Client()
+        public sealed class Groups
         {
-            var sut = CreateClient();
+            [Fact]
+            public void Should_Return_A_Client()
+            {
+                var sut = CreateClient();
 
-            sut.Groups.Should().NotBeNull();
+                sut.Groups.Should().NotBeNull();
+            }
         }
 
-        [Fact]
-        public void Members_Should_Return_A_Client()
+        public sealed class Members
         {
-            var sut = CreateClient();
+            [Fact]
+            public void Should_Return_A_Client()
+            {
+                var sut = CreateClient();
 
-            sut.Members.Should().NotBeNull();
+                sut.Members.Should().NotBeNull();
+            }
         }
 
-        [Fact]
-        public void PermissionSets_Should_Return_A_Client()
+        public sealed class PermissionSets
         {
-            var sut = CreateClient();
+            [Fact]
+            public void Should_Return_A_Client()
+            {
+                var sut = CreateClient();
 
-            sut.PermissionSets.Should().NotBeNull();
+                sut.PermissionSets.Should().NotBeNull();
+            }
         }
 
-        [Fact]
-        public void ProjectGroups_Should_Return_A_Client()
+        public sealed class ProjectGroups
         {
-            var sut = CreateClient();
+            [Fact]
+            public void Should_Return_A_Client()
+            {
+                var sut = CreateClient();
 
-            sut.ProjectGroups.Should().NotBeNull();
+                sut.ProjectGroups.Should().NotBeNull();
+            }
         }
 
-        [Fact]
-        public void ProjectMembers_Should_Return_A_Client()
+        public sealed class ProjectMembers
         {
-            var sut = CreateClient();
+            [Fact]
+            public void Should_Return_A_Client()
+            {
+                var sut = CreateClient();
 
-            sut.ProjectMembers.Should().NotBeNull();
+                sut.ProjectMembers.Should().NotBeNull();
+            }
         }
 
-        [Fact]
-        public void Projects_Should_Return_A_Client()
+        public sealed class Projects
         {
-            var sut = CreateClient();
+            [Fact]
+            public void Should_Return_A_Client()
+            {
+                var sut = CreateClient();
 
-            sut.Projects.Should().NotBeNull();
+                sut.Projects.Should().NotBeNull();
+            }
         }
 
-        [Fact]
-        public void Variables_Should_Return_A_Client()
+        public sealed class Variables
         {
-            var sut = CreateClient();
+            [Fact]
+            public void Should_Return_A_Client()
+            {
+                var sut = CreateClient();
 
-            sut.Variables.Should().NotBeNull();
+                sut.Variables.Should().NotBeNull();
+            }
         }
 
-        [Fact]
-        public void Workspaces_Should_Return_A_Client()
+        public sealed class Workspaces
         {
-            var sut = CreateClient();
+            [Fact]
+            public void Should_Return_A_Client()
+            {
+                var sut = CreateClient();
 
-            sut.Workspaces.Should().NotBeNull();
+                sut.Workspaces.Should().NotBeNull();
+            }
         }
     }
 }

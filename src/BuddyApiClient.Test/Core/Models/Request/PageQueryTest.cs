@@ -26,7 +26,7 @@
             {
                 var sut = new PageQuery();
 
-                var pageIndex = new Randomizer().Int(min: 0);
+                var pageIndex = new Randomizer().Int(0);
 
                 var act = FluentActions.Invoking(() => sut.PageIndex = pageIndex);
 
@@ -53,7 +53,7 @@
             {
                 var sut = new PageQuery();
 
-                var pageSize = new Randomizer().Int(min: 0);
+                var pageSize = new Randomizer().Int(0);
 
                 var act = FluentActions.Invoking(() => sut.PageSize = pageSize);
 
