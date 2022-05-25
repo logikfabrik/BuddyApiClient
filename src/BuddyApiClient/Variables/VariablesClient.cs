@@ -25,11 +25,25 @@
             return await HttpClientFacade.Get<VariableDetails>(url, cancellationToken);
         }
 
+        public async Task<VariableList?> List(Workspaces.Models.Domain domain, ListVariablesQuery? query = default, CancellationToken cancellationToken = default)
+        {
+            var url = $"workspaces/{domain}/variables{query?.Build()}";
+
+            return await HttpClientFacade.Get<VariableList>(url, cancellationToken);
+        }
+
         public async Task Delete(Workspaces.Models.Domain domain, VariableId id, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/variables/{id}";
 
             await HttpClientFacade.Delete(url, cancellationToken);
+        }
+
+        public async Task<VariableDetails?> Update(Workspaces.Models.Domain domain, VariableId id, UpdateVariable content, CancellationToken cancellationToken = default)
+        {
+            var url = $"workspaces/{domain}/variables/{id}";
+
+            return await HttpClientFacade.Patch<VariableDetails>(url, content, cancellationToken);
         }
     }
 }

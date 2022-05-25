@@ -92,6 +92,43 @@
 
                 variable.Should().NotBeNull();
             }
+
+            [Fact]
+            public async Task Should_Return_The_SSH_Key_Variable_If_It_Exists()
+            {
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .Add(new SshKeyVariableExistsPrecondition(Fixture.BuddyClient.Variables, domain), out var variableId)
+                    .SetUp();
+
+                var sut = Fixture.BuddyClient.Variables;
+
+                var variable = await sut.Get(await domain(), await variableId());
+
+                variable.Should().NotBeNull();
+            }
+        }
+
+        public sealed class List : BuddyClientTest
+        {
+            public List(BuddyClientFixture fixture) : base(fixture)
+            {
+            }
+
+            [Fact]
+            public async Task Should_Return_Variables_If_Any_Exists()
+            {
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .Add(new VariableExistsPrecondition(Fixture.BuddyClient.Variables, domain))
+                    .SetUp();
+
+                var sut = Fixture.BuddyClient.Variables;
+
+                var variables = await sut.List(await domain());
+
+                variables?.Variables.Should().NotBeEmpty();
+            }
         }
 
         public sealed class Delete : BuddyClientTest
@@ -101,7 +138,7 @@
             }
 
             [Fact]
-            public async Task Should_Delete_The_Project_And_Return_Nothing()
+            public async Task Should_Delete_The_Variable_And_Return_Nothing()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)

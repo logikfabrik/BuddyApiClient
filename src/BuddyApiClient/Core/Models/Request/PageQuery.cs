@@ -19,7 +19,7 @@
                     return;
                 }
 
-                _pageIndex = Ensure.Comparable.IsGt(value.Value, 0);
+                _pageIndex = Ensure.Comparable.IsGte(value.Value, 0);
             }
         }
 

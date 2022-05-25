@@ -38,7 +38,7 @@
                 }
                 catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.NotFound)
                 {
-                    // Do nothing
+                    // Do nothing.
                 }
             };
         }

@@ -8,19 +8,24 @@
     using BuddyApiClient.IntegrationTest.Variables.FakeModelFactories;
     using BuddyApiClient.Variables;
     using BuddyApiClient.Variables.Models;
+    using BuddyApiClient.Variables.Models.Request;
     using BuddyApiClient.Workspaces.Models;
 
-    internal sealed class VariableExistsPrecondition : Precondition<VariableId>
+    internal class VariableExistsPrecondition : Precondition<VariableId>
     {
-        public VariableExistsPrecondition(IVariablesClient client, Func<Task<Domain>> domainSetUp) : base(SetUp(client, domainSetUp), setUp => TearDown(client, domainSetUp, setUp))
+        public VariableExistsPrecondition(IVariablesClient client, Func<Task<Domain>> domainSetUp) : this(client, domainSetUp, CreateVariableFactory.Create)
         {
         }
 
-        private static Func<Task<VariableId>> SetUp(IVariablesClient client, Func<Task<Domain>> domainSetUp)
+        protected VariableExistsPrecondition(IVariablesClient client, Func<Task<Domain>> domainSetUp, Func<CreateVariable> createVariableFactory) : base(SetUp(client, domainSetUp, createVariableFactory), setUp => TearDown(client, domainSetUp, setUp))
+        {
+        }
+
+        private static Func<Task<VariableId>> SetUp(IVariablesClient client, Func<Task<Domain>> domainSetUp, Func<CreateVariable> createVariableFactory)
         {
             return async () =>
             {
-                var variable = await client.Create(await domainSetUp(), CreateVariableFactory.Create());
+                var variable = await client.Create(await domainSetUp(), createVariableFactory());
 
                 return variable?.Id ?? throw new PreconditionSetUpException();
             };
@@ -36,7 +41,7 @@
                 }
                 catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.NotFound)
                 {
-                    // Do nothing
+                    // Do nothing.
                 }
             };
         }

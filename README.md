@@ -18,7 +18,7 @@ A .NET client for the [Buddy](https://buddy.works) API.
     services.AddBuddyClient(new BuddyClientOptions { AccessToken = "" });
     ```
 
-4. Next, take a dependence on `IBuddyClient`, and query the Buddy API.
+4. Next, take a dependence on `IBuddyClient` (or any resource specific client interface, e.g. `IMembersClient`, `IProjectsClient`, and `IVariablesClient`), and query the Buddy API.
 
 ## How to contribute to BuddyApiClient
 

@@ -1,7 +1,6 @@
 ﻿namespace BuddyApiClient.Test.Core.Models.Request
 {
     using System;
-    using Bogus;
     using FluentAssertions;
     using Xunit;
 
@@ -14,19 +13,19 @@
             {
                 var sut = new PageQuery();
 
-                var pageIndex = new Randomizer().Int(max: -1);
+                const int pageIndex = -1;
 
                 var act = FluentActions.Invoking(() => sut.PageIndex = pageIndex);
 
                 act.Should().Throw<ArgumentOutOfRangeException>();
             }
 
-            [Fact]
-            public void Should_Not_Throw_If_Set_To_Zero_Or_Greater()
+            [Theory]
+            [InlineData(0)]
+            [InlineData(10)]
+            public void Should_Not_Throw_If_Set_To_Zero_Or_Greater(int pageIndex)
             {
                 var sut = new PageQuery();
-
-                var pageIndex = new Randomizer().Int(0);
 
                 var act = FluentActions.Invoking(() => sut.PageIndex = pageIndex);
 
@@ -36,12 +35,12 @@
 
         public sealed class PageSize
         {
-            [Fact]
-            public void Should_Throw_If_Set_To_Less_Than_Zero()
+            [Theory]
+            [InlineData(0)]
+            [InlineData(-10)]
+            public void Should_Throw_If_Set_To_Zero_Or_Less(int pageSize)
             {
                 var sut = new PageQuery();
-
-                var pageSize = new Randomizer().Int(max: -1);
 
                 var act = FluentActions.Invoking(() => sut.PageSize = pageSize);
 
@@ -49,11 +48,11 @@
             }
 
             [Fact]
-            public void Should_Not_Throw_If_Set_To_Zero_Or_Greater()
+            public void Should_Not_Throw_If_Set_To_Greater_Than_Zero()
             {
                 var sut = new PageQuery();
 
-                var pageSize = new Randomizer().Int(0);
+                const int pageSize = 1;
 
                 var act = FluentActions.Invoking(() => sut.PageSize = pageSize);
 

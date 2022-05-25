@@ -2,7 +2,7 @@
 {
     using System.Text.Json.Serialization;
 
-    public sealed record VariableDetails
+    public sealed record VariableSummary
     {
         [JsonPropertyName("url")]
         public Uri? Url { get; set; }

@@ -9,7 +9,7 @@
 
     public sealed class QueryStringParametersTest
     {
-        public sealed class ToString
+        public new sealed class ToString
         {
             [Theory]
             [MemberData(nameof(GetParameters), 1)]
