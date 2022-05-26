@@ -148,6 +148,15 @@
     <Content Include="Variables\.testdata\Get_Should_Return_The_Variable_If_It_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Variables\.testdata\List_Should_Not_Return_Variables_If_None_Exist.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Variables\.testdata\List_Should_Return_Variables_If_Any_Exists.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Variables\.testdata\Update_Should_Update_And_Return_The_Variable.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Workspaces\.testdata\List_Should_Return_Workspaces.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

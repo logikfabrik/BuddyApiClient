@@ -3,10 +3,12 @@
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using Bogus.DataSets;
     using BuddyApiClient.IntegrationTest.Testing;
     using BuddyApiClient.IntegrationTest.Variables.FakeModelFactories;
     using BuddyApiClient.IntegrationTest.Variables.Preconditions;
     using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
+    using BuddyApiClient.Variables.Models.Request;
     using BuddyApiClient.Variables.Models.Response;
     using FluentAssertions;
     using Xunit;
@@ -121,6 +123,7 @@
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
                     .Add(new VariableExistsPrecondition(Fixture.BuddyClient.Variables, domain))
+                    .Add(new SshKeyVariableExistsPrecondition(Fixture.BuddyClient.Variables, domain))
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Variables;
@@ -152,6 +155,47 @@
                 var assert = FluentActions.Awaiting(async () => await sut.Get(await domain(), await variableId()));
 
                 (await assert.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            }
+        }
+
+        public sealed class Update : BuddyClientTest
+        {
+            public Update(BuddyClientFixture fixture) : base(fixture)
+            {
+            }
+
+            [Fact]
+            public async Task Should_Update_And_Return_The_Variable()
+            {
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .Add(new VariableExistsPrecondition(Fixture.BuddyClient.Variables, domain), out var variableId)
+                    .SetUp();
+
+                var newDescription = new Lorem().Word();
+
+                var sut = Fixture.BuddyClient.Variables;
+
+                var variable = await sut.Update(await domain(), await variableId(), new UpdateVariable { Description = newDescription });
+
+                variable?.Description.Should().Be(newDescription);
+            }
+
+            [Fact]
+            public async Task Should_Update_And_Return_The_SSH_Key_Variable()
+            {
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .Add(new SshKeyVariableExistsPrecondition(Fixture.BuddyClient.Variables, domain), out var variableId)
+                    .SetUp();
+
+                var newDescription = new Lorem().Word();
+
+                var sut = Fixture.BuddyClient.Variables;
+
+                var variable = await sut.Update(await domain(), await variableId(), new UpdateSshKeyVariable { Description = newDescription });
+
+                variable?.Description.Should().Be(newDescription);
             }
         }
     }

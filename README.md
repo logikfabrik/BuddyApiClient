@@ -88,7 +88,7 @@ To run the integration tests, run [Buddy On-Premises](https://buddy.works/docs/o
 
 2. In the Solution Explorer window pane, right-click the *BuddyApiClient.IntegrationTest* project, then click *Manage User Secrets*.
 
-3. Add config to `secrets.json`.
+3. Add config to `secrets.json`:
 
     ```json
     {

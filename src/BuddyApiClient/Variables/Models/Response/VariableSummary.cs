@@ -44,18 +44,9 @@
         ///     For JSON serialization/deserialization. Use property <see cref="FilePlace" />.
         /// </summary>
         [JsonPropertyName("file_place")]
-        public string? FilePlaceJson
+        public string FilePlaceJson
         {
-            set
-            {
-                if (value is null)
-                {
-                    // TODO: Check if needed.
-                    return;
-                }
-
-                FilePlace = FilePlaceJsonConverter.ConvertFrom(value);
-            }
+            set => FilePlace = FilePlaceJsonConverter.ConvertFrom(value);
         }
 
         [JsonPropertyName("file_name")]

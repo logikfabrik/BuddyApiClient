@@ -4,6 +4,7 @@
     using System.Net.Http.Json;
     using System.Text;
     using System.Text.Json;
+    using System.Text.Json.Serialization;
     using BuddyApiClient.Core.Models.Response;
     using EnsureThat;
 
@@ -48,7 +49,7 @@
             Ensure.String.IsNotNullOrEmpty(url, nameof(url));
             Ensure.Any.HasValue(content, nameof(content));
 
-            using var response = await _httpClient.PatchAsync(url, JsonContent.Create(content), cancellationToken);
+            using var response = await _httpClient.PatchAsync(url, JsonContent.Create(content, options: new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault }), cancellationToken);
 
             await ThrowOnError(response, cancellationToken);
 

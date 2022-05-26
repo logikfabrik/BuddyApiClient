@@ -89,6 +89,39 @@
             }
         }
 
+        public sealed class List
+        {
+            [Theory]
+            [FileData(@"Variables/.testdata/List_Should_Return_Variables_If_Any_Exists.json")]
+            public async Task Should_Return_Variables_If_Any_Exists(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/variables").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var variables = await sut.List(new BuddyApiClient.Workspaces.Models.Domain("buddy"));
+
+                variables?.Variables.Should().NotBeEmpty();
+            }
+
+            [Theory]
+            [FileData(@"Variables/.testdata/List_Should_Not_Return_Variables_If_None_Exist.json")]
+            public async Task Should_Not_Return_Variables_If_None_Exist(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/variables").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var variables = await sut.List(new BuddyApiClient.Workspaces.Models.Domain("buddy"));
+
+                variables?.Variables.Should().BeEmpty();
+            }
+        }
+
         public sealed class Delete
         {
             [Fact]
@@ -103,6 +136,24 @@
                 await sut.Delete(new BuddyApiClient.Workspaces.Models.Domain("buddy"), new VariableId(1));
 
                 handlerMock.VerifyNoOutstandingExpectation();
+            }
+        }
+
+        public sealed class Update
+        {
+            [Theory]
+            [FileData(@"Variables/.testdata/Update_Should_Update_And_Return_The_Variable.json")]
+            public async Task Should_Update_And_Return_The_Variable(string responseJson)
+            {
+                var handlerStub = new MockHttpMessageHandler();
+
+                handlerStub.When(HttpMethod.Patch, "https://api.buddy.works/workspaces/buddy/variables/1").Respond(MediaTypeNames.Application.Json, responseJson);
+
+                var sut = CreateClient(handlerStub);
+
+                var variable = await sut.Update(new BuddyApiClient.Workspaces.Models.Domain("buddy"), new VariableId(1), new UpdateVariable());
+
+                variable.Should().NotBeNull();
             }
         }
     }
