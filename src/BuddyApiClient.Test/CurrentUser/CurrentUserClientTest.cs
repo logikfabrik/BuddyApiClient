@@ -16,7 +16,7 @@
     {
         private static ICurrentUserClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new CurrentUserClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), null)));
+            return new CurrentUserClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), string.Empty)));
         }
 
         public sealed class Get

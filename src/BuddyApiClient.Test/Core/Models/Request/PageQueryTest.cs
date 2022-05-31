@@ -64,7 +64,7 @@
         {
             [Theory]
             [InlineData(10, "?page=10")]
-            public void Should_Return_Query_If_PageIndex_Is_Set(int pageIndex, string expected)
+            public void Should_Return_Query_If_Page_Index_Is_Set(int pageIndex, string expected)
             {
                 var sut = new PageQuery
                 {
@@ -78,7 +78,7 @@
 
             [Theory]
             [InlineData(10, "?per_page=10")]
-            public void Should_Return_Query_If_PageSize_Is_Set(int pageSize, string expected)
+            public void Should_Return_Query_If_Page_Size_Is_Set(int pageSize, string expected)
             {
                 var sut = new PageQuery
                 {

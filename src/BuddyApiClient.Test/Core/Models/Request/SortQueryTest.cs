@@ -11,7 +11,7 @@
             [Theory]
             [InlineData(SortDirection.Ascending, "?sort_direction=ASC")]
             [InlineData(SortDirection.Descending, "?sort_direction=DESC")]
-            public void Should_Return_Query_If_SortDirection_Is_Set(SortDirection sortDirection, string expected)
+            public void Should_Return_Query_If_Sort_Direction_Is_Set(SortDirection sortDirection, string expected)
             {
                 var sut = new SortQuery
                 {

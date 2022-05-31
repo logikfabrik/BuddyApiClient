@@ -61,14 +61,14 @@
             }
         }
 
-        public sealed class AddBuddyClients
+        public sealed class AddClients
         {
             private readonly IServiceProvider _sut;
 
-            public AddBuddyClients()
+            public AddClients()
             {
                 _sut = new ServiceCollection()
-                    .AddBuddyClients()
+                    .AddClients()
                     .BuildServiceProvider();
             }
 

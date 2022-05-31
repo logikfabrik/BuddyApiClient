@@ -19,7 +19,7 @@
     {
         private static IVariablesClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new VariablesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), null)));
+            return new VariablesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), string.Empty)));
         }
 
         public sealed class Create
@@ -101,7 +101,7 @@
 
                 var sut = CreateClient(handlerStub);
 
-                var variables = await sut.List(new BuddyApiClient.Workspaces.Models.Domain("buddy"));
+                var variables = await sut.List(new BuddyApiClient.Workspaces.Models.Domain("buddy"), new ListVariablesQuery());
 
                 variables?.Variables.Should().NotBeEmpty();
             }

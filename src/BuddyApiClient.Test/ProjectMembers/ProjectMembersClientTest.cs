@@ -26,7 +26,7 @@
     {
         private static IProjectMembersClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new ProjectMembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), null)));
+            return new ProjectMembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), string.Empty)));
         }
 
         public sealed class Add

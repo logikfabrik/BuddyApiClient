@@ -17,7 +17,7 @@
     {
         private static IWorkspacesClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new WorkspacesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), null)));
+            return new WorkspacesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), string.Empty)));
         }
 
         public sealed class Get

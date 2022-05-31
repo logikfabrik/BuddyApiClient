@@ -103,22 +103,22 @@
     <Content Include="ProjectMembers\.testdata\Update_Should_Update_And_Return_The_Project_Member.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PermissionSets\.testdata\Create_Should_Create_And_Return_The_PermissionSet.json">
+    <Content Include="PermissionSets\.testdata\Create_Should_Create_And_Return_The_Permission_Set.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PermissionSets\.testdata\List_Should_Not_Return_PermissionSets_If_None_Exist.json">
+    <Content Include="PermissionSets\.testdata\List_Should_Not_Return_Permission_Sets_If_None_Exist.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Projects\.testdata\Create_Should_Create_And_Return_The_Project.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PermissionSets\.testdata\Get_Should_Return_The_PermissionSet_If_It_Exists.json">
+    <Content Include="PermissionSets\.testdata\Get_Should_Return_The_Permission_Set_If_It_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PermissionSets\.testdata\List_Should_Return_PermissionSets_If_Any_Exists.json">
+    <Content Include="PermissionSets\.testdata\List_Should_Return_Permission_Sets_If_Any_Exists.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PermissionSets\.testdata\Update_Should_Update_And_Return_The_PermissionSet.json">
+    <Content Include="PermissionSets\.testdata\Update_Should_Update_And_Return_The_Permission_Set.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Projects\.testdata\Get_Should_Return_The_Project_If_It_Exists.json">

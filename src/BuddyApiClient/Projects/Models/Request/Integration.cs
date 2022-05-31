@@ -6,7 +6,7 @@
     {
         public Integration(string hashId)
         {
-            HashId = Ensure.String.IsNotNullOrEmpty(hashId);
+            HashId = Ensure.String.IsNotNullOrEmpty(hashId, nameof(hashId));
         }
 
         public string HashId { get; }

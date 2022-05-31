@@ -6,17 +6,13 @@
 
     internal static class HttpClientFacadeFactory
     {
-        public static HttpClientFacade Create(HttpClient httpClient, Uri? baseUrl, string? accessToken)
+        public static HttpClientFacade Create(HttpClient httpClient, Uri baseUrl, string accessToken)
         {
             Ensure.Any.HasValue(httpClient, nameof(httpClient));
 
             httpClient.BaseAddress = baseUrl;
 
-            if (accessToken is not null)
-            {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            }
-
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
             httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("BuddyApiClient", null));
             httpClient.DefaultRequestHeaders.Add("X-Buddy-Media-Type", "buddy.v1.1.0");

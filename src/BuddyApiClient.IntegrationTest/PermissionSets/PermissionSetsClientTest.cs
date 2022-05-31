@@ -22,7 +22,7 @@
             }
 
             [Fact]
-            public async Task Should_Create_And_Return_The_PermissionSet()
+            public async Task Should_Create_And_Return_The_Permission_Set()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -55,7 +55,7 @@
             }
 
             [Fact]
-            public async Task Should_Return_The_PermissionSet_If_It_Exists()
+            public async Task Should_Return_The_Permission_Set_If_It_Exists()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -77,7 +77,7 @@
             }
 
             [Fact]
-            public async Task Should_Return_PermissionSets_If_Any_Exists()
+            public async Task Should_Return_Permission_Sets_If_Any_Exists()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -99,7 +99,7 @@
             }
 
             [Fact]
-            public async Task Should_Delete_The_PermissionSet_And_Return_Nothing()
+            public async Task Should_Delete_The_Permission_Set_And_Return_Nothing()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -123,7 +123,7 @@
             }
 
             [Fact]
-            public async Task Should_Update_And_Return_The_PermissionSet()
+            public async Task Should_Update_And_Return_The_Permission_Set()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
