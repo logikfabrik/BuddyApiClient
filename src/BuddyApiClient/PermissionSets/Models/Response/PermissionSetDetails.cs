@@ -3,8 +3,11 @@
     using System.Text.Json.Serialization;
     using BuddyApiClient.Core.Models.Response;
 
-    public sealed record PermissionSetDetails : Response
+    public sealed record PermissionSetDetails : DocumentResponse
     {
+        [JsonPropertyName("html_url")]
+        public Uri? HtmlUrl { get; set; }
+
         [JsonPropertyName("id")]
         public PermissionSetId Id { get; set; }
 

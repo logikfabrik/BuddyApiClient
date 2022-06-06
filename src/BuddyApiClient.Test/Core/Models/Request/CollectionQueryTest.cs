@@ -4,14 +4,14 @@
     using FluentAssertions;
     using Xunit;
 
-    public sealed class PageQueryTest
+    public sealed class CollectionQueryTest
     {
         public sealed class PageIndex
         {
             [Fact]
             public void Should_Throw_When_SetToLessThanZero()
             {
-                var sut = new PageQuery();
+                var sut = new CollectionQuery();
 
                 const int pageIndex = -1;
 
@@ -25,7 +25,7 @@
             [InlineData(10)]
             public void Should_NotThrow_When_SetToZeroOrGreater(int pageIndex)
             {
-                var sut = new PageQuery();
+                var sut = new CollectionQuery();
 
                 var act = FluentActions.Invoking(() => sut.PageIndex = pageIndex);
 
@@ -40,7 +40,7 @@
             [InlineData(-10)]
             public void Should_Throw_When_SetToZeroOrLess(int pageSize)
             {
-                var sut = new PageQuery();
+                var sut = new CollectionQuery();
 
                 var act = FluentActions.Invoking(() => sut.PageSize = pageSize);
 
@@ -50,7 +50,7 @@
             [Fact]
             public void Should_NotThrow_When_SetToGreaterThanZero()
             {
-                var sut = new PageQuery();
+                var sut = new CollectionQuery();
 
                 const int pageSize = 1;
 
@@ -66,7 +66,7 @@
             [InlineData(10, "?page=10")]
             public void Should_ReturnQuery_When_PageIndexIsSet(int pageIndex, string expected)
             {
-                var sut = new PageQuery
+                var sut = new CollectionQuery
                 {
                     PageIndex = pageIndex
                 };
@@ -80,7 +80,7 @@
             [InlineData(10, "?per_page=10")]
             public void Should_ReturnQuery_When_PageSizeIsSet(int pageSize, string expected)
             {
-                var sut = new PageQuery
+                var sut = new CollectionQuery
                 {
                     PageSize = pageSize
                 };
@@ -91,6 +91,6 @@
             }
         }
 
-        private sealed record PageQuery : BuddyApiClient.Core.Models.Request.PageQuery;
+        private sealed record CollectionQuery : BuddyApiClient.Core.Models.Request.CollectionQuery;
     }
 }

@@ -117,22 +117,22 @@
             {
                 var handlerStub = new MockHttpMessageHandler();
 
-                handlerStub.When(HttpMethod.Get, $"https://api.buddy.works/workspaces/buddy/projects?page={PageIterator.DefaultPageIndex}&per_page={PageIterator.DefaultPageSize}").Respond(MediaTypeNames.Application.Json, responseJson);
+                handlerStub.When(HttpMethod.Get, $"https://api.buddy.works/workspaces/buddy/projects?page={CollectionIterator.DefaultPageIndex}&per_page={CollectionIterator.DefaultPageSize}").Respond(MediaTypeNames.Application.Json, responseJson);
 
                 var sut = CreateClient(handlerStub);
 
                 var projects = new List<ProjectSummary>();
 
-                var pageQuery = new ListProjectsQuery();
+                var collectionQuery = new ListProjectsQuery();
 
-                var pageIterator = sut.ListAll(new Domain("buddy"), pageQuery, (_, response, _) =>
+                var collectionIterator = sut.ListAll(new Domain("buddy"), collectionQuery, (_, response, _) =>
                 {
                     projects.AddRange(response?.Projects ?? Enumerable.Empty<ProjectSummary>());
 
                     return Task.FromResult(true);
                 });
 
-                await pageIterator.Iterate();
+                await collectionIterator.Iterate();
 
                 projects.Should().NotBeEmpty();
             }
@@ -143,22 +143,22 @@
             {
                 var handlerStub = new MockHttpMessageHandler();
 
-                handlerStub.When(HttpMethod.Get, $"https://api.buddy.works/workspaces/buddy/projects?page={PageIterator.DefaultPageIndex}&per_page={PageIterator.DefaultPageSize}").Respond(MediaTypeNames.Application.Json, responseJson);
+                handlerStub.When(HttpMethod.Get, $"https://api.buddy.works/workspaces/buddy/projects?page={CollectionIterator.DefaultPageIndex}&per_page={CollectionIterator.DefaultPageSize}").Respond(MediaTypeNames.Application.Json, responseJson);
 
                 var sut = CreateClient(handlerStub);
 
                 var projects = new List<ProjectSummary>();
 
-                var pageQuery = new ListProjectsQuery();
+                var collectionQuery = new ListProjectsQuery();
 
-                var pageIterator = sut.ListAll(new Domain("buddy"), pageQuery, (_, response, _) =>
+                var collectionIterator = sut.ListAll(new Domain("buddy"), collectionQuery, (_, response, _) =>
                 {
                     projects.AddRange(response?.Projects ?? Enumerable.Empty<ProjectSummary>());
 
                     return Task.FromResult(true);
                 });
 
-                await pageIterator.Iterate();
+                await collectionIterator.Iterate();
 
                 projects.Should().BeEmpty();
             }

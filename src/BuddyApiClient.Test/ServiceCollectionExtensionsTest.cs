@@ -22,7 +22,10 @@
 
     public sealed class ServiceCollectionExtensionsTest
     {
-        private static bool IsDescriptor<T>(ServiceDescriptor descriptor) => typeof(T).IsAssignableFrom(descriptor.ServiceType);
+        private static bool IsDescriptor<T>(ServiceDescriptor descriptor)
+        {
+            return typeof(T).IsAssignableFrom(descriptor.ServiceType);
+        }
 
         public sealed class AddBuddyClient
         {

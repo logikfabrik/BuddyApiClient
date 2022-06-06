@@ -18,7 +18,10 @@
         {
             var handlerMock = new MockHttpMessageHandler();
 
-            static Task<HttpResponseMessage> CreateEmptyJsonResponse() => Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = JsonContent.Create(string.Empty) });
+            static Task<HttpResponseMessage> CreateEmptyJsonResponse()
+            {
+                return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = JsonContent.Create(string.Empty) });
+            }
 
             handlerMock.Expect(method, "https://api.buddy.works").Respond(CreateEmptyJsonResponse);
 

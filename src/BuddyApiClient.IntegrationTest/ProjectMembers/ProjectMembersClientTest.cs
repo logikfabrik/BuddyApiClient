@@ -143,16 +143,16 @@
 
                 var projectMembers = new List<MemberSummary>();
 
-                var pageQuery = new ListMembersQuery();
+                var collectionQuery = new ListMembersQuery();
 
-                var pageIterator = sut.ListAll(await domain(), await projectName(), pageQuery, (_, response, _) =>
+                var collectionIterator = sut.ListAll(await domain(), await projectName(), collectionQuery, (_, response, _) =>
                 {
                     projectMembers.AddRange(response?.Members ?? Enumerable.Empty<MemberSummary>());
 
                     return Task.FromResult(true);
                 });
 
-                await pageIterator.Iterate();
+                await collectionIterator.Iterate();
 
                 projectMembers.Should().NotBeEmpty();
             }

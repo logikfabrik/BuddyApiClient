@@ -125,16 +125,16 @@
 
                 var projects = new List<ProjectSummary>();
 
-                var pageQuery = new ListProjectsQuery();
+                var collectionQuery = new ListProjectsQuery();
 
-                var pageIterator = sut.ListAll(await domain(), pageQuery, (_, response, _) =>
+                var collectionIterator = sut.ListAll(await domain(), collectionQuery, (_, response, _) =>
                 {
                     projects.AddRange(response?.Projects ?? Enumerable.Empty<ProjectSummary>());
 
                     return Task.FromResult(true);
                 });
 
-                await pageIterator.Iterate();
+                await collectionIterator.Iterate();
 
                 projects.Should().NotBeEmpty();
             }
@@ -191,7 +191,7 @@
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
                     .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
                     .SetUp();
-                
+
                 var sut = Fixture.BuddyClient.Projects;
 
                 var model = UpdateProjectRequestFactory.Create();

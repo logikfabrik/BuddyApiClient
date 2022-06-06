@@ -2,12 +2,9 @@
 {
     using System.Text.Json.Serialization;
 
-    public abstract record Response
+    public abstract record Collection
     {
         [JsonPropertyName("url")]
         public Uri? Url { get; set; }
-
-        [JsonPropertyName("html_url")]
-        public Uri? HtmlUrl { get; set; }
     }
 }

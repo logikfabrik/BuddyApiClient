@@ -2,7 +2,7 @@
 {
     using EnsureThat;
 
-    public abstract record PageQuery : Query
+    public abstract record CollectionQuery : Query
     {
         private int? _pageIndex;
         private int? _pageSize;

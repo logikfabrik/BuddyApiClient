@@ -4,8 +4,11 @@
     using BuddyApiClient.Core.Models.Response;
     using BuddyApiClient.Members.Models.Response;
 
-    public sealed record ProjectDetails : Response
+    public sealed record ProjectDetails : DocumentResponse
     {
+        [JsonPropertyName("html_url")]
+        public Uri? HtmlUrl { get; set; }
+
         [JsonPropertyName("name")]
         public ProjectName Name { get; set; }
 

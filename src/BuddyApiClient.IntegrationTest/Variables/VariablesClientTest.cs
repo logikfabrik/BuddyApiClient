@@ -202,7 +202,7 @@
 
                 var model = UpdateVariableRequestFactory.Create();
 
-                var variable = await sut.Update(await domain(), await variableId(),  model);
+                var variable = await sut.Update(await domain(), await variableId(), model);
 
                 variable?.Description.Should().Be(model.Description);
             }

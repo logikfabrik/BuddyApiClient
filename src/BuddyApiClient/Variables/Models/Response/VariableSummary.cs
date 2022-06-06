@@ -1,12 +1,10 @@
 ﻿namespace BuddyApiClient.Variables.Models.Response
 {
     using System.Text.Json.Serialization;
+    using BuddyApiClient.Core.Models.Response;
 
-    public sealed record VariableSummary
+    public sealed record VariableSummary : Document
     {
-        [JsonPropertyName("url")]
-        public Uri? Url { get; set; }
-
         [JsonPropertyName("id")]
         public VariableId Id { get; set; }
 

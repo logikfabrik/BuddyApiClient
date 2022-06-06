@@ -2,7 +2,7 @@
 {
     using BuddyApiClient.Core.Models.Request;
 
-    public sealed record ListPipelinesQuery : PageQuery
+    public sealed record ListPipelinesQuery : CollectionQuery
     {
     }
 }

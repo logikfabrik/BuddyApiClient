@@ -135,7 +135,7 @@
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Groups;
-                
+
                 var act = FluentActions.Awaiting(async () => await sut.Delete(await domain(), GroupIdFactory.Create()));
 
                 (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);

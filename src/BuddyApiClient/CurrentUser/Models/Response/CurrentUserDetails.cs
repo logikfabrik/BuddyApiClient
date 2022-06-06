@@ -3,8 +3,11 @@
     using System.Text.Json.Serialization;
     using BuddyApiClient.Core.Models.Response;
 
-    public sealed record CurrentUserDetails : Response
+    public sealed record CurrentUserDetails : DocumentResponse
     {
+        [JsonPropertyName("html_url")]
+        public Uri? HtmlUrl { get; set; }
+
         [JsonPropertyName("id")]
         public UserId Id { get; set; }
 

@@ -155,7 +155,7 @@
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
                     .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var permissionSetId)
                     .SetUp();
-                
+
                 var sut = Fixture.BuddyClient.PermissionSets;
 
                 var model = UpdatePermissionSetRequestFactory.Create();

@@ -1,6 +1,6 @@
 ﻿namespace BuddyApiClient.Core.Models.Request
 {
-    public interface IPageIterator
+    public interface ICollectionIterator
     {
         Task Iterate(CancellationToken cancellationToken = default);
     }

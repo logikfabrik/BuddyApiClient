@@ -1,6 +1,6 @@
 ﻿namespace BuddyApiClient.Core.Models.Request
 {
-    public abstract record SortQuery : PageQuery
+    public abstract record SortQuery : CollectionQuery
     {
         public SortDirection? SortDirection { get; set; }
 

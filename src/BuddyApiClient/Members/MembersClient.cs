@@ -34,9 +34,9 @@
             return await HttpClientFacade.Get<MemberList>(url, cancellationToken);
         }
 
-        public IPageIterator ListAll(Domain domain, ListMembersQuery pageQuery, PageResponseHandler<ListMembersQuery, MemberList> pageResponseHandler)
+        public ICollectionIterator ListAll(Domain domain, ListMembersQuery collectionQuery, CollectionPageResponseHandler<ListMembersQuery, MemberList> collectionPageResponseHandler)
         {
-            return new PageIterator<ListMembersQuery, MemberList>(async (query, cancellationToken) => await List(domain, query, cancellationToken), pageResponseHandler, pageQuery);
+            return new CollectionIterator<ListMembersQuery, MemberList>(async (query, cancellationToken) => await List(domain, query, cancellationToken), collectionPageResponseHandler, collectionQuery);
         }
 
         public async Task Remove(Domain domain, MemberId id, CancellationToken cancellationToken = default)

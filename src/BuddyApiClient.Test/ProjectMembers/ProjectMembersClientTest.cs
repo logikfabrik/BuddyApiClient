@@ -120,22 +120,22 @@
             {
                 var handlerStub = new MockHttpMessageHandler();
 
-                handlerStub.When(HttpMethod.Get, $"https://api.buddy.works/workspaces/buddy/projects/company-website/members?page={PageIterator.DefaultPageIndex}&per_page={PageIterator.DefaultPageSize}").Respond(MediaTypeNames.Application.Json, responseJson);
+                handlerStub.When(HttpMethod.Get, $"https://api.buddy.works/workspaces/buddy/projects/company-website/members?page={CollectionIterator.DefaultPageIndex}&per_page={CollectionIterator.DefaultPageSize}").Respond(MediaTypeNames.Application.Json, responseJson);
 
                 var sut = CreateClient(handlerStub);
 
                 var projectMembers = new List<MemberSummary>();
 
-                var pageQuery = new ListMembersQuery();
+                var collectionQuery = new ListMembersQuery();
 
-                var pageIterator = sut.ListAll(new Domain("buddy"), new ProjectName("company-website"), pageQuery, (_, response, _) =>
+                var collectionIterator = sut.ListAll(new Domain("buddy"), new ProjectName("company-website"), collectionQuery, (_, response, _) =>
                 {
                     projectMembers.AddRange(response?.Members ?? Enumerable.Empty<MemberSummary>());
 
                     return Task.FromResult(true);
                 });
 
-                await pageIterator.Iterate();
+                await collectionIterator.Iterate();
 
                 projectMembers.Should().NotBeEmpty();
             }
