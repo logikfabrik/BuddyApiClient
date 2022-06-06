@@ -3,7 +3,7 @@
     using Bogus;
     using BuddyApiClient.PermissionSets.Models.Request;
 
-    internal static class CreatePermissionSetFactory
+    internal static class CreatePermissionSetRequestFactory
     {
         private static readonly Faker<CreatePermissionSet> Faker = new Faker<CreatePermissionSet>().CustomInstantiator(f => new CreatePermissionSet(f.Lorem.Word()));
 

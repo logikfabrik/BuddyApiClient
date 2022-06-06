@@ -20,7 +20,7 @@
         {
             return async () =>
             {
-                var project = await client.Create(await domainSetUp(), CreateProjectFactory.Create());
+                var project = await client.Create(await domainSetUp(), CreateProjectRequestFactory.Create());
 
                 return project?.Name ?? throw new PreconditionSetUpException();
             };

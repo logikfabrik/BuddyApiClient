@@ -16,7 +16,7 @@
             }
 
             [Fact]
-            public async Task Should_Return_The_Current_User()
+            public async Task Should_ReturnTheCurrentUser()
             {
                 var sut = Fixture.BuddyClient.CurrentUser;
 
@@ -46,7 +46,7 @@
             }
 
             [Fact]
-            public async Task Should_Update_And_Return_The_Current_User()
+            public async Task Should_UpdateTheCurrentUser()
             {
                 var newName = new Name().FullName();
 

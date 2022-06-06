@@ -20,7 +20,7 @@
         {
             return async () =>
             {
-                var permissionSet = await client.Create(await domainSetUp(), CreatePermissionSetFactory.Create());
+                var permissionSet = await client.Create(await domainSetUp(), CreatePermissionSetRequestFactory.Create());
 
                 return permissionSet?.Id ?? throw new PreconditionSetUpException();
             };

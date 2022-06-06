@@ -3,8 +3,6 @@
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Bogus.DataSets;
-    using BuddyApiClient.Groups.Models.Request;
     using BuddyApiClient.Groups.Models.Response;
     using BuddyApiClient.IntegrationTest.Groups.FakeModelFactories;
     using BuddyApiClient.IntegrationTest.Groups.Preconditions;
@@ -22,7 +20,7 @@
             }
 
             [Fact]
-            public async Task Should_Create_And_Return_The_Group()
+            public async Task Should_CreateTheGroup()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -34,7 +32,7 @@
 
                 try
                 {
-                    group = await sut.Create(await domain(), CreateGroupFactory.Create());
+                    group = await sut.Create(await domain(), CreateGroupRequestFactory.Create());
 
                     group.Should().NotBeNull();
                 }
@@ -55,7 +53,7 @@
             }
 
             [Fact]
-            public async Task Should_Return_The_Group_If_It_Exists()
+            public async Task Should_ReturnTheGroup()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -68,6 +66,20 @@
 
                 group.Should().NotBeNull();
             }
+
+            [Fact]
+            public async Task Should_Throw_When_TheGroupDoesNotExist()
+            {
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .SetUp();
+
+                var sut = Fixture.BuddyClient.Groups;
+
+                var act = FluentActions.Awaiting(async () => await sut.Get(await domain(), GroupIdFactory.Create()));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            }
         }
 
         public sealed class List : BuddyClientTest
@@ -77,7 +89,7 @@
             }
 
             [Fact]
-            public async Task Should_Return_Groups_If_Any_Exists()
+            public async Task Should_ReturnTheGroups()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -99,7 +111,7 @@
             }
 
             [Fact]
-            public async Task Should_Delete_The_Group_And_Return_Nothing()
+            public async Task Should_DeleteTheGroup()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -114,6 +126,20 @@
 
                 (await assert.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
+
+            [Fact]
+            public async Task Should_Throw_When_TheGroupDoesNotExist()
+            {
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .SetUp();
+
+                var sut = Fixture.BuddyClient.Groups;
+                
+                var act = FluentActions.Awaiting(async () => await sut.Delete(await domain(), GroupIdFactory.Create()));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            }
         }
 
         public sealed class Update : BuddyClientTest
@@ -123,20 +149,36 @@
             }
 
             [Fact]
-            public async Task Should_Update_And_Return_The_Group()
+            public async Task Should_UpdateTheGroup()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
                     .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
                     .SetUp();
 
-                var newName = new Lorem().Word();
+                var sut = Fixture.BuddyClient.Groups;
+
+                var model = UpdateGroupRequestFactory.Create();
+
+                var group = await sut.Update(await domain(), await groupId(), model);
+
+                group?.Name.Should().Be(model.Name);
+            }
+
+            [Fact]
+            public async Task Should_Throw_When_TheGroupDoesNotExist()
+            {
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .SetUp();
 
                 var sut = Fixture.BuddyClient.Groups;
 
-                var group = await sut.Update(await domain(), await groupId(), new UpdateGroup { Name = newName });
+                var model = UpdateGroupRequestFactory.Create();
 
-                group?.Name.Should().Be(newName);
+                var act = FluentActions.Awaiting(async () => await sut.Update(await domain(), GroupIdFactory.Create(), model));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
         }
     }

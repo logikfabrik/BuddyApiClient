@@ -3,12 +3,10 @@
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Bogus.DataSets;
     using BuddyApiClient.IntegrationTest.PermissionSets.FakeModelFactories;
     using BuddyApiClient.IntegrationTest.PermissionSets.Preconditions;
     using BuddyApiClient.IntegrationTest.Testing;
     using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
-    using BuddyApiClient.PermissionSets.Models.Request;
     using BuddyApiClient.PermissionSets.Models.Response;
     using FluentAssertions;
     using Xunit;
@@ -22,7 +20,7 @@
             }
 
             [Fact]
-            public async Task Should_Create_And_Return_The_Permission_Set()
+            public async Task Should_CreateThePermissionSet()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -34,7 +32,7 @@
 
                 try
                 {
-                    permissionSet = await sut.Create(await domain(), CreatePermissionSetFactory.Create());
+                    permissionSet = await sut.Create(await domain(), CreatePermissionSetRequestFactory.Create());
 
                     permissionSet.Should().NotBeNull();
                 }
@@ -55,7 +53,7 @@
             }
 
             [Fact]
-            public async Task Should_Return_The_Permission_Set_If_It_Exists()
+            public async Task Should_ReturnThePermissionSet()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -68,6 +66,20 @@
 
                 permissionSet.Should().NotBeNull();
             }
+
+            [Fact]
+            public async Task Should_Throw_When_ThePermissionSetDoesNotExist()
+            {
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .SetUp();
+
+                var sut = Fixture.BuddyClient.PermissionSets;
+
+                var act = FluentActions.Awaiting(async () => await sut.Get(await domain(), PermissionSetIdFactory.Create()));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            }
         }
 
         public sealed class List : BuddyClientTest
@@ -77,7 +89,7 @@
             }
 
             [Fact]
-            public async Task Should_Return_Permission_Sets_If_Any_Exists()
+            public async Task Should_ReturnThePermissionSets()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -99,7 +111,7 @@
             }
 
             [Fact]
-            public async Task Should_Delete_The_Permission_Set_And_Return_Nothing()
+            public async Task Should_DeleteThePermissionSet()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -114,6 +126,20 @@
 
                 (await assert.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
+
+            [Fact]
+            public async Task Should_Throw_When_ThePermissionSetDoesNotExist()
+            {
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .SetUp();
+
+                var sut = Fixture.BuddyClient.PermissionSets;
+
+                var act = FluentActions.Awaiting(async () => await sut.Delete(await domain(), PermissionSetIdFactory.Create()));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            }
         }
 
         public sealed class Update : BuddyClientTest
@@ -123,20 +149,36 @@
             }
 
             [Fact]
-            public async Task Should_Update_And_Return_The_Permission_Set()
+            public async Task Should_UpdateThePermissionSet()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
                     .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var permissionSetId)
                     .SetUp();
+                
+                var sut = Fixture.BuddyClient.PermissionSets;
 
-                var newName = new Lorem().Word();
+                var model = UpdatePermissionSetRequestFactory.Create();
+
+                var permissionSet = await sut.Update(await domain(), await permissionSetId(), model);
+
+                permissionSet?.Name.Should().Be(model.Name);
+            }
+
+            [Fact]
+            public async Task Should_Throw_When_ThePermissionSetDoesNotExist()
+            {
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .SetUp();
 
                 var sut = Fixture.BuddyClient.PermissionSets;
 
-                var permissionSet = await sut.Update(await domain(), await permissionSetId(), new UpdatePermissionSet { Name = newName });
+                var model = UpdatePermissionSetRequestFactory.Create();
 
-                permissionSet?.Name.Should().Be(newName);
+                var act = FluentActions.Awaiting(async () => await sut.Update(await domain(), PermissionSetIdFactory.Create(), model));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
         }
     }

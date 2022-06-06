@@ -13,7 +13,7 @@
 
     internal class VariableExistsPrecondition : Precondition<VariableId>
     {
-        public VariableExistsPrecondition(IVariablesClient client, Func<Task<Domain>> domainSetUp) : this(client, domainSetUp, CreateVariableFactory.Create)
+        public VariableExistsPrecondition(IVariablesClient client, Func<Task<Domain>> domainSetUp) : this(client, domainSetUp, CreateVariableRequestFactory.Create)
         {
         }
 

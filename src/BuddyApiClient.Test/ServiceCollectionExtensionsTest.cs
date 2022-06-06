@@ -1,6 +1,8 @@
 ﻿namespace BuddyApiClient.Test
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using BuddyApiClient.CurrentUser;
     using BuddyApiClient.CurrentUserEmails;
     using BuddyApiClient.GroupMembers;
@@ -15,149 +17,169 @@
     using FluentAssertions;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Options;
     using Xunit;
 
     public sealed class ServiceCollectionExtensionsTest
     {
+        private static bool IsDescriptor<T>(ServiceDescriptor descriptor) => typeof(T).IsAssignableFrom(descriptor.ServiceType);
+
         public sealed class AddBuddyClient
         {
             [Fact]
-            public void Should_Return_BuddyClient_If_Added_Using_Configuration_Parameter()
+            public void Should_AddAIConfigureOptionsServiceDescriptor_When_CalledWithNamedConfigurationSection()
             {
-                var configuration = new ConfigurationBuilder()
-                    .Build();
+                var namedConfigurationSection = new ConfigurationRoot(new List<IConfigurationProvider>());
 
-                var sut = new ServiceCollection()
-                    .AddBuddyClient(configuration)
-                    .BuildServiceProvider();
+                var sut = new ServiceCollection().AddBuddyClient(namedConfigurationSection);
 
-                var buddyClient = sut.GetRequiredService<IBuddyClient>();
-
-                buddyClient.Should().NotBeNull();
+                sut.Any(IsDescriptor<IConfigureOptions<BuddyClientOptions>>).Should().BeTrue();
             }
 
             [Fact]
-            public void Should_Return_BuddyClient_If_Added_Using_Action_Parameter()
+            public void Should_AddAIConfigureOptionsServiceDescriptor_When_CalledWithConfigureOptions()
             {
-                var sut = new ServiceCollection()
-                    .AddBuddyClient(_ => { })
-                    .BuildServiceProvider();
+                var configureOptions = new Action<BuddyClientOptions>(options => { });
 
-                var buddyClient = sut.GetRequiredService<IBuddyClient>();
+                var sut = new ServiceCollection().AddBuddyClient(configureOptions);
 
-                buddyClient.Should().NotBeNull();
+                sut.Any(IsDescriptor<IConfigureOptions<BuddyClientOptions>>).Should().BeTrue();
             }
 
             [Fact]
-            public void Should_Return_BuddyClient_If_Added_Using_Options_Parameter()
+            public void Should_AddAIConfigureOptionsServiceDescriptor_When_CalledWithUserOptions()
             {
-                var sut = new ServiceCollection()
-                    .AddBuddyClient(new BuddyClientOptions())
-                    .BuildServiceProvider();
+                var userOptions = new BuddyClientOptions();
 
-                var buddyClient = sut.GetRequiredService<IBuddyClient>();
+                var sut = new ServiceCollection().AddBuddyClient(userOptions);
 
-                buddyClient.Should().NotBeNull();
+                sut.Any(IsDescriptor<IConfigureOptions<BuddyClientOptions>>).Should().BeTrue();
             }
         }
 
-        public sealed class AddClients
+        public sealed class AddClient
         {
-            private readonly IServiceProvider _sut;
-
-            public AddClients()
+            [Fact]
+            public void Should_AddAIBuddyClientServiceDescriptor()
             {
-                _sut = new ServiceCollection()
-                    .AddClients()
-                    .BuildServiceProvider();
+                var sut = new ServiceCollection();
+
+                sut.AddClient();
+
+                sut.Any(IsDescriptor<IBuddyClient>).Should().BeTrue();
+            }
+        }
+
+        public sealed class AddResourceClients
+        {
+            [Fact]
+            public void Should_AddAICurrentUserClientServiceDescriptor()
+            {
+                var sut = new ServiceCollection();
+
+                sut.AddResourceClients();
+
+                sut.Any(IsDescriptor<ICurrentUserClient>).Should().BeTrue();
             }
 
             [Fact]
-            public void Should_Return_CurrentUserClient()
+            public void Should_AddAICurrentUserEmailsClientServiceDescriptor()
             {
-                var currentUserClient = _sut.GetService<ICurrentUserClient>();
+                var sut = new ServiceCollection();
 
-                currentUserClient.Should().NotBeNull();
+                sut.AddResourceClients();
+
+                sut.Any(IsDescriptor<ICurrentUserEmailsClient>).Should().BeTrue();
             }
 
             [Fact]
-            public void Should_Return_CurrentUserEmailsClient()
+            public void Should_AddAIGroupMembersClientServiceDescriptor()
             {
-                var currentUserEmailsClient = _sut.GetService<ICurrentUserEmailsClient>();
+                var sut = new ServiceCollection();
 
-                currentUserEmailsClient.Should().NotBeNull();
+                sut.AddResourceClients();
+
+                sut.Any(IsDescriptor<IGroupMembersClient>).Should().BeTrue();
             }
 
             [Fact]
-            public void Should_Return_GroupMembersClient()
+            public void Should_AddAIGroupsClientServiceDescriptor()
             {
-                var groupMembersClient = _sut.GetService<IGroupMembersClient>();
+                var sut = new ServiceCollection();
 
-                groupMembersClient.Should().NotBeNull();
+                sut.AddResourceClients();
+
+                sut.Any(IsDescriptor<IGroupsClient>).Should().BeTrue();
             }
 
             [Fact]
-            public void Should_Return_GroupsClient()
+            public void Should_AddAIMembersClientServiceDescriptor()
             {
-                var groupsClient = _sut.GetService<IGroupsClient>();
+                var sut = new ServiceCollection();
 
-                groupsClient.Should().NotBeNull();
+                sut.AddResourceClients();
+
+                sut.Any(IsDescriptor<IMembersClient>).Should().BeTrue();
             }
 
             [Fact]
-            public void Should_Return_MembersClient()
+            public void Should_AddAIPermissionSetsClientServiceDescriptor()
             {
-                var membersClient = _sut.GetService<IMembersClient>();
+                var sut = new ServiceCollection();
 
-                membersClient.Should().NotBeNull();
+                sut.AddResourceClients();
+
+                sut.Any(IsDescriptor<IPermissionSetsClient>).Should().BeTrue();
             }
 
             [Fact]
-            public void Should_Return_PermissionSetsClient()
+            public void Should_AddAIProjectGroupsClientServiceDescriptor()
             {
-                var permissionSetsClient = _sut.GetService<IPermissionSetsClient>();
+                var sut = new ServiceCollection();
 
-                permissionSetsClient.Should().NotBeNull();
+                sut.AddResourceClients();
+
+                sut.Any(IsDescriptor<IProjectGroupsClient>).Should().BeTrue();
             }
 
             [Fact]
-            public void Should_Return_ProjectGroupsClient()
+            public void Should_AddAIProjectMembersClientServiceDescriptor()
             {
-                var projectGroupsClient = _sut.GetService<IProjectGroupsClient>();
+                var sut = new ServiceCollection();
 
-                projectGroupsClient.Should().NotBeNull();
+                sut.AddResourceClients();
+
+                sut.Any(IsDescriptor<IProjectMembersClient>).Should().BeTrue();
             }
 
             [Fact]
-            public void Should_Return_ProjectMembersClient()
+            public void Should_AddAIProjectsClientServiceDescriptor()
             {
-                var projectMembersClient = _sut.GetService<IProjectMembersClient>();
+                var sut = new ServiceCollection();
 
-                projectMembersClient.Should().NotBeNull();
+                sut.AddResourceClients();
+
+                sut.Any(IsDescriptor<IProjectsClient>).Should().BeTrue();
             }
 
             [Fact]
-            public void Should_Return_ProjectsClient()
+            public void Should_AddAIVariablesClientServiceDescriptor()
             {
-                var projectsClient = _sut.GetService<IProjectsClient>();
+                var sut = new ServiceCollection();
 
-                projectsClient.Should().NotBeNull();
+                sut.AddResourceClients();
+
+                sut.Any(IsDescriptor<IVariablesClient>).Should().BeTrue();
             }
 
             [Fact]
-            public void Should_Return_VariablesClient()
+            public void Should_AddAIWorkspacesClientServiceDescriptor()
             {
-                var variablesClient = _sut.GetService<IVariablesClient>();
+                var sut = new ServiceCollection();
 
-                variablesClient.Should().NotBeNull();
-            }
+                sut.AddResourceClients();
 
-            [Fact]
-            public void Should_Return_WorkspacesClient()
-            {
-                var workspacesClient = _sut.GetService<IWorkspacesClient>();
-
-                workspacesClient.Should().NotBeNull();
+                sut.Any(IsDescriptor<IWorkspacesClient>).Should().BeTrue();
             }
         }
     }

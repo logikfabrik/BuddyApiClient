@@ -9,7 +9,7 @@
         public sealed class PageIndex
         {
             [Fact]
-            public void Should_Throw_If_Set_To_Less_Than_Zero()
+            public void Should_Throw_When_SetToLessThanZero()
             {
                 var sut = new PageQuery();
 
@@ -23,7 +23,7 @@
             [Theory]
             [InlineData(0)]
             [InlineData(10)]
-            public void Should_Not_Throw_If_Set_To_Zero_Or_Greater(int pageIndex)
+            public void Should_NotThrow_When_SetToZeroOrGreater(int pageIndex)
             {
                 var sut = new PageQuery();
 
@@ -38,7 +38,7 @@
             [Theory]
             [InlineData(0)]
             [InlineData(-10)]
-            public void Should_Throw_If_Set_To_Zero_Or_Less(int pageSize)
+            public void Should_Throw_When_SetToZeroOrLess(int pageSize)
             {
                 var sut = new PageQuery();
 
@@ -48,7 +48,7 @@
             }
 
             [Fact]
-            public void Should_Not_Throw_If_Set_To_Greater_Than_Zero()
+            public void Should_NotThrow_When_SetToGreaterThanZero()
             {
                 var sut = new PageQuery();
 
@@ -64,7 +64,7 @@
         {
             [Theory]
             [InlineData(10, "?page=10")]
-            public void Should_Return_Query_If_Page_Index_Is_Set(int pageIndex, string expected)
+            public void Should_ReturnQuery_When_PageIndexIsSet(int pageIndex, string expected)
             {
                 var sut = new PageQuery
                 {
@@ -78,7 +78,7 @@
 
             [Theory]
             [InlineData(10, "?per_page=10")]
-            public void Should_Return_Query_If_Page_Size_Is_Set(int pageSize, string expected)
+            public void Should_ReturnQuery_When_PageSizeIsSet(int pageSize, string expected)
             {
                 var sut = new PageQuery
                 {

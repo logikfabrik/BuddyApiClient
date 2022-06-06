@@ -8,7 +8,7 @@
 
     internal sealed class SshKeyVariableExistsPrecondition : VariableExistsPrecondition
     {
-        public SshKeyVariableExistsPrecondition(IVariablesClient client, Func<Task<Domain>> domainSetUp) : base(client, domainSetUp, CreateSshKeyVariableFactory.Create)
+        public SshKeyVariableExistsPrecondition(IVariablesClient client, Func<Task<Domain>> domainSetUp) : base(client, domainSetUp, CreateSshKeyVariableRequestFactory.Create)
         {
         }
     }

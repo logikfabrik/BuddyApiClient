@@ -20,7 +20,7 @@
         {
             return async () =>
             {
-                var group = await client.Create(await domainSetUp(), CreateGroupFactory.Create());
+                var group = await client.Create(await domainSetUp(), CreateGroupRequestFactory.Create());
 
                 return group?.Id ?? throw new PreconditionSetUpException();
             };

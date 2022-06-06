@@ -20,7 +20,7 @@
         {
             return async () =>
             {
-                var member = await client.Add(await domainSetUp(), AddMemberFactory.Create());
+                var member = await client.Add(await domainSetUp(), AddMemberRequestFactory.Create());
 
                 return member?.Id ?? throw new PreconditionSetUpException();
             };

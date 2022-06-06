@@ -25,8 +25,8 @@
         public sealed class Create
         {
             [Theory]
-            [FileData(@"Variables/.testdata/Create_Should_Create_And_Return_The_Variable.json")]
-            public async Task Should_Create_And_Return_The_Variable(string responseJson)
+            [FileData(@"Variables/.testdata/Create_Should_CreateTheVariable.json")]
+            public async Task Should_CreateTheVariable(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -40,8 +40,8 @@
             }
 
             [Theory]
-            [FileData(@"Variables/.testdata/Create_Should_Create_And_Return_The_SSH_Key_Variable.json")]
-            public async Task Should_Create_And_Return_The_SSH_Key_Variable(string responseJson)
+            [FileData(@"Variables/.testdata/Create_Should_CreateTheSshKeyVariable.json")]
+            public async Task Should_CreateTheSshKeyVariable(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -60,8 +60,8 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"Variables/.testdata/Get_Should_Return_The_Variable_If_It_Exists.json")]
-            public async Task Should_Return_The_Variable_If_It_Exists(string responseJson)
+            [FileData(@"Variables/.testdata/Get_Should_ReturnTheVariable.json")]
+            public async Task Should_ReturnTheVariable(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -75,7 +75,7 @@
             }
 
             [Fact]
-            public async Task Should_Throw_If_The_Variable_Does_Not_Exist()
+            public async Task Should_Throw_When_TheVariableDoesNotExist()
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -92,8 +92,8 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"Variables/.testdata/List_Should_Return_Variables_If_Any_Exists.json")]
-            public async Task Should_Return_Variables_If_Any_Exists(string responseJson)
+            [FileData(@"Variables/.testdata/List_Should_ReturnTheVariables.json")]
+            public async Task Should_ReturnTheVariables(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -107,8 +107,8 @@
             }
 
             [Theory]
-            [FileData(@"Variables/.testdata/List_Should_Not_Return_Variables_If_None_Exist.json")]
-            public async Task Should_Not_Return_Variables_If_None_Exist(string responseJson)
+            [FileData(@"Variables/.testdata/List_Should_ReturnNoVariables_When_NoneExist.json")]
+            public async Task Should_ReturnNoVariables_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -125,7 +125,7 @@
         public sealed class Delete
         {
             [Fact]
-            public async Task Should_Delete_The_Variable_And_Return_Nothing()
+            public async Task Should_DeleteTheVariable()
             {
                 var handlerMock = new MockHttpMessageHandler();
 
@@ -142,8 +142,8 @@
         public sealed class Update
         {
             [Theory]
-            [FileData(@"Variables/.testdata/Update_Should_Update_And_Return_The_Variable.json")]
-            public async Task Should_Update_And_Return_The_Variable(string responseJson)
+            [FileData(@"Variables/.testdata/Update_Should_UpdateTheVariable.json")]
+            public async Task Should_UpdateTheVariable(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 

@@ -14,7 +14,7 @@
             [Theory]
             [MemberData(nameof(GetParameters), 1)]
             [MemberData(nameof(GetParameters), 3)]
-            public void Should_Return_Query(IEnumerable<(string, Func<string?>)> parameters, string expected)
+            public void Should_ReturnQuery(IEnumerable<(string, Func<string?>)> parameters, string expected)
             {
                 var sut = new QueryStringParameters();
 

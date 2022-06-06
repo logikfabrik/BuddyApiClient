@@ -27,8 +27,8 @@
         public sealed class Add
         {
             [Theory]
-            [FileData(@"ProjectGroups/.testdata/Add_Should_Add_And_Return_The_Project_Group.json")]
-            public async Task Should_Add_And_Return_The_Project_Group(string responseJson)
+            [FileData(@"ProjectGroups/.testdata/Add_Should_AddTheProjectGroup.json")]
+            public async Task Should_AddTheProjectGroup(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -45,8 +45,8 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"ProjectGroups/.testdata/Get_Should_Return_The_Project_Group_If_It_Exists.json")]
-            public async Task Should_Return_The_Project_Group_If_It_Exists(string responseJson)
+            [FileData(@"ProjectGroups/.testdata/Get_Should_ReturnTheProjectGroup.json")]
+            public async Task Should_ReturnTheProjectGroup(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -60,7 +60,7 @@
             }
 
             [Fact]
-            public async Task Should_Throw_If_The_Project_Group_Does_Not_Exist()
+            public async Task Should_Throw_When_TheProjectGroupDoesNotExist()
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -77,8 +77,8 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"ProjectGroups/.testdata/List_Should_Return_Project_Groups_If_Any_Exists.json")]
-            public async Task Should_Return_Project_Groups_If_Any_Exists(string responseJson)
+            [FileData(@"ProjectGroups/.testdata/List_Should_ReturnTheProjectGroups.json")]
+            public async Task Should_ReturnTheProjectGroups(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -92,8 +92,8 @@
             }
 
             [Theory]
-            [FileData(@"ProjectGroups/.testdata/List_Should_Not_Return_Project_Groups_If_None_Exist.json")]
-            public async Task Should_Not_Return_Project_Groups_If_None_Exist(string responseJson)
+            [FileData(@"ProjectGroups/.testdata/List_Should_ReturnNoProjectGroups_When_NoneExist.json")]
+            public async Task Should_ReturnNoProjectGroups_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -110,7 +110,7 @@
         public sealed class Remove
         {
             [Fact]
-            public async Task Should_Remove_The_Project_Group_And_Return_Nothing()
+            public async Task Should_RemoveTheProjectGroup()
             {
                 var handlerMock = new MockHttpMessageHandler();
 
@@ -127,8 +127,8 @@
         public sealed class Update
         {
             [Theory]
-            [FileData(@"ProjectGroups/.testdata/Update_Should_Update_And_Return_The_Project_Group.json")]
-            public async Task Should_Update_And_Return_The_Project_Group(string responseJson)
+            [FileData(@"ProjectGroups/.testdata/Update_Should_UpdateTheProjectGroup.json")]
+            public async Task Should_UpdateTheProjectGroup(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 

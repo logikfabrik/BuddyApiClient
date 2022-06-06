@@ -23,8 +23,8 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"Workspaces/.testdata/Get_Should_Return_The_Workspace_If_It_Exists.json")]
-            public async Task Should_Return_The_Workspace_If_It_Exists(string responseJson)
+            [FileData(@"Workspaces/.testdata/Get_Should_ReturnTheWorkspace.json")]
+            public async Task Should_ReturnTheWorkspace(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -38,7 +38,7 @@
             }
 
             [Fact]
-            public async Task Should_Throw_If_The_Workspace_Does_Not_Exist()
+            public async Task Should_Throw_When_TheWorkspaceDoesNotExist()
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -55,8 +55,8 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"Workspaces/.testdata/List_Should_Return_Workspaces.json")]
-            public async Task Should_Return_Workspaces(string responseJson)
+            [FileData(@"Workspaces/.testdata/List_Should_ReturnTheWorkspaces.json")]
+            public async Task Should_ReturnTheWorkspaces(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 

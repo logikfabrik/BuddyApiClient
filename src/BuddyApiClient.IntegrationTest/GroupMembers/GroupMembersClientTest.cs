@@ -22,7 +22,7 @@
             }
 
             [Fact]
-            public async Task Should_Add_And_Return_The_Group_Member()
+            public async Task Should_AddTheGroupMember()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -57,7 +57,7 @@
             }
 
             [Fact]
-            public async Task Should_Return_The_Group_Member_If_It_Exists()
+            public async Task Should_ReturnTheGroupMember()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -74,7 +74,7 @@
             }
 
             [Fact]
-            public async Task Should_Throw_If_The_Group_Member_Does_Not_Exist()
+            public async Task Should_Throw_When_TheGroupMemberDoesNotExist()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -86,7 +86,8 @@
 
                 var act = FluentActions.Awaiting(async () => await sut.Get(await domain(), await groupId(), await memberId()));
 
-                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+                // The Buddy API is inconsistent, as it'll return HttpStatusCode.Forbidden, and not HttpStatusCode.NotFound as expected.
+                await act.Should().ThrowAsync<HttpRequestException>();
             }
         }
 
@@ -97,7 +98,7 @@
             }
 
             [Fact]
-            public async Task Should_Return_Group_Members_If_Any_Exists()
+            public async Task Should_ReturnTheGroupMembers()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -121,7 +122,7 @@
             }
 
             [Fact]
-            public async Task Should_Remove_The_Group_Member_And_Return_Nothing()
+            public async Task Should_RemoveTheGroupMember()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -136,7 +137,24 @@
 
                 var assert = FluentActions.Awaiting(async () => await sut.Get(await domain(), await groupId(), await groupMemberId()));
 
-                (await assert.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+                // The Buddy API is inconsistent, as it'll return HttpStatusCode.Forbidden, and not HttpStatusCode.NotFound as expected.
+                await assert.Should().ThrowAsync<HttpRequestException>();
+            }
+
+            [Fact]
+            public async Task Should_Throw_When_TheGroupMemberDoesNotExist()
+            {
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
+                    .SetUp();
+
+                var sut = Fixture.BuddyClient.GroupMembers;
+
+                var act = FluentActions.Awaiting(async () => await sut.Remove(await domain(), await groupId(), await memberId()));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
         }
     }

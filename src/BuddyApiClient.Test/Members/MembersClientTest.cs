@@ -29,8 +29,8 @@
         public sealed class Add
         {
             [Theory]
-            [FileData(@"Members/.testdata/Add_Should_Add_And_Return_The_Member.json")]
-            public async Task Should_Add_And_Return_The_Member(string responseJson)
+            [FileData(@"Members/.testdata/Add_Should_AddTheMember.json")]
+            public async Task Should_AddTheMember(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -47,8 +47,8 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"Members/.testdata/Get_Should_Return_The_Member_If_It_Exists.json")]
-            public async Task Should_Return_The_Member_If_It_Exists(string responseJson)
+            [FileData(@"Members/.testdata/Get_Should_ReturnTheMember.json")]
+            public async Task Should_ReturnTheMember(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -62,7 +62,7 @@
             }
 
             [Fact]
-            public async Task Should_Throw_If_The_Member_Does_Not_Exist()
+            public async Task Should_Throw_When_TheMemberDoesNotExist()
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -79,8 +79,8 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"Members/.testdata/List_Should_Return_Members_If_Any_Exists.json")]
-            public async Task Should_Return_Members_If_Any_Exists(string responseJson)
+            [FileData(@"Members/.testdata/List_Should_ReturnTheMembers.json")]
+            public async Task Should_ReturnTheMembers(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -94,8 +94,8 @@
             }
 
             [Theory]
-            [FileData(@"Members/.testdata/List_Should_Not_Return_Members_If_None_Exist.json")]
-            public async Task Should_Not_Return_Members_If_None_Exist(string responseJson)
+            [FileData(@"Members/.testdata/List_Should_ReturnNoMembers_When_NoneExist.json")]
+            public async Task Should_ReturnNoMembers_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -112,8 +112,8 @@
         public sealed class ListAll
         {
             [Theory]
-            [FileData(@"Members/.testdata/ListAll_Should_Return_Members_If_Any_Exists.json")]
-            public async Task Should_Return_Members_If_Any_Exists(string responseJson)
+            [FileData(@"Members/.testdata/ListAll_Should_ReturnTheMembers.json")]
+            public async Task Should_ReturnTheMembers(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -141,7 +141,7 @@
         public sealed class Remove
         {
             [Fact]
-            public async Task Should_Remove_The_Member_And_Return_Nothing()
+            public async Task Should_RemoveTheMember()
             {
                 var handlerMock = new MockHttpMessageHandler();
 
@@ -158,8 +158,8 @@
         public sealed class Update
         {
             [Theory]
-            [FileData(@"Members/.testdata/Update_Should_Update_And_Return_The_Member.json")]
-            public async Task Should_Update_And_Return_The_Member(string responseJson)
+            [FileData(@"Members/.testdata/Update_Should_UpdateTheMember.json")]
+            public async Task Should_UpdateTheMember(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 

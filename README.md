@@ -15,7 +15,7 @@ A .NET client for the [Buddy](https://buddy.works) API.
 3. On app start-up, add BuddyApiClient to your service collection:
 
     ```csharp
-    services.AddBuddyClient(new BuddyClientOptions { AccessToken = "" });
+    services.AddBuddyClient(new BuddyClientOptions { AccessToken = "YOUR_TOKEN_HERE" });
     ```
 
 4. Next, take a dependence on `IBuddyClient` (or any resource specific client interface, e.g. `IMembersClient`, `IProjectsClient`, and `IVariablesClient`), and query the Buddy API.
@@ -70,7 +70,7 @@ To run the integration tests, run [Buddy On-Premises](https://buddy.works/docs/o
 
 1. Start the Buddy container, if stopped.
 
-2. Browse https://127.0.0.1. The SSL certificate will be issued to *buddy.standalone*.
+2. Browse https://127.0.0.1. The SSL certificate will be issued to *buddy.standalone* - this is by design.
 
 3. Set up a Buddy user, and workspace.
 
@@ -80,7 +80,7 @@ To run the integration tests, run [Buddy On-Premises](https://buddy.works/docs/o
 
 6. Enter a name for the token, check all scopes, and click *Add a new API token*.
 
-7. Copy the token.
+7. Copy the token, and use it in place of YOUR_TOKEN_HERE in this README.
 
 #### How to add config to the BuddyApiClient.IntegrationTest project in VS
 
@@ -93,6 +93,6 @@ To run the integration tests, run [Buddy On-Premises](https://buddy.works/docs/o
     ```json
     {
       "BaseUrl": "https://127.0.0.1:443/api/",
-      "AccessToken": ""
+      "AccessToken": "YOUR_TOKEN_HERE"
     }
     ```

@@ -7,9 +7,9 @@
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        ///     Adds Buddy API clients to the specified <see cref="IServiceCollection" />.
+        ///     Adds the Buddy API client, and resource specific clients, to the specified <see cref="IServiceCollection" />.
         /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection" /> to add clients to.</param>
+        /// <param name="services">The <see cref="IServiceCollection" /> to add the clients to.</param>
         /// <param name="namedConfigurationSection"></param>
         /// <returns>The <see cref="IServiceCollection" /> so that additional calls can be chained.</returns>
         public static IServiceCollection AddBuddyClient(this IServiceCollection services, IConfiguration namedConfigurationSection)
@@ -19,13 +19,16 @@
 
             services.Configure<BuddyClientOptions>(namedConfigurationSection);
 
-            return services.AddClients();
+            services.AddClient();
+            services.AddResourceClients();
+
+            return services;
         }
 
         /// <summary>
-        ///     Adds Buddy API clients to the specified <see cref="IServiceCollection" />.
+        ///     Adds the Buddy API client, and resource specific clients, to the specified <see cref="IServiceCollection" />.
         /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection" /> to add clients to.</param>
+        /// <param name="services">The <see cref="IServiceCollection" /> to add the clients to.</param>
         /// <param name="configureOptions">An action delegate to configure the provided <see cref="BuddyClientOptions" />.</param>
         /// <returns>The <see cref="IServiceCollection" /> so that additional calls can be chained.</returns>
         public static IServiceCollection AddBuddyClient(this IServiceCollection services, Action<BuddyClientOptions> configureOptions)
@@ -35,14 +38,17 @@
 
             services.Configure(configureOptions);
 
-            return services.AddClients();
+            services.AddClient();
+            services.AddResourceClients();
+
+            return services;
         }
 
         /// <summary>
-        ///     Adds Buddy API clients to the specified <see cref="IServiceCollection" />.
+        ///     Adds the Buddy API client, and resource specific clients, to the specified <see cref="IServiceCollection" />.
         /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection" /> to add clients to.</param>
-        /// <param name="userOptions"></param>
+        /// <param name="services">The <see cref="IServiceCollection" /> to add the clients to.</param>
+        /// <param name="userOptions">The configured <see cref="BuddyClientOptions" />.</param>
         /// <returns>The <see cref="IServiceCollection" /> so that additional calls can be chained.</returns>
         public static IServiceCollection AddBuddyClient(this IServiceCollection services, BuddyClientOptions userOptions)
         {
@@ -55,13 +61,27 @@
                 options.AccessToken = userOptions.AccessToken;
             });
 
-            return services.AddClients();
+            services.AddClient();
+            services.AddResourceClients();
+
+            return services;
         }
 
-        internal static IServiceCollection AddClients(this IServiceCollection services)
+        /// <summary>
+        ///     Adds the Buddy API client to the specified <see cref="IServiceCollection" />.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection" /> to add the client to.</param>
+        internal static void AddClient(this IServiceCollection services)
         {
             services.AddHttpClient<IBuddyClient, BuddyClient>();
+        }
 
+        /// <summary>
+        ///     Adds resource specific clients to the specified <see cref="IServiceCollection" />.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection" /> to add the clients to.</param>
+        internal static void AddResourceClients(this IServiceCollection services)
+        {
             services
                 .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().CurrentUser)
                 .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().CurrentUserEmails)
@@ -74,8 +94,6 @@
                 .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().Projects)
                 .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().Variables)
                 .AddTransient(provider => provider.GetRequiredService<IBuddyClient>().Workspaces);
-
-            return services;
         }
     }
 }

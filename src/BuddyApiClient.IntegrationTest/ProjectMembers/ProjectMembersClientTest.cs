@@ -27,7 +27,7 @@
             }
 
             [Fact]
-            public async Task Should_Add_And_Return_The_Project_Member()
+            public async Task Should_AddTheProjectMember()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -63,7 +63,7 @@
             }
 
             [Fact]
-            public async Task Should_Return_The_Project_Member_If_It_Exists()
+            public async Task Should_ReturnTheProjectMember()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -79,6 +79,22 @@
 
                 projectMember.Should().NotBeNull();
             }
+
+            [Fact]
+            public async Task Should_Throw_When_TheProjectMemberDoesNotExist()
+            {
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
+                    .SetUp();
+
+                var sut = Fixture.BuddyClient.ProjectMembers;
+
+                var act = FluentActions.Awaiting(async () => await sut.Get(await domain(), await projectName(), await memberId()));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            }
         }
 
         public sealed class List : BuddyClientTest
@@ -88,7 +104,7 @@
             }
 
             [Fact]
-            public async Task Should_Return_Project_Members_If_Any_Exists()
+            public async Task Should_ReturnTheProjectMembers()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -113,7 +129,7 @@
             }
 
             [Fact]
-            public async Task Should_Return_Project_Members_If_Any_Exists()
+            public async Task Should_ReturnTheProjectMembers()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -149,7 +165,7 @@
             }
 
             [Fact]
-            public async Task Should_Remove_The_Project_Member_And_Return_Nothing()
+            public async Task Should_RemoveTheProjectMember()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -167,6 +183,22 @@
 
                 (await assert.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
+
+            [Fact]
+            public async Task Should_Throw_When_TheProjectMemberDoesNotExist()
+            {
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
+                    .SetUp();
+
+                var sut = Fixture.BuddyClient.ProjectMembers;
+
+                var act = FluentActions.Awaiting(async () => await sut.Remove(await domain(), await projectName(), await memberId()));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            }
         }
 
         public sealed class Update : BuddyClientTest
@@ -176,7 +208,7 @@
             }
 
             [Fact]
-            public async Task Should_Update_And_Return_The_Project_Member()
+            public async Task Should_UpdateTheProjectMember()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -192,6 +224,22 @@
                 var projectMember = await sut.Update(await domain(), await projectName(), await projectMemberId(), new UpdateProjectMember(new PermissionSet { Id = await newPermissionSetId() }));
 
                 projectMember?.PermissionSet?.Id.Should().BeEquivalentTo(await newPermissionSetId());
+            }
+
+            [Fact]
+            public async Task Should_Throw_When_TheProjectMemberDoesNotExist()
+            {
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
+                    .SetUp();
+
+                var sut = Fixture.BuddyClient.ProjectMembers;
+
+                var act = FluentActions.Awaiting(async () => await sut.Remove(await domain(), await projectName(), await memberId()));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
         }
     }

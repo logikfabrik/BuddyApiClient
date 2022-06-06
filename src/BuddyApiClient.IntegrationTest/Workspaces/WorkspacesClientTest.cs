@@ -1,7 +1,10 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Workspaces
 {
+    using System.Net;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using BuddyApiClient.IntegrationTest.Testing;
+    using BuddyApiClient.IntegrationTest.Workspaces.FakeModelFactories;
     using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using FluentAssertions;
     using Xunit;
@@ -15,7 +18,7 @@
             }
 
             [Fact]
-            public async Task Should_Return_The_Workspace_If_It_Exists()
+            public async Task Should_ReturnTheWorkspace()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -27,6 +30,16 @@
 
                 workspace.Should().NotBeNull();
             }
+
+            [Fact]
+            public async Task Should_Throw_When_TheDomainDoesNotExist()
+            {
+                var sut = Fixture.BuddyClient.Workspaces;
+
+                var act = FluentActions.Awaiting(async () => await sut.Get(DomainFactory.Create()));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            }
         }
 
         public sealed class List : BuddyClientTest
@@ -36,7 +49,7 @@
             }
 
             [Fact]
-            public async Task Should_Return_Workspaces()
+            public async Task Should_ReturnTheWorkspaces()
             {
                 var sut = Fixture.BuddyClient.Workspaces;
 

@@ -3,7 +3,7 @@
     using Bogus;
     using BuddyApiClient.Members.Models.Request;
 
-    internal static class AddMemberFactory
+    internal static class AddMemberRequestFactory
     {
         private static readonly Faker<AddMember> Faker = new Faker<AddMember>().CustomInstantiator(f => new AddMember(f.Internet.ExampleEmail()));
 

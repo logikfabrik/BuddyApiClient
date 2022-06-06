@@ -5,7 +5,7 @@
     using BuddyApiClient.Variables.Models.Request;
     using SshKeyGenerator;
 
-    internal static class CreateSshKeyVariableFactory
+    internal static class CreateSshKeyVariableRequestFactory
     {
         private static readonly Faker<CreateSshKeyVariable> Faker = new Faker<CreateSshKeyVariable>().CustomInstantiator(f =>
         {
