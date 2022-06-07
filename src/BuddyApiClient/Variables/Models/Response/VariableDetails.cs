@@ -3,7 +3,7 @@
     using System.Text.Json.Serialization;
     using BuddyApiClient.Core.Models.Response;
 
-    public sealed record VariableDetails : DocumentResponse, IVariable
+    public sealed record VariableDetails : DocumentResponse
     {
         [JsonPropertyName("id")]
         public VariableId Id { get; set; }
