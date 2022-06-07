@@ -17,14 +17,14 @@
     {
         private static ICurrentUserEmailsClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new CurrentUserEmailsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), null)));
+            return new CurrentUserEmailsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), string.Empty)));
         }
 
         public sealed class Add
         {
             [Theory]
-            [FileData(@"CurrentUserEmails/.testdata/Add_Should_Add_And_Return_The_Email.json")]
-            public async Task Should_Add_And_Return_The_Email(string responseJson)
+            [FileData(@"CurrentUserEmails/.testdata/Add_Should_AddTheEmail.json")]
+            public async Task Should_AddTheEmail(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -41,8 +41,8 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"CurrentUserEmails/.testdata/List_Should_Return_Emails.json")]
-            public async Task Should_Return_Emails(string responseJson)
+            [FileData(@"CurrentUserEmails/.testdata/List_Should_ReturnTheEmails.json")]
+            public async Task Should_ReturnTheEmails(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -59,7 +59,7 @@
         public sealed class Remove
         {
             [Fact]
-            public async Task Should_Remove_The_Email_And_Return_Nothing()
+            public async Task Should_RemoveTheEmail()
             {
                 var handlerMock = new MockHttpMessageHandler();
 

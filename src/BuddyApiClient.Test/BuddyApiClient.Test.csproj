@@ -7,142 +7,160 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Core\.testdata\Should_Throw_On_Client_Error.json">
+    <Content Include="Core\.testdata\Should_Throw_When_ThereIsAClientError.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Core\.testdata\Should_Throw_On_Rate_Error.json">
+    <Content Include="Core\.testdata\Should_Throw_When_ThereIsARateError.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="CurrentUserEmails\.testdata\List_Should_Return_Emails.json">
+    <Content Include="CurrentUserEmails\.testdata\List_Should_ReturnTheEmails.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="CurrentUserEmails\.testdata\Add_Should_Add_And_Return_The_Email.json">
+    <Content Include="CurrentUserEmails\.testdata\Add_Should_AddTheEmail.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="CurrentUser/.testdata/Update_Should_Update_And_Return_The_Current_User.json">
+    <Content Include="CurrentUser\.testdata\Update_Should_UpdateTheCurrentUser.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="CurrentUser/.testdata/Get_Should_Return_The_Current_User.json">
+    <Content Include="CurrentUser\.testdata\Get_Should_ReturnTheCurrentUser.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GroupMembers\.testdata\Add_Should_Add_And_Return_The_Group_Member.json">
+    <Content Include="GroupMembers\.testdata\Add_Should_AddTheGroupMember.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GroupMembers\.testdata\Get_Should_Return_The_Group_Member_If_It_Exists.json">
+    <Content Include="GroupMembers\.testdata\Get_Should_ReturnTheGroupMember.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GroupMembers\.testdata\List_Should_Not_Return_Group_Members_If_None_Exist.json">
+    <Content Include="GroupMembers\.testdata\List_Should_ReturnNoGroupMembers_When_NoneExist.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GroupMembers\.testdata\List_Should_Return_Group_Members_If_Any_Exists.json">
+    <Content Include="GroupMembers\.testdata\List_Should_ReturnTheGroupMembers.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Groups\.testdata\Create_Should_Create_And_Return_The_Group.json">
+    <Content Include="Groups\.testdata\Create_Should_CreateTheGroup.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Groups\.testdata\Get_Should_Return_The_Group_If_It_Exists.json">
+    <Content Include="Groups\.testdata\Get_Should_ReturnTheGroup.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Groups\.testdata\List_Should_Not_Return_Groups_If_None_Exist.json">
+    <Content Include="Groups\.testdata\List_Should_ReturnNoGroups_When_NoneExist.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Groups\.testdata\List_Should_Return_Groups_If_Any_Exists.json">
+    <Content Include="Groups\.testdata\List_Should_ReturnTheGroups.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Groups\.testdata\Update_Should_Update_And_Return_The_Group.json">
+    <Content Include="Groups\.testdata\Update_Should_UpdateTheGroup.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members/.testdata/Update_Should_Update_And_Return_The_Member.json">
+    <Content Include="Members\.testdata\Update_Should_UpdateTheMember.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\Add_Should_Add_And_Return_The_Member.json">
+    <Content Include="Members\.testdata\Add_Should_AddTheMember.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\Get_Should_Return_The_Member_If_It_Exists.json">
+    <Content Include="Members\.testdata\Get_Should_ReturnTheMember.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ProjectGroups\.testdata\Add_Should_Add_And_Return_The_Project_Group.json">
+    <Content Include="ProjectGroups\.testdata\Add_Should_AddTheProjectGroup.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ProjectGroups\.testdata\Get_Should_Return_The_Project_Group_If_It_Exists.json">
+    <Content Include="ProjectGroups\.testdata\Get_Should_ReturnTheProjectGroup.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ProjectGroups\.testdata\List_Should_Not_Return_Project_Groups_If_None_Exist.json">
+    <Content Include="ProjectGroups\.testdata\List_Should_ReturnNoProjectGroups_When_NoneExist.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ProjectGroups\.testdata\List_Should_Return_Project_Groups_If_Any_Exists.json">
+    <Content Include="ProjectGroups\.testdata\List_Should_ReturnTheProjectGroups.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ProjectGroups\.testdata\Update_Should_Update_And_Return_The_Project_Group.json">
+    <Content Include="ProjectGroups\.testdata\Update_Should_UpdateTheProjectGroup.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ProjectMembers\.testdata\Get_Should_Return_The_Project_Member_If_It_Exists.json">
+    <Content Include="ProjectMembers\.testdata\Get_Should_ReturnTheProject.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\ListAll_Should_Return_Members_If_Any_Exists.json">
+    <Content Include="Members\.testdata\ListAll_Should_ReturnTheMembers.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\List_Should_Not_Return_Members_If_None_Exist.json">
+    <Content Include="Members\.testdata\List_Should_ReturnNoMembers_When_NoneExist.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Members\.testdata\List_Should_Return_Members_If_Any_Exists.json">
+    <Content Include="Members\.testdata\List_Should_ReturnTheMembers.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ProjectMembers\.testdata\Add_Should_Add_And_Return_The_Project_Member.json">
+    <Content Include="ProjectMembers\.testdata\Add_Should_AddTheProjectMember.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ProjectMembers\.testdata\ListAll_Should_Return_Project_Members_If_Any_Exists.json">
+    <Content Include="ProjectMembers\.testdata\ListAll_Should_ReturnTheProjectMembers.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ProjectMembers\.testdata\List_Should_Not_Return_Project_Members_If_None_Exist.json">
+    <Content Include="ProjectMembers\.testdata\List_Should_ReturnNoProjectMembers_When_NoneExist.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ProjectMembers\.testdata\List_Should_Return_Project_Members_If_Any_Exists.json">
+    <Content Include="ProjectMembers\.testdata\List_Should_ReturnTheProjectMembers.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ProjectMembers\.testdata\Update_Should_Update_And_Return_The_Project_Member.json">
+    <Content Include="ProjectMembers\.testdata\Update_Should_UpdateTheProjectMember.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PermissionSets\.testdata\Create_Should_Create_And_Return_The_PermissionSet.json">
+    <Content Include="PermissionSets\.testdata\Create_Should_CreateThePermissionSet.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PermissionSets\.testdata\List_Should_Not_Return_PermissionSets_If_None_Exist.json">
+    <Content Include="PermissionSets\.testdata\List_Should_ReturnNoPermissionSets_When_NoneExist.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Projects\.testdata\Create_Should_Create_And_Return_The_Project.json">
+    <Content Include="Projects\.testdata\Create_Should_CreateTheProject.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PermissionSets\.testdata\Get_Should_Return_The_PermissionSet_If_It_Exists.json">
+    <Content Include="PermissionSets\.testdata\Get_Should_ReturnThePermissionSet.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PermissionSets\.testdata\List_Should_Return_PermissionSets_If_Any_Exists.json">
+    <Content Include="PermissionSets\.testdata\List_Should_ReturnThePermissionSets.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PermissionSets\.testdata\Update_Should_Update_And_Return_The_PermissionSet.json">
+    <Content Include="PermissionSets\.testdata\Update_Should_UpdateThePermissionSet.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Projects\.testdata\Get_Should_Return_The_Project_If_It_Exists.json">
+    <Content Include="Projects\.testdata\Get_Should_ReturnTheProject.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Projects\.testdata\ListAll_Should_Not_Return_Projects_If_None_Exist.json">
+    <Content Include="Projects\.testdata\ListAll_Should_ReturnNoProjects_When_NoneExist.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Projects\.testdata\ListAll_Should_Return_Projects_If_Any_Exists.json">
+    <Content Include="Projects\.testdata\ListAll_Should_ReturnTheProjects.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Projects\.testdata\List_Should_Not_Return_Projects_If_None_Exist.json">
+    <Content Include="Projects\.testdata\List_Should_ReturnNoProjects_When_NoneExist.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Projects\.testdata\List_Should_Return_Projects_If_Any_Exists.json">
+    <Content Include="Projects\.testdata\List_Should_ReturnTheProjects.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Projects\.testdata\Update_Should_Update_And_Return_The_Project.json">
+    <Content Include="Projects\.testdata\Update_Should_UpdateTheProject.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Workspaces\.testdata\List_Should_Return_Workspaces.json">
+    <Content Include="Variables\.testdata\Create_Should_CreateTheSshKeyVariable.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Workspaces\.testdata\Get_Should_Return_The_Workspace_If_It_Exists.json">
+    <Content Include="Variables\.testdata\Create_Should_CreateTheVariable.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Variables\.testdata\Get_Should_ReturnTheVariable.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Variables\.testdata\List_Should_ReturnNoVariables_When_NoneExist.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Variables\.testdata\List_Should_ReturnTheVariables.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Variables\.testdata\Update_Should_UpdateTheVariable.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Workspaces\.testdata\List_Should_ReturnTheWorkspaces.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Workspaces\.testdata\Get_Should_ReturnTheWorkspace.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -152,12 +170,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="FluentAssertions" Version="6.6.0" />
+    <PackageReference Include="FluentAssertions" Version="6.7.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
     <PackageReference Include="RichardSzalay.MockHttp" Version="6.0.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>

@@ -9,8 +9,8 @@
         public Uri BaseUrl { get; set; } = new("https://api.buddy.works");
 
         /// <summary>
-        ///     A access token.
+        ///     A token for accessing the API.
         /// </summary>
-        public string? AccessToken { get; set; }
+        public string AccessToken { get; set; } = string.Empty;
     }
 }

@@ -13,7 +13,7 @@
             [InlineData(SandboxAccessLevelJsonConverter.DeniedAsJson, SandboxAccessLevel.Denied)]
             [InlineData(SandboxAccessLevelJsonConverter.ReadOnlyAsJson, SandboxAccessLevel.ReadOnly)]
             [InlineData(SandboxAccessLevelJsonConverter.ReadWriteAsJson, SandboxAccessLevel.ReadWrite)]
-            public void Should_Return_Enum_Value_For_Valid_Json(string json, SandboxAccessLevel expected)
+            public void Should_ReturnEnum_When_JsonIsValid(string json, SandboxAccessLevel expected)
             {
                 var enumValue = SandboxAccessLevelJsonConverter.ConvertFrom(json);
 
@@ -21,7 +21,7 @@
             }
 
             [Fact]
-            public void Should_Throw_For_Invalid_Json()
+            public void Should_Throw_When_JsonIsInvalid()
             {
                 var act = FluentActions.Invoking(() => SandboxAccessLevelJsonConverter.ConvertFrom(null));
 
@@ -35,7 +35,7 @@
             [InlineData(SandboxAccessLevel.Denied, SandboxAccessLevelJsonConverter.DeniedAsJson)]
             [InlineData(SandboxAccessLevel.ReadOnly, SandboxAccessLevelJsonConverter.ReadOnlyAsJson)]
             [InlineData(SandboxAccessLevel.ReadWrite, SandboxAccessLevelJsonConverter.ReadWriteAsJson)]
-            public void Should_Return_Json_For_Valid_Enum_Value(SandboxAccessLevel enumValue, string expected)
+            public void Should_ReturnJson_When_EnumIsValid(SandboxAccessLevel enumValue, string expected)
             {
                 var json = SandboxAccessLevelJsonConverter.ConvertTo(enumValue);
 
@@ -43,7 +43,7 @@
             }
 
             [Fact]
-            public void Should_Throw_For_Invalid_Enum_Value()
+            public void Should_Throw_When_EnumIsInvalid()
             {
                 var act = FluentActions.Invoking(() => SandboxAccessLevelJsonConverter.ConvertTo(null));
 

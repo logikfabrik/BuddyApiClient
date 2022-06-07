@@ -4,8 +4,11 @@
     using BuddyApiClient.Core.Models.Response;
     using BuddyApiClient.Members.Models;
 
-    public sealed record WorkspaceDetails : Response
+    public sealed record WorkspaceDetails : DocumentResponse
     {
+        [JsonPropertyName("html_url")]
+        public Uri? HtmlUrl { get; set; }
+
         [JsonPropertyName("id")]
         public WorkspaceId Id { get; set; }
 

@@ -12,7 +12,7 @@
             [Theory]
             [InlineData(RepositoryAccessLevelJsonConverter.ReadOnlyAsJson, RepositoryAccessLevel.ReadOnly)]
             [InlineData(RepositoryAccessLevelJsonConverter.ReadWriteAsJson, RepositoryAccessLevel.ReadWrite)]
-            public void Should_Return_Enum_Value_For_Valid_Json(string json, RepositoryAccessLevel expected)
+            public void Should_ReturnEnum_When_JsonIsValid(string json, RepositoryAccessLevel expected)
             {
                 var enumValue = RepositoryAccessLevelJsonConverter.ConvertFrom(json);
 
@@ -20,7 +20,7 @@
             }
 
             [Fact]
-            public void Should_Throw_For_Invalid_Json()
+            public void Should_Throw_When_JsonIsInvalid()
             {
                 var act = FluentActions.Invoking(() => RepositoryAccessLevelJsonConverter.ConvertFrom(null));
 
@@ -33,7 +33,7 @@
             [Theory]
             [InlineData(RepositoryAccessLevel.ReadOnly, RepositoryAccessLevelJsonConverter.ReadOnlyAsJson)]
             [InlineData(RepositoryAccessLevel.ReadWrite, RepositoryAccessLevelJsonConverter.ReadWriteAsJson)]
-            public void Should_Return_Json_For_Valid_Enum_Value(RepositoryAccessLevel enumValue, string expected)
+            public void Should_ReturnJson_When_EnumIsValid(RepositoryAccessLevel enumValue, string expected)
             {
                 var json = RepositoryAccessLevelJsonConverter.ConvertTo(enumValue);
 
@@ -41,7 +41,7 @@
             }
 
             [Fact]
-            public void Should_Throw_For_Invalid_Enum_Value()
+            public void Should_Throw_When_EnumIsInvalid()
             {
                 var act = FluentActions.Invoking(() => RepositoryAccessLevelJsonConverter.ConvertTo(null));
 

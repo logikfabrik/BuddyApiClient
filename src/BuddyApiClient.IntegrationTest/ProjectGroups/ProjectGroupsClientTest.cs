@@ -1,12 +1,14 @@
 ﻿namespace BuddyApiClient.IntegrationTest.ProjectGroups
 {
-    using System;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Bogus.DataSets;
+    using BuddyApiClient.IntegrationTest.Groups.Preconditions;
+    using BuddyApiClient.IntegrationTest.PermissionSets.Preconditions;
+    using BuddyApiClient.IntegrationTest.ProjectGroups.Preconditions;
+    using BuddyApiClient.IntegrationTest.Projects.Preconditions;
     using BuddyApiClient.IntegrationTest.Testing;
-    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
+    using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using BuddyApiClient.ProjectGroups.Models.Request;
     using BuddyApiClient.ProjectGroups.Models.Response;
     using FluentAssertions;
@@ -16,21 +18,18 @@
     {
         public sealed class Add : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public Add(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
-            public async Task Should_Add_And_Return_The_Project_Group()
+            public async Task Should_AddTheProjectGroup()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Internet().ExampleEmail()), out var groupId)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var permissionSetId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.ProjectGroups;
@@ -51,38 +50,22 @@
                     }
                 }
             }
-
-            public override async Task DisposeAsync()
-            {
-                await base.DisposeAsync();
-
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
-            }
         }
 
         public sealed class Get : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public Get(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
-            public async Task Should_Return_The_Project_Group_If_It_Exists()
+            public async Task Should_ReturnTheProjectGroup()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Internet().ExampleEmail()), out var groupId)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var permissionSetId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
                     .Add(new ProjectGroupExistsPrecondition(Fixture.BuddyClient.ProjectGroups, domain, projectName, permissionSetId, groupId), out var projectGroupId)
                     .SetUp();
 
@@ -93,37 +76,37 @@
                 projectGroup.Should().NotBeNull();
             }
 
-            public override async Task DisposeAsync()
+            [Fact]
+            public async Task Should_Throw_When_TheProjectGroupDoesNotExist()
             {
-                await base.DisposeAsync();
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
+                    .SetUp();
 
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
+                var sut = Fixture.BuddyClient.ProjectGroups;
+
+                var act = FluentActions.Awaiting(async () => await sut.Get(await domain(), await projectName(), await groupId()));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
         }
 
         public sealed class List : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public List(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
-            public async Task Should_Return_Project_Groups_If_Any_Exists()
+            public async Task Should_ReturnTheProjectGroups()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Internet().ExampleEmail()), out var groupId)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var permissionSetId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
                     .Add(new ProjectGroupExistsPrecondition(Fixture.BuddyClient.ProjectGroups, domain, projectName, permissionSetId, groupId))
                     .SetUp();
 
@@ -133,38 +116,22 @@
 
                 projectGroups?.Groups.Should().NotBeEmpty();
             }
-
-            public override async Task DisposeAsync()
-            {
-                await base.DisposeAsync();
-
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
-            }
         }
 
         public sealed class Remove : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public Remove(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
-            public async Task Should_Remove_The_Project_Group_And_Return_Nothing()
+            public async Task Should_RemoveTheProjectGroup()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var permissionSetId)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Internet().ExampleEmail()), out var groupId)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var permissionSetId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
                     .Add(new ProjectGroupExistsPrecondition(Fixture.BuddyClient.ProjectGroups, domain, projectName, permissionSetId, groupId), out var projectGroupId)
                     .SetUp();
 
@@ -177,38 +144,38 @@
                 (await assert.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
 
-            public override async Task DisposeAsync()
+            [Fact]
+            public async Task Should_Throw_When_TheProjectGroupDoesNotExist()
             {
-                await base.DisposeAsync();
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
+                    .SetUp();
 
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
+                var sut = Fixture.BuddyClient.ProjectGroups;
+
+                var act = FluentActions.Awaiting(async () => await sut.Remove(await domain(), await projectName(), await groupId()));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
         }
 
         public sealed class Update : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public Update(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
-            public async Task Should_Update_And_Return_The_Project_Group()
+            public async Task Should_UpdateTheProjectGroup()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain, new Lorem().Word()), out var projectName)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var currentPermissionSetId)
-                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain, new Lorem().Word()), out var newPermissionSetId)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Internet().ExampleEmail()), out var groupId)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var currentPermissionSetId)
+                    .Add(new PermissionSetExistsPrecondition(Fixture.BuddyClient.PermissionSets, domain), out var newPermissionSetId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
                     .Add(new ProjectGroupExistsPrecondition(Fixture.BuddyClient.ProjectGroups, domain, projectName, currentPermissionSetId, groupId), out var projectGroupId)
                     .SetUp();
 
@@ -219,17 +186,20 @@
                 projectGroup?.PermissionSet?.Id.Should().BeEquivalentTo(await newPermissionSetId());
             }
 
-            public override async Task DisposeAsync()
+            [Fact]
+            public async Task Should_Throw_When_TheProjectGroupDoesNotExist()
             {
-                await base.DisposeAsync();
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .Add(new ProjectExistsPrecondition(Fixture.BuddyClient.Projects, domain), out var projectName)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
+                    .SetUp();
 
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
+                var sut = Fixture.BuddyClient.ProjectGroups;
+
+                var act = FluentActions.Awaiting(async () => await sut.Remove(await domain(), await projectName(), await groupId()));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
         }
     }

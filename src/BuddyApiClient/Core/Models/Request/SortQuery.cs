@@ -1,8 +1,6 @@
 ﻿namespace BuddyApiClient.Core.Models.Request
 {
-    using System.Collections.Specialized;
-
-    public abstract record SortQuery : PageQuery
+    public abstract record SortQuery : CollectionQuery
     {
         public SortDirection? SortDirection { get; set; }
 
@@ -18,31 +16,17 @@
             };
         }
 
-        protected void AddSortBy(NameValueCollection parameters)
+        private void AddSortBy(QueryStringParameters parameters)
         {
-            var sortBy = GetSortBy();
-
-            if (sortBy is null)
-            {
-                return;
-            }
-
-            parameters.Add("sort_by", sortBy);
+            parameters.Add("sort_by", GetSortBy);
         }
 
-        protected void AddSortDirection(NameValueCollection parameters)
+        private void AddSortDirection(QueryStringParameters parameters)
         {
-            var sortDirection = GetSortDirection();
-
-            if (sortDirection is null)
-            {
-                return;
-            }
-
-            parameters.Add("sort_direction", sortDirection);
+            parameters.Add("sort_direction", GetSortDirection);
         }
 
-        protected override void AddParameters(NameValueCollection parameters)
+        protected override void AddParameters(QueryStringParameters parameters)
         {
             base.AddParameters(parameters);
 

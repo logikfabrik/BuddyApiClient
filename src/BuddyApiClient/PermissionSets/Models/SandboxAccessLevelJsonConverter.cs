@@ -1,6 +1,6 @@
 ﻿namespace BuddyApiClient.PermissionSets.Models
 {
-    public static class SandboxAccessLevelJsonConverter
+    internal static class SandboxAccessLevelJsonConverter
     {
         public const string DeniedAsJson = "DENIED";
         public const string ReadOnlyAsJson = "READ_ONLY";

@@ -16,14 +16,14 @@
     {
         private static ICurrentUserClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new CurrentUserClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), null)));
+            return new CurrentUserClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), string.Empty)));
         }
 
         public sealed class Get
         {
             [Theory]
-            [FileData(@"CurrentUser/.testdata/Get_Should_Return_The_Current_User.json")]
-            public async Task Should_Return_The_Current_User(string responseJson)
+            [FileData(@"CurrentUser/.testdata/Get_Should_ReturnTheCurrentUser.json")]
+            public async Task Should_ReturnTheCurrentUser(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -40,8 +40,8 @@
         public sealed class Update
         {
             [Theory]
-            [FileData(@"CurrentUser/.testdata/Update_Should_Update_And_Return_The_Current_User.json")]
-            public async Task Should_Update_And_Return_The_Current_User(string responseJson)
+            [FileData(@"CurrentUser/.testdata/Update_Should_UpdateTheCurrentUser.json")]
+            public async Task Should_UpdateTheCurrentUser(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 

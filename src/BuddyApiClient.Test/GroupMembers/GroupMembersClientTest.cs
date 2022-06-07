@@ -20,14 +20,14 @@
     {
         private static IGroupMembersClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new GroupMembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), null)));
+            return new GroupMembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), string.Empty)));
         }
 
         public sealed class Add
         {
             [Theory]
-            [FileData(@"GroupMembers/.testdata/Add_Should_Add_And_Return_The_Group_Member.json")]
-            public async Task Should_Add_And_Return_The_Group_Member(string responseJson)
+            [FileData(@"GroupMembers/.testdata/Add_Should_AddTheGroupMember.json")]
+            public async Task Should_AddTheGroupMember(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -44,8 +44,8 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"GroupMembers/.testdata/Get_Should_Return_The_Group_Member_If_It_Exists.json")]
-            public async Task Should_Return_The_Group_Member_If_It_Exists(string responseJson)
+            [FileData(@"GroupMembers/.testdata/Get_Should_ReturnTheGroupMember.json")]
+            public async Task Should_ReturnTheGroupMember(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -59,7 +59,7 @@
             }
 
             [Fact]
-            public async Task Should_Throw_If_The_Group_Member_Does_Not_Exist()
+            public async Task Should_Throw_When_TheGroupMemberDoesNotExist()
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -76,8 +76,8 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"GroupMembers/.testdata/List_Should_Return_Group_Members_If_Any_Exists.json")]
-            public async Task Should_Return_Group_Members_If_Any_Exists(string responseJson)
+            [FileData(@"GroupMembers/.testdata/List_Should_ReturnTheGroupMembers.json")]
+            public async Task Should_ReturnTheGroupMembers(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -91,8 +91,8 @@
             }
 
             [Theory]
-            [FileData(@"GroupMembers/.testdata/List_Should_Not_Return_Group_Members_If_None_Exist.json")]
-            public async Task Should_Not_Return_Group_Members_If_None_Exist(string responseJson)
+            [FileData(@"GroupMembers/.testdata/List_Should_ReturnNoGroupMembers_When_NoneExist.json")]
+            public async Task Should_ReturnNoGroupMembers_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -109,7 +109,7 @@
         public sealed class Remove
         {
             [Fact]
-            public async Task Should_Remove_The_Group_Member_And_Return_Nothing()
+            public async Task Should_RemoveTheGroupMember()
             {
                 var handlerMock = new MockHttpMessageHandler();
 

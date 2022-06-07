@@ -34,9 +34,9 @@
             return await HttpClientFacade.Get<ProjectList>(url, cancellationToken);
         }
 
-        public IPageIterator ListAll(Domain domain, ListProjectsQuery pageQuery, PageResponseHandler<ListProjectsQuery, ProjectList> pageResponseHandler)
+        public ICollectionIterator ListAll(Domain domain, ListProjectsQuery collectionQuery, CollectionPageResponseHandler<ListProjectsQuery, ProjectList> collectionPageResponseHandler)
         {
-            return new PageIterator<ListProjectsQuery, ProjectList>(async (query, cancellationToken) => await List(domain, query, cancellationToken), pageResponseHandler, pageQuery);
+            return new CollectionIterator<ListProjectsQuery, ProjectList>(async (query, cancellationToken) => await List(domain, query, cancellationToken), collectionPageResponseHandler, collectionQuery);
         }
 
         public async Task Delete(Domain domain, ProjectName name, CancellationToken cancellationToken = default)

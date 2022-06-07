@@ -12,7 +12,7 @@
             [Theory]
             [InlineData(StatusJsonConverter.ActiveAsJson, Status.Active)]
             [InlineData(StatusJsonConverter.ClosedAsJson, Status.Closed)]
-            public void Should_Return_Enum_Value_For_Valid_Json(string json, Status expected)
+            public void Should_ReturnEnum_When_JsonIsValid(string json, Status expected)
             {
                 var enumValue = StatusJsonConverter.ConvertFrom(json);
 
@@ -20,7 +20,7 @@
             }
 
             [Fact]
-            public void Should_Throw_For_Invalid_Json()
+            public void Should_Throw_When_JsonIsInvalid()
             {
                 var act = FluentActions.Invoking(() => StatusJsonConverter.ConvertFrom(null));
 
@@ -33,7 +33,7 @@
             [Theory]
             [InlineData(Status.Active, StatusJsonConverter.ActiveAsJson)]
             [InlineData(Status.Closed, StatusJsonConverter.ClosedAsJson)]
-            public void Should_Return_Json_For_Valid_Enum_Value(Status enumValue, string expected)
+            public void Should_ReturnJson_When_EnumIsValid(Status enumValue, string expected)
             {
                 var json = StatusJsonConverter.ConvertTo(enumValue);
 
@@ -41,7 +41,7 @@
             }
 
             [Fact]
-            public void Should_Throw_For_Invalid_Enum_Value()
+            public void Should_Throw_When_EnumIsInvalid()
             {
                 var act = FluentActions.Invoking(() => StatusJsonConverter.ConvertTo(null));
 

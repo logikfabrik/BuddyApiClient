@@ -14,7 +14,7 @@
 
         Task<MemberList?> List(Domain domain, ListMembersQuery? query = default, CancellationToken cancellationToken = default);
 
-        IPageIterator ListAll(Domain domain, ListMembersQuery pageQuery, PageResponseHandler<ListMembersQuery, MemberList> pageResponseHandler);
+        ICollectionIterator ListAll(Domain domain, ListMembersQuery collectionQuery, CollectionPageResponseHandler<ListMembersQuery, MemberList> collectionPageResponseHandler);
 
         Task Remove(Domain domain, MemberId id, CancellationToken cancellationToken = default);
 

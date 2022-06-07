@@ -1,12 +1,10 @@
 ﻿namespace BuddyApiClient.PermissionSets.Models.Response
 {
     using System.Text.Json.Serialization;
+    using BuddyApiClient.Core.Models.Response;
 
-    public sealed record PermissionSetSummary
+    public sealed record PermissionSetSummary : Document
     {
-        [JsonPropertyName("url")]
-        public Uri? Url { get; set; }
-
         [JsonPropertyName("html_url")]
         public Uri? HtmlUrl { get; set; }
 

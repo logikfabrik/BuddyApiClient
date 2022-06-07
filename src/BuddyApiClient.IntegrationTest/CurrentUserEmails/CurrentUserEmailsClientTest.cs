@@ -5,8 +5,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Bogus.DataSets;
-    using BuddyApiClient.CurrentUserEmails.Models.Request;
+    using BuddyApiClient.IntegrationTest.CurrentUserEmails.FakeModelFactories;
     using BuddyApiClient.IntegrationTest.Testing;
     using FluentAssertions;
     using Xunit;
@@ -38,11 +37,11 @@
             }
 
             [Fact]
-            public async Task Should_Add_And_Return_The_Email()
+            public async Task Should_AddTheEmail()
             {
                 var sut = Fixture.BuddyClient.CurrentUserEmails;
 
-                var email = await sut.Add(new AddEmail(new Internet().ExampleEmail()));
+                var email = await sut.Add(AddEmailRequestFactory.Create());
 
                 _email = email?.Email;
 
@@ -50,11 +49,11 @@
             }
 
             [Fact]
-            public async Task Should_Throw_If_The_Email_Is_Invalid()
+            public async Task Should_Throw_When_TheEmailIsInvalid()
             {
                 var sut = Fixture.BuddyClient.CurrentUserEmails;
 
-                var act = FluentActions.Awaiting(() => sut.Add(new AddEmail(new Lorem().Word())));
+                var act = FluentActions.Awaiting(() => sut.Add(AddInvalidEmailRequestFactory.Create()));
 
                 (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             }
@@ -67,7 +66,7 @@
             }
 
             [Fact]
-            public async Task Should_Return_Emails()
+            public async Task Should_ReturnTheEmails()
             {
                 var sut = Fixture.BuddyClient.CurrentUserEmails;
 
@@ -91,13 +90,13 @@
 
                 var client = Fixture.BuddyClient.CurrentUserEmails;
 
-                var email = await client.Add(new AddEmail(new Internet().ExampleEmail()));
+                var email = await client.Add(AddEmailRequestFactory.Create());
 
                 _email = email?.Email;
             }
 
             [Fact]
-            public async Task Should_Remove_The_Email_And_Return_Nothing()
+            public async Task Should_RemoveTheEmail()
             {
                 if (_email is null)
                 {

@@ -1,14 +1,14 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Members
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Bogus.DataSets;
+    using BuddyApiClient.IntegrationTest.Members.FakeModelFactories;
+    using BuddyApiClient.IntegrationTest.Members.Preconditions;
     using BuddyApiClient.IntegrationTest.Testing;
-    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
+    using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using BuddyApiClient.Members.Models.Request;
     using BuddyApiClient.Members.Models.Response;
     using FluentAssertions;
@@ -18,17 +18,14 @@
     {
         public sealed class Add : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public Add(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
-            public async Task Should_Add_And_Return_The_Member()
+            public async Task Should_AddTheMember()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
                     .SetUp();
 
@@ -38,7 +35,7 @@
 
                 try
                 {
-                    member = await sut.Add(await domain(), new AddMember(new Internet().ExampleEmail()));
+                    member = await sut.Add(await domain(), AddMemberRequestFactory.Create());
 
                     member.Should().NotBeNull();
                 }
@@ -50,36 +47,20 @@
                     }
                 }
             }
-
-            public override async Task DisposeAsync()
-            {
-                await base.DisposeAsync();
-
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
-            }
         }
 
         public sealed class Get : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public Get(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
-            public async Task Should_Return_The_Member_If_It_Exists()
+            public async Task Should_ReturnTheMember()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Members;
@@ -89,35 +70,33 @@
                 member.Should().NotBeNull();
             }
 
-            public override async Task DisposeAsync()
+            [Fact]
+            public async Task Should_Throw_When_TheMemberDoesNotExist()
             {
-                await base.DisposeAsync();
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .SetUp();
 
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
+                var sut = Fixture.BuddyClient.Members;
+
+                var act = FluentActions.Awaiting(async () => await sut.Get(await domain(), MemberIdFactory.Create()));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
         }
 
         public sealed class List : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public List(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
-            public async Task Should_Return_Members_If_Any_Exists()
+            public async Task Should_ReturnTheMembers()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()))
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain))
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Members;
@@ -126,85 +105,53 @@
 
                 members?.Members.Should().NotBeEmpty();
             }
-
-            public override async Task DisposeAsync()
-            {
-                await base.DisposeAsync();
-
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
-            }
         }
 
         public sealed class ListAll : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public ListAll(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
-            public async Task Should_Return_Members_If_Any_Exists()
+            public async Task Should_ReturnTheMembers()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()))
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain))
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Members;
 
                 var members = new List<MemberSummary>();
 
-                var pageQuery = new ListMembersQuery();
+                var collectionQuery = new ListMembersQuery();
 
-                var pageIterator = sut.ListAll(await domain(), pageQuery, (_, response, _) =>
+                var collectionIterator = sut.ListAll(await domain(), collectionQuery, (_, response, _) =>
                 {
                     members.AddRange(response?.Members ?? Enumerable.Empty<MemberSummary>());
 
                     return Task.FromResult(true);
                 });
 
-                await pageIterator.Iterate();
+                await collectionIterator.Iterate();
 
                 members.Should().NotBeEmpty();
-            }
-
-            public override async Task DisposeAsync()
-            {
-                await base.DisposeAsync();
-
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
             }
         }
 
         public sealed class Remove : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public Remove(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
-            public async Task Should_Remove_The_Member_And_Return_Nothing()
+            public async Task Should_RemoveTheMember()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Members;
@@ -216,55 +163,59 @@
                 (await assert.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
 
-            public override async Task DisposeAsync()
+            [Fact]
+            public async Task Should_Throw_When_TheMemberDoesNotExist()
             {
-                await base.DisposeAsync();
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .SetUp();
 
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
+                var sut = Fixture.BuddyClient.Members;
+
+                var act = FluentActions.Awaiting(async () => await sut.Remove(await domain(), MemberIdFactory.Create()));
+
+                // The Buddy API is inconsistent, as it'll return HttpStatusCode.InternalServerError, and not HttpStatusCode.NotFound as expected.
+                await act.Should().ThrowAsync<HttpRequestException>();
             }
         }
 
         public sealed class Update : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public Update(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
-            public async Task Should_Update_And_Return_The_Member()
+            public async Task Should_UpdateTheMember()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.Members;
 
-                var member = await sut.Update(await domain(), await memberId(), new UpdateMember { Admin = true });
+                var model = UpdateMemberRequestFactory.Create();
 
-                member?.Admin.Should().BeTrue();
+                var member = await sut.Update(await domain(), await memberId(), model);
+
+                member?.Admin.Should().Be(model.Admin);
             }
 
-            public override async Task DisposeAsync()
+            [Fact]
+            public async Task Should_Throw_When_TheMemberDoesNotExist()
             {
-                await base.DisposeAsync();
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .SetUp();
 
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
+                var sut = Fixture.BuddyClient.Members;
+
+                var model = UpdateMemberRequestFactory.Create();
+
+                var act = FluentActions.Awaiting(async () => await sut.Update(await domain(), MemberIdFactory.Create(), model));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
         }
     }

@@ -1,13 +1,14 @@
 ﻿namespace BuddyApiClient.IntegrationTest.GroupMembers
 {
-    using System;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Bogus.DataSets;
     using BuddyApiClient.GroupMembers.Models.Request;
+    using BuddyApiClient.IntegrationTest.GroupMembers.Preconditions;
+    using BuddyApiClient.IntegrationTest.Groups.Preconditions;
+    using BuddyApiClient.IntegrationTest.Members.Preconditions;
     using BuddyApiClient.IntegrationTest.Testing;
-    using BuddyApiClient.IntegrationTest.Testing.Preconditions;
+    using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using BuddyApiClient.Members.Models.Response;
     using FluentAssertions;
     using Xunit;
@@ -16,20 +17,17 @@
     {
         public sealed class Add : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public Add(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
-            public async Task Should_Add_And_Return_The_Group_Member()
+            public async Task Should_AddTheGroupMember()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Lorem().Word()), out var groupId)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.GroupMembers;
@@ -50,37 +48,21 @@
                     }
                 }
             }
-
-            public override async Task DisposeAsync()
-            {
-                await base.DisposeAsync();
-
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
-            }
         }
 
         public sealed class Get : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public Get(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
-            public async Task Should_Return_The_Group_Member_If_It_Exists()
+            public async Task Should_ReturnTheGroupMember()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Lorem().Word()), out var groupId)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
                     .Add(new GroupMemberExistsPrecondition(Fixture.BuddyClient.GroupMembers, domain, groupId, memberId), out var groupMemberId)
                     .SetUp();
 
@@ -92,51 +74,36 @@
             }
 
             [Fact]
-            public async Task Should_Throw_If_The_Group_Member_Does_Not_Exist()
+            public async Task Should_Throw_When_TheGroupMemberDoesNotExist()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Lorem().Word()), out var groupId)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
                     .SetUp();
 
                 var sut = Fixture.BuddyClient.GroupMembers;
-                
+
                 var act = FluentActions.Awaiting(async () => await sut.Get(await domain(), await groupId(), await memberId()));
 
-                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.Forbidden);
-            }
-
-            public override async Task DisposeAsync()
-            {
-                await base.DisposeAsync();
-
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
+                // The Buddy API is inconsistent, as it'll return HttpStatusCode.Forbidden, and not HttpStatusCode.NotFound as expected.
+                await act.Should().ThrowAsync<HttpRequestException>();
             }
         }
 
         public sealed class List : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public List(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
-            public async Task Should_Return_Group_Members_If_Any_Exists()
+            public async Task Should_ReturnTheGroupMembers()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Lorem().Word()), out var groupId)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
                     .Add(new GroupMemberExistsPrecondition(Fixture.BuddyClient.GroupMembers, domain, groupId, memberId))
                     .SetUp();
 
@@ -146,37 +113,21 @@
 
                 groupMembers?.Members.Should().NotBeEmpty();
             }
-
-            public override async Task DisposeAsync()
-            {
-                await base.DisposeAsync();
-
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
-            }
         }
 
         public sealed class Remove : BuddyClientTest
         {
-            private readonly Preconditions _preconditions;
-
             public Remove(BuddyClientFixture fixture) : base(fixture)
             {
-                _preconditions = new Preconditions();
             }
 
             [Fact]
-            public async Task Should_Remove_The_Group_Member_And_Return_Nothing()
+            public async Task Should_RemoveTheGroupMember()
             {
-                await _preconditions
+                await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain, new Lorem().Word()), out var groupId)
-                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain, new Internet().ExampleEmail()), out var memberId)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
                     .Add(new GroupMemberExistsPrecondition(Fixture.BuddyClient.GroupMembers, domain, groupId, memberId), out var groupMemberId)
                     .SetUp();
 
@@ -186,20 +137,24 @@
 
                 var assert = FluentActions.Awaiting(async () => await sut.Get(await domain(), await groupId(), await groupMemberId()));
 
-                (await assert.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+                // The Buddy API is inconsistent, as it'll return HttpStatusCode.Forbidden, and not HttpStatusCode.NotFound as expected.
+                await assert.Should().ThrowAsync<HttpRequestException>();
             }
 
-            public override async Task DisposeAsync()
+            [Fact]
+            public async Task Should_Throw_When_TheGroupMemberDoesNotExist()
             {
-                await base.DisposeAsync();
+                await Preconditions
+                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
+                    .Add(new GroupExistsPrecondition(Fixture.BuddyClient.Groups, domain), out var groupId)
+                    .Add(new MemberExistsPrecondition(Fixture.BuddyClient.Members, domain), out var memberId)
+                    .SetUp();
 
-                await foreach (var precondition in _preconditions.TearDown())
-                {
-                    if (precondition is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
-                }
+                var sut = Fixture.BuddyClient.GroupMembers;
+
+                var act = FluentActions.Awaiting(async () => await sut.Remove(await domain(), await groupId(), await memberId()));
+
+                (await act.Should().ThrowAsync<HttpRequestException>()).And.StatusCode.Should().Be(HttpStatusCode.NotFound);
             }
         }
     }

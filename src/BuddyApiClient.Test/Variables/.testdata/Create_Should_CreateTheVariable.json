@@ -1,0 +1,8 @@
+{
+  "url": "https://api.buddy.works/workspaces/buddytest/variables/1",
+  "type": "VAR",
+  "id": 1,
+  "key": "my_var",
+  "value": "some value",
+  "encrypted": false
+}

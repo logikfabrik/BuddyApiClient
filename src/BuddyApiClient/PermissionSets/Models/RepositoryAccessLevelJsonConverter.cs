@@ -1,6 +1,6 @@
 ﻿namespace BuddyApiClient.PermissionSets.Models
 {
-    public static class RepositoryAccessLevelJsonConverter
+    internal static class RepositoryAccessLevelJsonConverter
     {
         public const string ReadOnlyAsJson = "READ_ONLY";
         public const string ReadWriteAsJson = "READ_WRITE";

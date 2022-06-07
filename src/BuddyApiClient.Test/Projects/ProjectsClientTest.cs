@@ -23,14 +23,14 @@
     {
         private static IProjectsClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new ProjectsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), null)));
+            return new ProjectsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), string.Empty)));
         }
 
         public sealed class Create
         {
             [Theory]
-            [FileData(@"Projects/.testdata/Create_Should_Create_And_Return_The_Project.json")]
-            public async Task Should_Create_And_Return_The_Project(string responseJson)
+            [FileData(@"Projects/.testdata/Create_Should_CreateTheProject.json")]
+            public async Task Should_CreateTheProject(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -47,8 +47,8 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"Projects/.testdata/Get_Should_Return_The_Project_If_It_Exists.json")]
-            public async Task Should_Return_The_Project_If_It_Exists(string responseJson)
+            [FileData(@"Projects/.testdata/Get_Should_ReturnTheProject.json")]
+            public async Task Should_ReturnTheProject(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -62,7 +62,7 @@
             }
 
             [Fact]
-            public async Task Should_Throw_If_The_Project_Does_Not_Exist()
+            public async Task Should_Throw_When_TheProjectDoesNotExist()
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -79,8 +79,8 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"Projects/.testdata/List_Should_Return_Projects_If_Any_Exists.json")]
-            public async Task Should_Return_Projects_If_Any_Exists(string responseJson)
+            [FileData(@"Projects/.testdata/List_Should_ReturnTheProjects.json")]
+            public async Task Should_ReturnTheProjects(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -94,8 +94,8 @@
             }
 
             [Theory]
-            [FileData(@"Projects/.testdata/List_Should_Not_Return_Projects_If_None_Exist.json")]
-            public async Task Should_Not_Return_Projects_If_None_Exist(string responseJson)
+            [FileData(@"Projects/.testdata/List_Should_ReturnNoProjects_When_NoneExist.json")]
+            public async Task Should_ReturnNoProjects_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -112,53 +112,53 @@
         public sealed class ListAll
         {
             [Theory]
-            [FileData(@"Projects/.testdata/ListAll_Should_Return_Projects_If_Any_Exists.json")]
-            public async Task Should_Return_Projects_If_Any_Exists(string responseJson)
+            [FileData(@"Projects/.testdata/ListAll_Should_ReturnTheProjects.json")]
+            public async Task Should_ReturnTheProjects(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
-                handlerStub.When(HttpMethod.Get, $"https://api.buddy.works/workspaces/buddy/projects?page={PageIterator.DefaultPageIndex}&per_page={PageIterator.DefaultPageSize}").Respond(MediaTypeNames.Application.Json, responseJson);
+                handlerStub.When(HttpMethod.Get, $"https://api.buddy.works/workspaces/buddy/projects?page={CollectionIterator.DefaultPageIndex}&per_page={CollectionIterator.DefaultPageSize}").Respond(MediaTypeNames.Application.Json, responseJson);
 
                 var sut = CreateClient(handlerStub);
 
                 var projects = new List<ProjectSummary>();
 
-                var pageQuery = new ListProjectsQuery();
+                var collectionQuery = new ListProjectsQuery();
 
-                var pageIterator = sut.ListAll(new Domain("buddy"), pageQuery, (_, response, _) =>
+                var collectionIterator = sut.ListAll(new Domain("buddy"), collectionQuery, (_, response, _) =>
                 {
                     projects.AddRange(response?.Projects ?? Enumerable.Empty<ProjectSummary>());
 
                     return Task.FromResult(true);
                 });
 
-                await pageIterator.Iterate();
+                await collectionIterator.Iterate();
 
                 projects.Should().NotBeEmpty();
             }
 
             [Theory]
-            [FileData(@"Projects/.testdata/ListAll_Should_Not_Return_Projects_If_None_Exist.json")]
-            public async Task Should_Not_Return_Projects_If_None_Exist(string responseJson)
+            [FileData(@"Projects/.testdata/ListAll_Should_ReturnNoProjects_When_NoneExist.json")]
+            public async Task Should_ReturnNoProjects_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
-                handlerStub.When(HttpMethod.Get, $"https://api.buddy.works/workspaces/buddy/projects?page={PageIterator.DefaultPageIndex}&per_page={PageIterator.DefaultPageSize}").Respond(MediaTypeNames.Application.Json, responseJson);
+                handlerStub.When(HttpMethod.Get, $"https://api.buddy.works/workspaces/buddy/projects?page={CollectionIterator.DefaultPageIndex}&per_page={CollectionIterator.DefaultPageSize}").Respond(MediaTypeNames.Application.Json, responseJson);
 
                 var sut = CreateClient(handlerStub);
 
                 var projects = new List<ProjectSummary>();
 
-                var pageQuery = new ListProjectsQuery();
+                var collectionQuery = new ListProjectsQuery();
 
-                var pageIterator = sut.ListAll(new Domain("buddy"), pageQuery, (_, response, _) =>
+                var collectionIterator = sut.ListAll(new Domain("buddy"), collectionQuery, (_, response, _) =>
                 {
                     projects.AddRange(response?.Projects ?? Enumerable.Empty<ProjectSummary>());
 
                     return Task.FromResult(true);
                 });
 
-                await pageIterator.Iterate();
+                await collectionIterator.Iterate();
 
                 projects.Should().BeEmpty();
             }
@@ -167,7 +167,7 @@
         public sealed class Delete
         {
             [Fact]
-            public async Task Should_Delete_The_Project_And_Return_Nothing()
+            public async Task Should_DeleteTheProject()
             {
                 var handlerMock = new MockHttpMessageHandler();
 
@@ -184,8 +184,8 @@
         public sealed class Update
         {
             [Theory]
-            [FileData(@"Projects/.testdata/Update_Should_Update_And_Return_The_Project.json")]
-            public async Task Should_Update_And_Return_The_Project(string responseJson)
+            [FileData(@"Projects/.testdata/Update_Should_UpdateTheProject.json")]
+            public async Task Should_UpdateTheProject(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 

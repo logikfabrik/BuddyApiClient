@@ -1,5 +1,6 @@
 ﻿namespace BuddyApiClient.Test.Core
 {
+    using System;
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Json;
@@ -13,30 +14,35 @@
 
     public sealed class HttpClientFacadeTest
     {
-        private static Task<HttpResponseMessage> EmptyJson()
+        private static async Task MakeARequest(HttpMethod method, Func<HttpClientFacade, Task> act)
         {
-            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = JsonContent.Create(string.Empty) });
+            var handlerMock = new MockHttpMessageHandler();
+
+            static Task<HttpResponseMessage> CreateEmptyJsonResponse()
+            {
+                return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = JsonContent.Create(string.Empty) });
+            }
+
+            handlerMock.Expect(method, "https://api.buddy.works").Respond(CreateEmptyJsonResponse);
+
+            var sut = new HttpClientFacade(handlerMock.ToHttpClient());
+
+            await act(sut);
+
+            handlerMock.VerifyNoOutstandingExpectation();
         }
 
         public sealed class Get
         {
             [Fact]
-            public async Task Should_Make_A_HTTP_GET_Request()
+            public async Task Should_MakeARequest()
             {
-                var handlerMock = new MockHttpMessageHandler();
-
-                handlerMock.Expect(HttpMethod.Get, "https://api.buddy.works").Respond(EmptyJson);
-
-                var sut = new HttpClientFacade(handlerMock.ToHttpClient());
-
-                await sut.Get<object>("https://api.buddy.works");
-
-                handlerMock.VerifyNoOutstandingExpectation();
+                await MakeARequest(HttpMethod.Get, sut => sut.Get<object>("https://api.buddy.works"));
             }
 
             [Theory]
-            [FileData(@"Core/.testdata/Should_Throw_On_Client_Error.json")]
-            public async Task Should_Throw_On_Client_Error(string responseJson)
+            [FileData(@"Core/.testdata/Should_Throw_When_ThereIsAClientError.json")]
+            public async Task Should_Throw_When_ThereIsAClientError(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -50,8 +56,8 @@
             }
 
             [Theory]
-            [FileData(@"Core/.testdata/Should_Throw_On_Rate_Error.json")]
-            public async Task Should_Throw_On_Rate_Error(string responseJson)
+            [FileData(@"Core/.testdata/Should_Throw_When_ThereIsARateError.json")]
+            public async Task Should_Throw_When_ThereIsARateError(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -68,22 +74,14 @@
         public sealed class Post
         {
             [Fact]
-            public async Task Should_Make_A_HTTP_POST_Request()
+            public async Task Should_MakeARequest()
             {
-                var handlerMock = new MockHttpMessageHandler();
-
-                handlerMock.Expect(HttpMethod.Post, "https://api.buddy.works").Respond(EmptyJson);
-
-                var sut = new HttpClientFacade(handlerMock.ToHttpClient());
-
-                await sut.Post<object>("https://api.buddy.works", new object());
-
-                handlerMock.VerifyNoOutstandingExpectation();
+                await MakeARequest(HttpMethod.Post, sut => sut.Post<object>("https://api.buddy.works", new object()));
             }
 
             [Theory]
-            [FileData(@"Core/.testdata/Should_Throw_On_Client_Error.json")]
-            public async Task Should_Throw_On_Client_Error(string responseJson)
+            [FileData(@"Core/.testdata/Should_Throw_When_ThereIsAClientError.json")]
+            public async Task Should_Throw_When_ThereIsAClientError(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -97,8 +95,8 @@
             }
 
             [Theory]
-            [FileData(@"Core/.testdata/Should_Throw_On_Rate_Error.json")]
-            public async Task Should_Throw_On_Rate_Error(string responseJson)
+            [FileData(@"Core/.testdata/Should_Throw_When_ThereIsARateError.json")]
+            public async Task Should_Throw_When_ThereIsARateError(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -115,22 +113,14 @@
         public sealed class Patch
         {
             [Fact]
-            public async Task Should_Make_A_HTTP_PATCH_Request()
+            public async Task Should_MakeARequest()
             {
-                var handlerMock = new MockHttpMessageHandler();
-
-                handlerMock.Expect(HttpMethod.Patch, "https://api.buddy.works").Respond(EmptyJson);
-
-                var sut = new HttpClientFacade(handlerMock.ToHttpClient());
-
-                await sut.Patch<object>("https://api.buddy.works", new object());
-
-                handlerMock.VerifyNoOutstandingExpectation();
+                await MakeARequest(HttpMethod.Patch, sut => sut.Patch<object>("https://api.buddy.works", new object()));
             }
 
             [Theory]
-            [FileData(@"Core/.testdata/Should_Throw_On_Client_Error.json")]
-            public async Task Should_Throw_On_Client_Error(string responseJson)
+            [FileData(@"Core/.testdata/Should_Throw_When_ThereIsAClientError.json")]
+            public async Task Should_Throw_When_ThereIsAClientError(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -144,8 +134,8 @@
             }
 
             [Theory]
-            [FileData(@"Core/.testdata/Should_Throw_On_Rate_Error.json")]
-            public async Task Should_Throw_On_Rate_Error(string responseJson)
+            [FileData(@"Core/.testdata/Should_Throw_When_ThereIsARateError.json")]
+            public async Task Should_Throw_When_ThereIsARateError(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -162,22 +152,14 @@
         public sealed class Delete
         {
             [Fact]
-            public async Task Should_Make_A_HTTP_DELETE_Request()
+            public async Task Should_MakeARequest()
             {
-                var handlerMock = new MockHttpMessageHandler();
-
-                handlerMock.Expect(HttpMethod.Delete, "https://api.buddy.works").Respond(HttpStatusCode.NoContent);
-
-                var sut = new HttpClientFacade(handlerMock.ToHttpClient());
-
-                await sut.Delete("https://api.buddy.works");
-
-                handlerMock.VerifyNoOutstandingExpectation();
+                await MakeARequest(HttpMethod.Delete, sut => sut.Delete("https://api.buddy.works"));
             }
 
             [Theory]
-            [FileData(@"Core/.testdata/Should_Throw_On_Client_Error.json")]
-            public async Task Should_Throw_On_Client_Error(string responseJson)
+            [FileData(@"Core/.testdata/Should_Throw_When_ThereIsAClientError.json")]
+            public async Task Should_Throw_When_ThereIsAClientError(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -191,8 +173,8 @@
             }
 
             [Theory]
-            [FileData(@"Core/.testdata/Should_Throw_On_Rate_Error.json")]
-            public async Task Should_Throw_On_Rate_Error(string responseJson)
+            [FileData(@"Core/.testdata/Should_Throw_When_ThereIsARateError.json")]
+            public async Task Should_Throw_When_ThereIsARateError(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
