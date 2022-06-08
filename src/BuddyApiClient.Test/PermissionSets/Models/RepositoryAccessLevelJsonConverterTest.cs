@@ -1,9 +1,6 @@
 ﻿namespace BuddyApiClient.Test.PermissionSets.Models
 {
-    using System;
     using BuddyApiClient.PermissionSets.Models;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class RepositoryAccessLevelJsonConverterTest
     {

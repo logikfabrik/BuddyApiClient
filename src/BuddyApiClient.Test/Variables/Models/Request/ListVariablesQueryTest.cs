@@ -4,8 +4,6 @@
     using BuddyApiClient.Pipelines.Models;
     using BuddyApiClient.Projects.Models;
     using BuddyApiClient.Variables.Models.Request;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class ListVariablesQueryTest
     {

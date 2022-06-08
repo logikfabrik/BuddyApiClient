@@ -1,9 +1,6 @@
 ﻿namespace BuddyApiClient.IntegrationTest.GroupMembers.Preconditions
 {
-    using System;
     using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
     using BuddyApiClient.GroupMembers;
     using BuddyApiClient.GroupMembers.Models.Request;
     using BuddyApiClient.Groups.Models;

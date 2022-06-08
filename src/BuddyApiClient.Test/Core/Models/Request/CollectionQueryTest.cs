@@ -1,9 +1,5 @@
 ﻿namespace BuddyApiClient.Test.Core.Models.Request
 {
-    using System;
-    using FluentAssertions;
-    using Xunit;
-
     public sealed class CollectionQueryTest
     {
         public sealed class PageIndex

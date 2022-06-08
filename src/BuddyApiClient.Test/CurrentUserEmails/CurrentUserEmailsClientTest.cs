@@ -1,17 +1,12 @@
 ﻿namespace BuddyApiClient.Test.CurrentUserEmails
 {
-    using System;
     using System.Net;
-    using System.Net.Http;
     using System.Net.Mime;
-    using System.Threading.Tasks;
     using BuddyApiClient.Core;
     using BuddyApiClient.CurrentUserEmails;
     using BuddyApiClient.CurrentUserEmails.Models.Request;
     using BuddyApiClient.Test.Testing;
-    using FluentAssertions;
     using RichardSzalay.MockHttp;
-    using Xunit;
 
     public sealed class CurrentUserEmailsClientTest
     {

@@ -12,17 +12,11 @@
     using BuddyApiClient.Projects;
     using BuddyApiClient.Variables;
     using BuddyApiClient.Workspaces;
-    using Microsoft.Extensions.Options;
 
     public sealed class BuddyClient : IBuddyClient
     {
-        public BuddyClient(IHttpClientFactory httpClientFactory, IOptions<BuddyClientOptions> options)
-            : this(() => HttpClientFacadeFactory.Create(httpClientFactory.CreateClient(), options.Value.BaseUrl, options.Value.AccessToken))
-        {
-        }
-
-        public BuddyClient(HttpClient httpClient, IOptions<BuddyClientOptions> options)
-            : this(() => HttpClientFacadeFactory.Create(httpClient, options.Value.BaseUrl, options.Value.AccessToken))
+        public BuddyClient(HttpClient httpClient, Uri baseUrl, string accessToken)
+            : this(() => HttpClientFacadeFactory.Create(httpClient, baseUrl, accessToken))
         {
         }
 

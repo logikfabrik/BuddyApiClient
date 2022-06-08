@@ -1,11 +1,6 @@
 ﻿namespace BuddyApiClient.Test.Core.Models.Request
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using BuddyApiClient.Core.Models.Request;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class QueryStringParametersTest
     {

@@ -1,9 +1,6 @@
 ﻿namespace BuddyApiClient.IntegrationTest.ProjectGroups.Preconditions
 {
-    using System;
     using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
     using BuddyApiClient.Groups.Models;
     using BuddyApiClient.IntegrationTest.Testing.Preconditions;
     using BuddyApiClient.PermissionSets.Models;

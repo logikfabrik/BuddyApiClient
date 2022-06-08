@@ -1,9 +1,6 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Variables.Preconditions
 {
-    using System;
     using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
     using BuddyApiClient.IntegrationTest.Testing.Preconditions;
     using BuddyApiClient.IntegrationTest.Variables.FakeModelFactories;
     using BuddyApiClient.Variables;

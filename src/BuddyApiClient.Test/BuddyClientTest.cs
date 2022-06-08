@@ -11,16 +11,13 @@
     using BuddyApiClient.Projects;
     using BuddyApiClient.Variables;
     using BuddyApiClient.Workspaces;
-    using FluentAssertions;
-    using Microsoft.Extensions.Options;
     using RichardSzalay.MockHttp;
-    using Xunit;
 
     public sealed class BuddyClientTest
     {
         private static IBuddyClient CreateClient()
         {
-            return new BuddyClient(new MockHttpMessageHandler().ToHttpClient(), new OptionsWrapper<BuddyClientOptions>(new BuddyClientOptions()));
+            return new BuddyClient(new MockHttpMessageHandler().ToHttpClient(), new Uri("https://api.buddy.works"), string.Empty);
         }
 
         public sealed class CurrentUser

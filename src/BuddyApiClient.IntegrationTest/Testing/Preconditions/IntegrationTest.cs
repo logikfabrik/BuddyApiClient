@@ -1,9 +1,5 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Testing.Preconditions
 {
-    using System;
-    using System.Threading.Tasks;
-    using Xunit;
-
     public abstract class IntegrationTest : IAsyncLifetime
     {
         private readonly Lazy<Preconditions> _preconditions;

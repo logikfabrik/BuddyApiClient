@@ -9,7 +9,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>lf-128x128.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>A .NET client for the Buddy (https://buddy.works) API.</Description>
+    <Description>BuddyApiClient extensions for Microsoft.Extensions.DependencyInjection. BuddyApiClient is a .NET client for the Buddy (https://buddy.works) API.</Description>
     <CodeAnalysisRuleSet>..\.sonarlint\logikfabrik_buddyapiclientcsharp.ruleset</CodeAnalysisRuleSet>
     <PackageTags>Buddy, CI/CD, API</PackageTags>
   </PropertyGroup>
@@ -26,14 +26,20 @@
 
   <ItemGroup>
     <PackageReference Include="Ensure.That" Version="10.1.0" />
-    <PackageReference Include="StronglyTypedId" Version="0.2.1" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\README.md">
+    <None Include="README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BuddyApiClient\BuddyApiClient.csproj" />
   </ItemGroup>
 
   <ItemGroup>

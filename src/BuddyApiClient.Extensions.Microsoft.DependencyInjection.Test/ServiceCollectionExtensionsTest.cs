@@ -1,8 +1,5 @@
-﻿namespace BuddyApiClient.Test
+﻿namespace BuddyApiClient.Extensions.Microsoft.DependencyInjection.Test
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using BuddyApiClient.CurrentUser;
     using BuddyApiClient.CurrentUserEmails;
     using BuddyApiClient.GroupMembers;
@@ -14,11 +11,9 @@
     using BuddyApiClient.Projects;
     using BuddyApiClient.Variables;
     using BuddyApiClient.Workspaces;
-    using FluentAssertions;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Options;
-    using Xunit;
+    using global::Microsoft.Extensions.Configuration;
+    using global::Microsoft.Extensions.DependencyInjection;
+    using global::Microsoft.Extensions.Options;
 
     public sealed class ServiceCollectionExtensionsTest
     {

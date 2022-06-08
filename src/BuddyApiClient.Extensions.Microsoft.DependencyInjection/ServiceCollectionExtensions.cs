@@ -1,8 +1,9 @@
-﻿namespace BuddyApiClient
+﻿namespace BuddyApiClient.Extensions.Microsoft.DependencyInjection
 {
     using EnsureThat;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
+    using global::Microsoft.Extensions.Configuration;
+    using global::Microsoft.Extensions.DependencyInjection;
+    using global::Microsoft.Extensions.Options;
 
     public static class ServiceCollectionExtensions
     {
@@ -73,7 +74,12 @@
         /// <param name="services">The <see cref="IServiceCollection" /> to add the client to.</param>
         internal static void AddClient(this IServiceCollection services)
         {
-            services.AddHttpClient<IBuddyClient, BuddyClient>();
+            services.AddHttpClient<IBuddyClient, BuddyClient>((httpClient, provider) =>
+            {
+                var options = provider.GetRequiredService<IOptions<BuddyClientOptions>>();
+
+                return new BuddyClient(httpClient, options.Value.BaseUrl, options.Value.AccessToken);
+            });
         }
 
         /// <summary>

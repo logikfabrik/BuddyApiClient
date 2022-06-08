@@ -1,8 +1,6 @@
 ﻿namespace BuddyApiClient.Test.Core.Models.Request
 {
     using BuddyApiClient.Core.Models.Request;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class SortQueryTest
     {

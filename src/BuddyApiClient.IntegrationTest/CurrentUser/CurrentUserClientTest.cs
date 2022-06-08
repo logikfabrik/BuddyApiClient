@@ -1,11 +1,8 @@
 ﻿namespace BuddyApiClient.IntegrationTest.CurrentUser
 {
-    using System.Threading.Tasks;
     using Bogus.DataSets;
     using BuddyApiClient.CurrentUser.Models.Request;
     using BuddyApiClient.IntegrationTest.Testing;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class CurrentUserClientTest
     {

@@ -1,18 +1,12 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Members
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
     using BuddyApiClient.IntegrationTest.Members.FakeModelFactories;
     using BuddyApiClient.IntegrationTest.Members.Preconditions;
     using BuddyApiClient.IntegrationTest.Testing;
     using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using BuddyApiClient.Members.Models.Request;
     using BuddyApiClient.Members.Models.Response;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class MembersClientTest
     {

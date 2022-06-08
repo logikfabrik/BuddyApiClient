@@ -1,12 +1,7 @@
 ﻿namespace BuddyApiClient.Test.Members
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Net;
-    using System.Net.Http;
     using System.Net.Mime;
-    using System.Threading.Tasks;
     using BuddyApiClient.Core;
     using BuddyApiClient.Core.Models.Request;
     using BuddyApiClient.Members;
@@ -15,9 +10,7 @@
     using BuddyApiClient.Members.Models.Response;
     using BuddyApiClient.Test.Testing;
     using BuddyApiClient.Workspaces.Models;
-    using FluentAssertions;
     using RichardSzalay.MockHttp;
-    using Xunit;
 
     public sealed class MembersClientTest
     {

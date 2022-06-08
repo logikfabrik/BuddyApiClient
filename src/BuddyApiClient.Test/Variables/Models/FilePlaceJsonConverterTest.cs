@@ -1,9 +1,6 @@
 ﻿namespace BuddyApiClient.Test.Variables.Models
 {
-    using System;
     using BuddyApiClient.Variables.Models;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class FilePlaceJsonConverterTest
     {

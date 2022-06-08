@@ -1,4 +1,4 @@
-﻿namespace BuddyApiClient
+﻿namespace BuddyApiClient.Extensions.Microsoft.DependencyInjection
 {
     public sealed record BuddyClientOptions
     {

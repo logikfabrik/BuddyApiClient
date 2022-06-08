@@ -1,19 +1,14 @@
 ﻿namespace BuddyApiClient.Test.PermissionSets
 {
-    using System;
     using System.Net;
-    using System.Net.Http;
     using System.Net.Mime;
-    using System.Threading.Tasks;
     using BuddyApiClient.Core;
     using BuddyApiClient.PermissionSets;
     using BuddyApiClient.PermissionSets.Models;
     using BuddyApiClient.PermissionSets.Models.Request;
     using BuddyApiClient.Test.Testing;
     using BuddyApiClient.Workspaces.Models;
-    using FluentAssertions;
     using RichardSzalay.MockHttp;
-    using Xunit;
 
     public sealed class PermissionSetsClientTest
     {

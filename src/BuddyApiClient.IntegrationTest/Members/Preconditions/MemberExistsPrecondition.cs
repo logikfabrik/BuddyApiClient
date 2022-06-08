@@ -1,9 +1,6 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Members.Preconditions
 {
-    using System;
     using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
     using BuddyApiClient.IntegrationTest.Members.FakeModelFactories;
     using BuddyApiClient.IntegrationTest.Testing.Preconditions;
     using BuddyApiClient.Members;

@@ -1,16 +1,11 @@
 ﻿namespace BuddyApiClient.Test.Core
 {
-    using System;
     using System.Net;
-    using System.Net.Http;
     using System.Net.Http.Json;
     using System.Net.Mime;
-    using System.Threading.Tasks;
     using BuddyApiClient.Core;
     using BuddyApiClient.Test.Testing;
-    using FluentAssertions;
     using RichardSzalay.MockHttp;
-    using Xunit;
 
     public sealed class HttpClientFacadeTest
     {

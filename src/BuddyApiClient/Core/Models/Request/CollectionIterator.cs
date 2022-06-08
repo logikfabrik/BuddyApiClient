@@ -15,9 +15,9 @@
 
     internal sealed class CollectionIterator<T1, T2> : ICollectionIterator where T1 : CollectionQuery where T2 : CollectionPageResponse
     {
-        private readonly T1 _collectionQuery;
         private readonly CollectionPageRequestHandler<T1, T2> _collectionPageRequestHandler;
         private readonly CollectionPageResponseHandler<T1, T2> _collectionPageResponseHandler;
+        private readonly T1 _collectionQuery;
 
         public CollectionIterator(CollectionPageRequestHandler<T1, T2> collectionPageRequestHandler, CollectionPageResponseHandler<T1, T2> collectionPageResponseHandler, T1 collectionQuery)
         {

@@ -1,19 +1,14 @@
 ﻿namespace BuddyApiClient.Test.Variables
 {
-    using System;
     using System.Net;
-    using System.Net.Http;
     using System.Net.Mime;
-    using System.Threading.Tasks;
     using BuddyApiClient.Core;
     using BuddyApiClient.Projects.Models;
     using BuddyApiClient.Test.Testing;
     using BuddyApiClient.Variables;
     using BuddyApiClient.Variables.Models;
     using BuddyApiClient.Variables.Models.Request;
-    using FluentAssertions;
     using RichardSzalay.MockHttp;
-    using Xunit;
 
     public sealed class VariablesClientTest
     {

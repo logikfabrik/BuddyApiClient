@@ -1,18 +1,12 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Projects
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
     using BuddyApiClient.IntegrationTest.Projects.FakeModelFactories;
     using BuddyApiClient.IntegrationTest.Projects.Preconditions;
     using BuddyApiClient.IntegrationTest.Testing;
     using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using BuddyApiClient.Projects.Models.Request;
     using BuddyApiClient.Projects.Models.Response;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class ProjectsClientTest
     {
