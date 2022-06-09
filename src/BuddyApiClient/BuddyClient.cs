@@ -15,11 +15,6 @@
 
     public sealed class BuddyClient : IBuddyClient
     {
-        public BuddyClient(string accessToken, HttpClient? httpClient = null)
-            : this(new Uri("https://api.buddy.works"), accessToken, httpClient)
-        {
-        }
-
         public BuddyClient(Uri baseUrl, string accessToken, HttpClient? httpClient = null)
             : this(() => HttpClientFacadeFactory.Create(baseUrl, accessToken, httpClient ?? new HttpClient()))
         {

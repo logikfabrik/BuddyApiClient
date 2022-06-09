@@ -3,10 +3,6 @@
     using BuddyApiClient.Core.Models.Response;
     using EnsureThat;
 
-    public delegate Task<T2?> CollectionPageRequestHandler<in T1, T2>(T1 collectionQuery, CancellationToken cancellationToken = default) where T1 : CollectionQuery where T2 : CollectionPageResponse;
-
-    public delegate Task<bool> CollectionPageResponseHandler<in T1, in T2>(T1 collectionQuery, T2? response, CancellationToken cancellationToken = default) where T1 : CollectionQuery where T2 : CollectionPageResponse;
-
     internal static class CollectionIterator
     {
         public const int DefaultPageIndex = 1;

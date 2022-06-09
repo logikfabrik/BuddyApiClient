@@ -10,15 +10,19 @@ BuddyApiClient extensions for Microsoft.Extensions.DependencyInjection. BuddyApi
     dotnet add package BuddyApiClient.Extensions.Microsoft.DependencyInjection --prerelease
     ```
 
-2. Get a [personal access token](https://buddy.works/docs/api/getting-started/oauth2/personal-access-token), or a [OAuth2 access token](https://buddy.works/docs/api/getting-started/oauth2/introduction), to access the Buddy API.
-
-3. On app start-up, use any of the `AddBuddyClient(...)` extension method overloads to register the Buddy clients. E.g:
+2. On app start-up, add BuddyApiClient services to the container:
 
     ```csharp
-    services.AddBuddyClient(new BuddyClientOptions { AccessToken = "YOUR_TOKEN_HERE" });
+    builder.Services.AddBuddyClient();
     ```
 
-4. Next, take a dependence on `IBuddyClient` (or any resource specific client interface, e.g. `IMembersClient`, `IProjectsClient`, and `IVariablesClient`), and query the Buddy API.
+3. Next, take a dependence on the `CreateBuddyClient` delegate, create a client, and query the Buddy API:
+
+    ```csharp
+    var client = createBuddyClient("YOUR_TOKEN_HERE");
+
+    var projects = await client.Projects.List(new Domain("YOUR_DOMAIN_HERE"));
+    ```
 
 ## How to contribute
 
