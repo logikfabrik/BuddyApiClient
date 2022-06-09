@@ -17,7 +17,7 @@
     {
         private static IBuddyClient CreateClient()
         {
-            return new BuddyClient(new MockHttpMessageHandler().ToHttpClient(), new Uri("https://api.buddy.works"), string.Empty);
+            return new BuddyClient(new Uri("https://api.buddy.works"), string.Empty, new MockHttpMessageHandler().ToHttpClient());
         }
 
         public sealed class CurrentUser

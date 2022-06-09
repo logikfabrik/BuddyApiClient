@@ -78,7 +78,7 @@
             {
                 var options = provider.GetRequiredService<IOptions<BuddyClientOptions>>();
 
-                return new BuddyClient(httpClient, options.Value.BaseUrl, options.Value.AccessToken);
+                return new BuddyClient(options.Value.BaseUrl, options.Value.AccessToken, httpClient);
             });
         }
 

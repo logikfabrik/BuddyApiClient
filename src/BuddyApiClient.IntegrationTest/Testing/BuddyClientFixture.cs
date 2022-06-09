@@ -8,15 +8,15 @@
     {
         public BuddyClientFixture()
         {
-            var httpClientHandler = new HttpClientHandler { ServerCertificateCustomValidationCallback = SslCertificateValidator };
-
-            var httpClient = new HttpClient(httpClientHandler);
-
             var configuration = new ConfigurationBuilder()
                 .AddUserSecrets<BuddyClientFixture>()
                 .Build();
 
-            BuddyClient = new BuddyClient(httpClient, new Uri(configuration["BaseUrl"]), configuration["AccessToken"]);
+            var httpClientHandler = new HttpClientHandler { ServerCertificateCustomValidationCallback = SslCertificateValidator };
+
+            var httpClient = new HttpClient(httpClientHandler);
+
+            BuddyClient = new BuddyClient(new Uri(configuration["BaseUrl"]), configuration["AccessToken"], httpClient);
         }
 
         public IBuddyClient BuddyClient { get; }

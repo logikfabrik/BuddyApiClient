@@ -14,7 +14,7 @@
     {
         private static IPermissionSetsClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new PermissionSetsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), string.Empty)));
+            return new PermissionSetsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(new Uri("https://api.buddy.works"), string.Empty, handler.ToHttpClient())));
         }
 
         public sealed class Create

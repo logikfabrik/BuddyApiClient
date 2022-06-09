@@ -2,9 +2,9 @@
 
 A .NET client for the [Buddy](https://buddy.works) API.
 
-## How to use BuddyApiClient
+## How to use
 
-1. Add the BuddyApiClient NuGet to your project:
+1. Add the [BuddyApiClient NuGet](https://www.nuget.org/packages/BuddyApiClient) to your project:
 
     ```
     dotnet add package BuddyApiClient --prerelease
@@ -12,87 +12,18 @@ A .NET client for the [Buddy](https://buddy.works) API.
 
 2. Get a [personal access token](https://buddy.works/docs/api/getting-started/oauth2/personal-access-token), or a [OAuth2 access token](https://buddy.works/docs/api/getting-started/oauth2/introduction), to access the Buddy API.
 
-3. On app start-up, add BuddyApiClient to your service collection:
+3. Create an instance of `BuddyClient`, and query the Buddy API:
 
     ```csharp
-    services.AddBuddyClient(new BuddyClientOptions { AccessToken = "YOUR_TOKEN_HERE" });
+    var client = new BuddyClient("YOUR_TOKEN_HERE");
+
+    var projects = await client.Projects.List(new Domain("YOUR_DOMAIN_HERE"));
     ```
 
-4. Next, take a dependence on `IBuddyClient` (or any resource specific client interface, e.g. `IMembersClient`, `IProjectsClient`, and `IVariablesClient`), and query the Buddy API.
+If you're using Microsoft.Extensions.DependencyInjection, see [BuddyApiClient.Extensions.Microsoft.DependencyInjection](https://github.com/logikfabrik/BuddyApiClient/blob/master/src/BuddyApiClient.Extensions.Microsoft.DependencyInjection/README.md).
 
-## How to contribute to BuddyApiClient
+## How to contribute
 
 BuddyApiClient is Open Source (MIT), and you're welcome to contribute!
 
 If you have a bug report, feature request, or suggestion, please open a new issue. To submit a patch, please send a pull request.
-
-### How to run the integration tests
-
-To run the integration tests, run [Buddy On-Premises](https://buddy.works/docs/on-premises) in Docker. Set up a Buddy user, and workspace, and generate a personal access token. Then add config to the BuddyApiClient.IntegrationTest project in VS, and run the tests.
-
-#### How to create the Buddy container
-
-1. Get [Docker](https://docs.docker.com/get-docker).
-
-2. Build the Docker-in-Docker image:
-
-    ```
-    docker build -t ubuntu-dind https://github.com/logikfabrik/BuddyApiClient.git#master:docker
-    ```
-
-3. Start a container:
-
-    ```
-    docker run -itd -p 127.0.0.1:443:443 --privileged --name buddy-on-premises ubuntu-dind
-    ```
-
-4. Install Buddy in the container (in non-interactive mode):
-
-    ```
-    docker exec -it buddy-on-premises /bin/bash -c "curl -sSL https://get.buddy.works | sh && sudo buddy --yes --ver 2.4.60 install"
-    ```
-
-#### How to start the Buddy container, if stopped
-
-1. Start the container:
-
-    ```
-    docker start buddy-on-premises
-    ```
-
-2. Start Buddy:
-
-    ```
-    docker exec -it buddy-on-premises /bin/bash -c "buddy start"
-    ```
-
-#### How to set up Buddy (and generate a personal access token)
-
-1. Start the Buddy container, if stopped.
-
-2. Browse https://127.0.0.1. The SSL certificate will be issued to *buddy.standalone* - this is by design.
-
-3. Set up a Buddy user, and workspace.
-
-4. Go to *Workspace Settings* and check *Enable developer API*.
-
-5. Go to *API > Personal Access tokens* and click *Generate a new token*.
-
-6. Enter a name for the token, check all scopes, and click *Add a new API token*.
-
-7. Copy the token, and use it in place of YOUR_TOKEN_HERE in this README.
-
-#### How to add config to the BuddyApiClient.IntegrationTest project in VS
-
-1. Open the solution in VS.
-
-2. In the Solution Explorer window pane, right-click the *BuddyApiClient.IntegrationTest* project, then click *Manage User Secrets*.
-
-3. Add config to `secrets.json`:
-
-    ```json
-    {
-      "BaseUrl": "https://127.0.0.1:443/api/",
-      "AccessToken": "YOUR_TOKEN_HERE"
-    }
-    ```

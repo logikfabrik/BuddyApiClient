@@ -6,7 +6,7 @@
 
     internal static class HttpClientFacadeFactory
     {
-        public static HttpClientFacade Create(HttpClient httpClient, Uri baseUrl, string accessToken)
+        public static HttpClientFacade Create(Uri baseUrl, string accessToken, HttpClient httpClient)
         {
             Ensure.Any.HasValue(httpClient, nameof(httpClient));
 
