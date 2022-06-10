@@ -15,7 +15,7 @@
     {
         private static IGroupMembersClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new GroupMembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(new Uri("https://api.buddy.works"), string.Empty, handler.ToHttpClient())));
+            return new GroupMembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, new Uri("https://api.buddy.works"), handler.ToHttpClient())));
         }
 
         public sealed class Add

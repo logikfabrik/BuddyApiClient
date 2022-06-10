@@ -16,7 +16,7 @@
 
             var httpClient = new HttpClient(httpClientHandler);
 
-            BuddyClient = new BuddyClient(new Uri(configuration["BaseUrl"]), configuration["AccessToken"], httpClient);
+            BuddyClient = new BuddyClient(configuration["AccessToken"], new Uri(configuration["BaseUrl"]), httpClient);
         }
 
         public IBuddyClient BuddyClient { get; }
