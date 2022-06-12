@@ -1,6 +1,6 @@
 # BuddyApiClient.Extensions.Microsoft.DependencyInjection
 
-BuddyApiClient extensions for Microsoft.Extensions.DependencyInjection. BuddyApiClient is a .NET client for the Buddy (https://buddy.works) API.
+BuddyApiClient extensions for Microsoft.Extensions.DependencyInjection. BuddyApiClient is a .NET client for the [Buddy](https://buddy.works) API.
 
 ## How to use
 
