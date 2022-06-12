@@ -46,6 +46,7 @@
     registry: "mcr.microsoft.com"
     execute_commands:
     - "dotnet nuget push nupkgs/BuddyApiClient.$version.nupkg -k $nuget_api_key -s https://api.nuget.org/v3/index.json"
+    - "dotnet nuget push nupkgs/BuddyApiClient.Extensions.Microsoft.DependencyInjection.$version.nupkg -k $nuget_api_key -s https://api.nuget.org/v3/index.json"
     volume_mappings:
     - "/:/buddy/buddyapiclient"
     cache_base_image: true
