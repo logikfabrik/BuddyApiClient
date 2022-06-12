@@ -1,9 +1,6 @@
 ﻿namespace BuddyApiClient.Test.Projects.Models
 {
-    using System;
     using BuddyApiClient.Projects.Models;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class StatusJsonConverterTest
     {

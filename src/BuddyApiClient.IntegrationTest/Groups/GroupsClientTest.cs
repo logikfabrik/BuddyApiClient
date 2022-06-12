@@ -1,15 +1,11 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Groups
 {
     using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
     using BuddyApiClient.Groups.Models.Response;
     using BuddyApiClient.IntegrationTest.Groups.FakeModelFactories;
     using BuddyApiClient.IntegrationTest.Groups.Preconditions;
     using BuddyApiClient.IntegrationTest.Testing;
     using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class GroupsClientTest
     {

@@ -2,10 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
     <IsPackable>false</IsPackable>
-
     <UserSecretsId>b3d34869-b960-4765-8029-ce8c7ed9a01a</UserSecretsId>
   </PropertyGroup>
 

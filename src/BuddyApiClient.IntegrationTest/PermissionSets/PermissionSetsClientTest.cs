@@ -1,15 +1,11 @@
 ﻿namespace BuddyApiClient.IntegrationTest.PermissionSets
 {
     using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
     using BuddyApiClient.IntegrationTest.PermissionSets.FakeModelFactories;
     using BuddyApiClient.IntegrationTest.PermissionSets.Preconditions;
     using BuddyApiClient.IntegrationTest.Testing;
     using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using BuddyApiClient.PermissionSets.Models.Response;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class PermissionSetsClientTest
     {

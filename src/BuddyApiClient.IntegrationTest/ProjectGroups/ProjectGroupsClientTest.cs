@@ -1,8 +1,6 @@
 ﻿namespace BuddyApiClient.IntegrationTest.ProjectGroups
 {
     using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
     using BuddyApiClient.IntegrationTest.Groups.Preconditions;
     using BuddyApiClient.IntegrationTest.PermissionSets.Preconditions;
     using BuddyApiClient.IntegrationTest.ProjectGroups.Preconditions;
@@ -11,8 +9,6 @@
     using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using BuddyApiClient.ProjectGroups.Models.Request;
     using BuddyApiClient.ProjectGroups.Models.Response;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class ProjectGroupsClientTest
     {

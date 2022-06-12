@@ -11,16 +11,13 @@
     using BuddyApiClient.Projects;
     using BuddyApiClient.Variables;
     using BuddyApiClient.Workspaces;
-    using FluentAssertions;
-    using Microsoft.Extensions.Options;
     using RichardSzalay.MockHttp;
-    using Xunit;
 
     public sealed class BuddyClientTest
     {
         private static IBuddyClient CreateClient()
         {
-            return new BuddyClient(new MockHttpMessageHandler().ToHttpClient(), new OptionsWrapper<BuddyClientOptions>(new BuddyClientOptions()));
+            return new BuddyClient(string.Empty, null, new MockHttpMessageHandler().ToHttpClient());
         }
 
         public sealed class CurrentUser
@@ -30,7 +27,9 @@
             {
                 var sut = CreateClient();
 
-                sut.CurrentUser.Should().BeAssignableTo<ICurrentUserClient>();
+                var client = sut.CurrentUser;
+
+                client.Should().BeAssignableTo<ICurrentUserClient>();
             }
         }
 
@@ -41,7 +40,9 @@
             {
                 var sut = CreateClient();
 
-                sut.CurrentUserEmails.Should().BeAssignableTo<ICurrentUserEmailsClient>();
+                var client = sut.CurrentUserEmails;
+
+                client.Should().BeAssignableTo<ICurrentUserEmailsClient>();
             }
         }
 
@@ -52,7 +53,9 @@
             {
                 var sut = CreateClient();
 
-                sut.GroupMembers.Should().BeAssignableTo<IGroupMembersClient>();
+                var client = sut.GroupMembers;
+
+                client.Should().BeAssignableTo<IGroupMembersClient>();
             }
         }
 
@@ -63,7 +66,9 @@
             {
                 var sut = CreateClient();
 
-                sut.Groups.Should().BeAssignableTo<IGroupsClient>();
+                var client = sut.Groups;
+
+                client.Should().BeAssignableTo<IGroupsClient>();
             }
         }
 
@@ -74,7 +79,9 @@
             {
                 var sut = CreateClient();
 
-                sut.Members.Should().BeAssignableTo<IMembersClient>();
+                var client = sut.Members;
+
+                client.Should().BeAssignableTo<IMembersClient>();
             }
         }
 
@@ -85,7 +92,9 @@
             {
                 var sut = CreateClient();
 
-                sut.PermissionSets.Should().BeAssignableTo<IPermissionSetsClient>();
+                var client = sut.PermissionSets;
+
+                client.Should().BeAssignableTo<IPermissionSetsClient>();
             }
         }
 
@@ -96,7 +105,9 @@
             {
                 var sut = CreateClient();
 
-                sut.ProjectGroups.Should().BeAssignableTo<IProjectGroupsClient>();
+                var client = sut.ProjectGroups;
+
+                client.Should().BeAssignableTo<IProjectGroupsClient>();
             }
         }
 
@@ -107,7 +118,9 @@
             {
                 var sut = CreateClient();
 
-                sut.ProjectMembers.Should().BeAssignableTo<IProjectMembersClient>();
+                var client = sut.ProjectMembers;
+
+                client.Should().BeAssignableTo<IProjectMembersClient>();
             }
         }
 
@@ -118,7 +131,9 @@
             {
                 var sut = CreateClient();
 
-                sut.Projects.Should().BeAssignableTo<IProjectsClient>();
+                var client = sut.Projects;
+
+                client.Should().BeAssignableTo<IProjectsClient>();
             }
         }
 
@@ -129,7 +144,9 @@
             {
                 var sut = CreateClient();
 
-                sut.Variables.Should().BeAssignableTo<IVariablesClient>();
+                var client = sut.Variables;
+
+                client.Should().BeAssignableTo<IVariablesClient>();
             }
         }
 
@@ -140,7 +157,9 @@
             {
                 var sut = CreateClient();
 
-                sut.Workspaces.Should().BeAssignableTo<IWorkspacesClient>();
+                var client = sut.Workspaces;
+
+                client.Should().BeAssignableTo<IWorkspacesClient>();
             }
         }
     }

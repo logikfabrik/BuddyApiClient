@@ -1,9 +1,5 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Testing.Preconditions
 {
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-
     public abstract class Precondition
     {
         public abstract Task SetUp();

@@ -1,23 +1,18 @@
 ﻿namespace BuddyApiClient.Test.Workspaces
 {
-    using System;
     using System.Net;
-    using System.Net.Http;
     using System.Net.Mime;
-    using System.Threading.Tasks;
     using BuddyApiClient.Core;
     using BuddyApiClient.Test.Testing;
     using BuddyApiClient.Workspaces;
     using BuddyApiClient.Workspaces.Models;
-    using FluentAssertions;
     using RichardSzalay.MockHttp;
-    using Xunit;
 
     public sealed class WorkspacesClientTest
     {
         private static IWorkspacesClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new WorkspacesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), string.Empty)));
+            return new WorkspacesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, new Uri("https://api.buddy.works"), handler.ToHttpClient())));
         }
 
         public sealed class Get

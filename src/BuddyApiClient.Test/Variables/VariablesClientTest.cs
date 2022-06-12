@@ -1,25 +1,20 @@
 ﻿namespace BuddyApiClient.Test.Variables
 {
-    using System;
     using System.Net;
-    using System.Net.Http;
     using System.Net.Mime;
-    using System.Threading.Tasks;
     using BuddyApiClient.Core;
     using BuddyApiClient.Projects.Models;
     using BuddyApiClient.Test.Testing;
     using BuddyApiClient.Variables;
     using BuddyApiClient.Variables.Models;
     using BuddyApiClient.Variables.Models.Request;
-    using FluentAssertions;
     using RichardSzalay.MockHttp;
-    using Xunit;
 
     public sealed class VariablesClientTest
     {
         private static IVariablesClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new VariablesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), string.Empty)));
+            return new VariablesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, new Uri("https://api.buddy.works"), handler.ToHttpClient())));
         }
 
         public sealed class Create

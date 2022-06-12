@@ -1,6 +1,7 @@
 ﻿namespace BuddyApiClient.Core
 {
     using System.Net;
+    using System.Net.Http.Headers;
     using System.Net.Http.Json;
     using System.Text;
     using System.Text.Json;
@@ -10,10 +11,14 @@
 
     internal sealed class HttpClientFacade
     {
+        private readonly string _accessToken;
+        private readonly Uri _baseUrl;
         private readonly HttpClient _httpClient;
 
-        public HttpClientFacade(HttpClient httpClient)
+        public HttpClientFacade(Uri baseUrl, string accessToken, HttpClient httpClient)
         {
+            _baseUrl = Ensure.Any.HasValue(baseUrl, nameof(baseUrl));
+            _accessToken = Ensure.String.IsNotNull(accessToken, nameof(accessToken));
             _httpClient = Ensure.Any.HasValue(httpClient, nameof(httpClient));
         }
 
@@ -21,11 +26,9 @@
         {
             Ensure.String.IsNotNullOrEmpty(url, nameof(url));
 
-            using var response = await _httpClient.GetAsync(url, cancellationToken);
+            using var request = CreateRequest(HttpMethod.Get, url);
 
-            await ThrowOnError(response, cancellationToken);
-
-            response.EnsureSuccessStatusCode();
+            using var response = await SendRequest(request, cancellationToken);
 
             return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
         }
@@ -35,11 +38,9 @@
             Ensure.String.IsNotNullOrEmpty(url, nameof(url));
             Ensure.Any.HasValue(content, nameof(content));
 
-            using var response = await _httpClient.PostAsync(url, JsonContent.Create(content), cancellationToken);
+            using var request = CreateRequest(HttpMethod.Post, url, JsonContent.Create(content));
 
-            await ThrowOnError(response, cancellationToken);
-
-            response.EnsureSuccessStatusCode();
+            using var response = await SendRequest(request, cancellationToken);
 
             return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
         }
@@ -49,11 +50,9 @@
             Ensure.String.IsNotNullOrEmpty(url, nameof(url));
             Ensure.Any.HasValue(content, nameof(content));
 
-            using var response = await _httpClient.PatchAsync(url, JsonContent.Create(content, options: new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault }), cancellationToken);
+            using var request = CreateRequest(HttpMethod.Patch, url, JsonContent.Create(content, options: new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault }));
 
-            await ThrowOnError(response, cancellationToken);
-
-            response.EnsureSuccessStatusCode();
+            using var response = await SendRequest(request, cancellationToken);
 
             return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
         }
@@ -62,11 +61,34 @@
         {
             Ensure.String.IsNotNullOrEmpty(url, nameof(url));
 
-            using var response = await _httpClient.DeleteAsync(url, cancellationToken);
+            using var request = CreateRequest(HttpMethod.Delete, url);
+
+            using var response = await SendRequest(request, cancellationToken);
+        }
+
+        private HttpRequestMessage CreateRequest(HttpMethod method, string url, HttpContent? content = null)
+        {
+            var request = new HttpRequestMessage(method, new Uri(_baseUrl, url));
+
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
+
+            if (content is not null)
+            {
+                request.Content = content;
+            }
+
+            return request;
+        }
+
+        private async Task<HttpResponseMessage> SendRequest(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            var response = await _httpClient.SendAsync(request, cancellationToken);
 
             await ThrowOnError(response, cancellationToken);
 
             response.EnsureSuccessStatusCode();
+
+            return response;
         }
 
         private static async Task ThrowOnError(HttpResponseMessage response, CancellationToken cancellationToken)

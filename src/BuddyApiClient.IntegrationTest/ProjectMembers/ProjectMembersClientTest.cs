@@ -1,10 +1,6 @@
 ﻿namespace BuddyApiClient.IntegrationTest.ProjectMembers
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
     using BuddyApiClient.IntegrationTest.Members.Preconditions;
     using BuddyApiClient.IntegrationTest.PermissionSets.Preconditions;
     using BuddyApiClient.IntegrationTest.ProjectMembers.Preconditions;
@@ -15,8 +11,6 @@
     using BuddyApiClient.Members.Models.Response;
     using BuddyApiClient.ProjectMembers.Models.Request;
     using BuddyApiClient.ProjectMembers.Models.Response;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class ProjectMembersClientTest
     {

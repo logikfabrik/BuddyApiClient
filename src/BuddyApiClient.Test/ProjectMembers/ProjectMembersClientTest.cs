@@ -1,12 +1,7 @@
 ﻿namespace BuddyApiClient.Test.ProjectMembers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Net;
-    using System.Net.Http;
     using System.Net.Mime;
-    using System.Threading.Tasks;
     using BuddyApiClient.Core;
     using BuddyApiClient.Core.Models.Request;
     using BuddyApiClient.Members.Models;
@@ -18,15 +13,13 @@
     using BuddyApiClient.Projects.Models;
     using BuddyApiClient.Test.Testing;
     using BuddyApiClient.Workspaces.Models;
-    using FluentAssertions;
     using RichardSzalay.MockHttp;
-    using Xunit;
 
     public sealed class ProjectMembersClientTest
     {
         private static IProjectMembersClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new ProjectMembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), string.Empty)));
+            return new ProjectMembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, new Uri("https://api.buddy.works"), handler.ToHttpClient())));
         }
 
         public sealed class Add

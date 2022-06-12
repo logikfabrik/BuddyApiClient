@@ -1,18 +1,15 @@
 ﻿namespace BuddyApiClient.Test.Variables.Models
 {
-    using System;
     using BuddyApiClient.Variables.Models;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class TypeJsonConverterTest
     {
         public sealed class ConvertFrom
         {
             [Theory]
-            [InlineData(TypeJsonConverter.VariableAsJson, BuddyApiClient.Variables.Models.Type.Variable)]
-            [InlineData(TypeJsonConverter.SshKeyAsJson, BuddyApiClient.Variables.Models.Type.SshKey)]
-            public void Should_ReturnEnum_When_JsonIsValid(string json, BuddyApiClient.Variables.Models.Type expected)
+            [InlineData(TypeJsonConverter.VariableAsJson, Type.Variable)]
+            [InlineData(TypeJsonConverter.SshKeyAsJson, Type.SshKey)]
+            public void Should_ReturnEnum_When_JsonIsValid(string json, Type expected)
             {
                 var enumValue = TypeJsonConverter.ConvertFrom(json);
 
@@ -31,9 +28,9 @@
         public sealed class ConvertTo
         {
             [Theory]
-            [InlineData(BuddyApiClient.Variables.Models.Type.Variable, TypeJsonConverter.VariableAsJson)]
-            [InlineData(BuddyApiClient.Variables.Models.Type.SshKey, TypeJsonConverter.SshKeyAsJson)]
-            public void Should_ReturnJson_When_EnumIsValid(BuddyApiClient.Variables.Models.Type enumValue, string expected)
+            [InlineData(Type.Variable, TypeJsonConverter.VariableAsJson)]
+            [InlineData(Type.SshKey, TypeJsonConverter.SshKeyAsJson)]
+            public void Should_ReturnJson_When_EnumIsValid(Type enumValue, string expected)
             {
                 var json = TypeJsonConverter.ConvertTo(enumValue);
 

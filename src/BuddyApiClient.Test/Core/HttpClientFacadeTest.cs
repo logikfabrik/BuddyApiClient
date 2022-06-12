@@ -1,19 +1,19 @@
 ﻿namespace BuddyApiClient.Test.Core
 {
-    using System;
     using System.Net;
-    using System.Net.Http;
     using System.Net.Http.Json;
     using System.Net.Mime;
-    using System.Threading.Tasks;
     using BuddyApiClient.Core;
     using BuddyApiClient.Test.Testing;
-    using FluentAssertions;
     using RichardSzalay.MockHttp;
-    using Xunit;
 
     public sealed class HttpClientFacadeTest
     {
+        private static HttpClientFacade CreateFacade(MockHttpMessageHandler handler)
+        {
+            return new HttpClientFacade(new Uri("https://api.buddy.works"), string.Empty, handler.ToHttpClient());
+        }
+
         private static async Task MakeARequest(HttpMethod method, Func<HttpClientFacade, Task> act)
         {
             var handlerMock = new MockHttpMessageHandler();
@@ -25,7 +25,7 @@
 
             handlerMock.Expect(method, "https://api.buddy.works").Respond(CreateEmptyJsonResponse);
 
-            var sut = new HttpClientFacade(handlerMock.ToHttpClient());
+            var sut = CreateFacade(handlerMock);
 
             await act(sut);
 
@@ -48,7 +48,7 @@
 
                 handlerStub.When(HttpMethod.Get, "https://api.buddy.works").Respond(HttpStatusCode.BadRequest, MediaTypeNames.Application.Json, responseJson);
 
-                var sut = new HttpClientFacade(handlerStub.ToHttpClient());
+                var sut = CreateFacade(handlerStub);
 
                 var act = FluentActions.Awaiting(() => sut.Get<object>("https://api.buddy.works"));
 
@@ -63,7 +63,7 @@
 
                 handlerStub.When(HttpMethod.Get, "https://api.buddy.works").Respond(HttpStatusCode.Forbidden, MediaTypeNames.Application.Json, responseJson);
 
-                var sut = new HttpClientFacade(handlerStub.ToHttpClient());
+                var sut = CreateFacade(handlerStub);
 
                 var act = FluentActions.Awaiting(() => sut.Get<object>("https://api.buddy.works"));
 
@@ -87,7 +87,7 @@
 
                 handlerStub.When(HttpMethod.Post, "https://api.buddy.works").Respond(HttpStatusCode.BadRequest, MediaTypeNames.Application.Json, responseJson);
 
-                var sut = new HttpClientFacade(handlerStub.ToHttpClient());
+                var sut = CreateFacade(handlerStub);
 
                 var act = FluentActions.Awaiting(() => sut.Post<object>("https://api.buddy.works", new object()));
 
@@ -102,7 +102,7 @@
 
                 handlerStub.When(HttpMethod.Post, "https://api.buddy.works").Respond(HttpStatusCode.Forbidden, MediaTypeNames.Application.Json, responseJson);
 
-                var sut = new HttpClientFacade(handlerStub.ToHttpClient());
+                var sut = CreateFacade(handlerStub);
 
                 var act = FluentActions.Awaiting(() => sut.Post<object>("https://api.buddy.works", new object()));
 
@@ -126,7 +126,7 @@
 
                 handlerStub.When(HttpMethod.Patch, "https://api.buddy.works").Respond(HttpStatusCode.BadRequest, MediaTypeNames.Application.Json, responseJson);
 
-                var sut = new HttpClientFacade(handlerStub.ToHttpClient());
+                var sut = CreateFacade(handlerStub);
 
                 var act = FluentActions.Awaiting(() => sut.Patch<object>("https://api.buddy.works", new object()));
 
@@ -141,7 +141,7 @@
 
                 handlerStub.When(HttpMethod.Patch, "https://api.buddy.works").Respond(HttpStatusCode.Forbidden, MediaTypeNames.Application.Json, responseJson);
 
-                var sut = new HttpClientFacade(handlerStub.ToHttpClient());
+                var sut = CreateFacade(handlerStub);
 
                 var act = FluentActions.Awaiting(() => sut.Patch<object>("https://api.buddy.works", new object()));
 
@@ -165,7 +165,7 @@
 
                 handlerStub.When(HttpMethod.Delete, "https://api.buddy.works").Respond(HttpStatusCode.BadRequest, MediaTypeNames.Application.Json, responseJson);
 
-                var sut = new HttpClientFacade(handlerStub.ToHttpClient());
+                var sut = CreateFacade(handlerStub);
 
                 var act = FluentActions.Awaiting(() => sut.Delete("https://api.buddy.works"));
 
@@ -180,7 +180,7 @@
 
                 handlerStub.When(HttpMethod.Delete, "https://api.buddy.works").Respond(HttpStatusCode.Forbidden, MediaTypeNames.Application.Json, responseJson);
 
-                var sut = new HttpClientFacade(handlerStub.ToHttpClient());
+                var sut = CreateFacade(handlerStub);
 
                 var act = FluentActions.Awaiting(() => sut.Delete("https://api.buddy.works"));
 

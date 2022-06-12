@@ -1,13 +1,9 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Workspaces
 {
     using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
     using BuddyApiClient.IntegrationTest.Testing;
     using BuddyApiClient.IntegrationTest.Workspaces.FakeModelFactories;
     using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class WorkspacesClientTest
     {

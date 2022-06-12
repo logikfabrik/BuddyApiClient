@@ -1,25 +1,20 @@
 ﻿namespace BuddyApiClient.Test.Groups
 {
-    using System;
     using System.Net;
-    using System.Net.Http;
     using System.Net.Mime;
-    using System.Threading.Tasks;
     using BuddyApiClient.Core;
     using BuddyApiClient.Groups;
     using BuddyApiClient.Groups.Models;
     using BuddyApiClient.Groups.Models.Request;
     using BuddyApiClient.Test.Testing;
     using BuddyApiClient.Workspaces.Models;
-    using FluentAssertions;
     using RichardSzalay.MockHttp;
-    using Xunit;
 
     public sealed class GroupsClientTest
     {
         private static IGroupsClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new GroupsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(handler.ToHttpClient(), new Uri("https://api.buddy.works"), string.Empty)));
+            return new GroupsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, new Uri("https://api.buddy.works"), handler.ToHttpClient())));
         }
 
         public sealed class Create

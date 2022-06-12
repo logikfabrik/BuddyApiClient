@@ -1,15 +1,11 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Variables
 {
     using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
     using BuddyApiClient.IntegrationTest.Testing;
     using BuddyApiClient.IntegrationTest.Variables.FakeModelFactories;
     using BuddyApiClient.IntegrationTest.Variables.Preconditions;
     using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using BuddyApiClient.Variables.Models.Response;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class VariablesClientTest
     {

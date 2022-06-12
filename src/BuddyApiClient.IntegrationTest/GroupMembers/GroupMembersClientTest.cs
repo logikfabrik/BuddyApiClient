@@ -1,8 +1,6 @@
 ﻿namespace BuddyApiClient.IntegrationTest.GroupMembers
 {
     using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
     using BuddyApiClient.GroupMembers.Models.Request;
     using BuddyApiClient.IntegrationTest.GroupMembers.Preconditions;
     using BuddyApiClient.IntegrationTest.Groups.Preconditions;
@@ -10,8 +8,6 @@
     using BuddyApiClient.IntegrationTest.Testing;
     using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
     using BuddyApiClient.Members.Models.Response;
-    using FluentAssertions;
-    using Xunit;
 
     public sealed class GroupMembersClientTest
     {
