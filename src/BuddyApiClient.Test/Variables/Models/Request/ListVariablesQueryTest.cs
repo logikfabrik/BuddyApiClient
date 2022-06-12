@@ -11,7 +11,7 @@
         {
             [Theory]
             [InlineData("myproject", "?projectName=myproject")]
-            public void Should_Return_Query_If_ProjectName_Is_Set(string projectName, string expected)
+            public void Should_ReturnQuery_When_ProjectNameIsSet(string projectName, string expected)
             {
                 var sut = new ListVariablesQuery { ProjectName = new ProjectName(projectName) };
 
@@ -22,7 +22,7 @@
 
             [Theory]
             [InlineData(1, "?pipelineId=1")]
-            public void Should_Return_Query_If_PipelineId_Is_Set(int pipelineId, string expected)
+            public void Should_ReturnQuery_When_PipelineIdIsSet(int pipelineId, string expected)
             {
                 var sut = new ListVariablesQuery { PipelineId = new PipelineId(pipelineId) };
 
@@ -33,7 +33,7 @@
 
             [Theory]
             [InlineData(1, "?actionId=1")]
-            public void Should_Return_Query_If_ActionId_Is_Set(int actionId, string expected)
+            public void Should_ReturnQuery_When_ActionIdIsSet(int actionId, string expected)
             {
                 var sut = new ListVariablesQuery { ActionId = new ActionId(actionId) };
 

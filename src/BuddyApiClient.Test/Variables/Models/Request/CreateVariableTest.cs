@@ -15,7 +15,7 @@
         public sealed class Key
         {
             [Fact]
-            public void Should_Return_A_Key()
+            public void Should_ReturnTheKey()
             {
                 const string key = "my_var";
 
@@ -28,7 +28,7 @@
         public sealed class Value
         {
             [Fact]
-            public void Should_Return_A_Value()
+            public void Should_ReturnTheValue()
             {
                 const string value = "some value";
 
@@ -41,7 +41,7 @@
         public sealed class Project
         {
             [Fact]
-            public void Should_Return_A_Project()
+            public void Should_ReturnTheProject()
             {
                 var scope = new BuddyApiClient.Variables.Models.Request.Project { Name = new ProjectName("myproject") };
 
@@ -54,7 +54,7 @@
         public sealed class Pipeline
         {
             [Fact]
-            public void Should_Return_A_Pipeline()
+            public void Should_ReturnThePipeline()
             {
                 var scope = new BuddyApiClient.Variables.Models.Request.Pipeline { Id = new PipelineId(1) };
 
@@ -67,7 +67,7 @@
         public sealed class Action
         {
             [Fact]
-            public void Should_Return_An_Action()
+            public void Should_ReturnTheAction()
             {
                 var scope = new BuddyApiClient.Variables.Models.Request.Action { Id = new ActionId(1) };
 

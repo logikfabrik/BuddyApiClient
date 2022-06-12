@@ -15,7 +15,7 @@ A .NET client for the [Buddy](https://buddy.works) API.
 3. Create an instance of `BuddyClient`, and query the Buddy API. E.g:
 
     ```csharp
-    var client = new BuddyClient(new Uri("https://api.buddy.works"), "YOUR_TOKEN_HERE");
+    var client = new BuddyClient("YOUR_TOKEN_HERE");
 
     var projects = await client.Projects.List(new Domain("YOUR_DOMAIN_HERE"));
     ```
