@@ -16,13 +16,17 @@ BuddyApiClient extensions for Microsoft.Extensions.DependencyInjection. BuddyApi
     builder.Services.AddBuddyClient();
     ```
 
-3. Next, take a dependence on the `CreateBuddyClient` delegate, create a client, and query the Buddy API:
+3. Get a [personal access token](https://buddy.works/docs/api/getting-started/oauth2/personal-access-token), or a [OAuth2 access token](https://buddy.works/docs/api/getting-started/oauth2/introduction).
+
+4. Next, take a dependence on the `CreateBuddyClient` delegate, create a client, and query the Buddy API:
 
     ```csharp
     var client = createBuddyClient("YOUR_TOKEN_HERE");
 
-    var projects = await client.Projects.List(new Domain("YOUR_DOMAIN_HERE"));
+    var workspaces = await client.Workspaces.List();
     ```
+
+See the [console app sample](https://github.com/logikfabrik/BuddyApiClient/tree/master/src/BuddyApiClient.Extensions.Microsoft.DependencyInjection.Samples.Console).
 
 ## How to contribute
 

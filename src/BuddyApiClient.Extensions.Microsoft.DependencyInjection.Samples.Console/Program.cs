@@ -15,6 +15,4 @@ using var host = Host.CreateDefaultBuilder(args)
     })
     .Build();
 
-// Application code should start here.
-
 await host.RunAsync();

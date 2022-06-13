@@ -1,8 +1,8 @@
 # BuddyApiClient.IntegrationTest
 
-## How to run the integration tests
+## How to run
 
-To run the integration tests, run [Buddy On-Premises](https://buddy.works/docs/on-premises) in Docker. Set up a Buddy user, and workspace, and generate a personal access token. Then add config to the BuddyApiClient.IntegrationTest project in VS, and run the tests.
+To run the tests, run [Buddy On-Premises](https://buddy.works/docs/on-premises) in Docker. Set up a Buddy user, and workspace, and generate a personal access token. Then add config to the BuddyApiClient.IntegrationTest project in VS, and run the tests.
 
 ### How to create the Buddy container
 
@@ -60,9 +60,7 @@ To run the integration tests, run [Buddy On-Premises](https://buddy.works/docs/o
 
 1. Open the solution in VS.
 
-2. In the Solution Explorer window pane, right-click the *BuddyApiClient.IntegrationTest* project, then click *Manage User Secrets*.
-
-3. Add config to `secrets.json`:
+2. In the Solution Explorer window pane, right-click the *BuddyApiClient.IntegrationTest* project, then click *Manage User Secrets*, and copy-paste:
 
     ```json
     {
