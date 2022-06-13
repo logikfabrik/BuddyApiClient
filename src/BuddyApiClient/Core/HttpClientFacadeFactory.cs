@@ -14,7 +14,7 @@
             httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("BuddyApiClient", null));
             httpClient.DefaultRequestHeaders.Add("X-Buddy-Media-Type", "buddy.v1.1.0");
 
-            return new HttpClientFacade(baseUrl, accessToken, httpClient);
+            return new HttpClientFacade(accessToken, baseUrl, httpClient);
         }
     }
 }
