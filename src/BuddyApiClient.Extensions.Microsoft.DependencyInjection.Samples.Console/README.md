@@ -1,4 +1,4 @@
-# Sample: BuddyApiClient.Extensions.Microsoft.DependencyInjection
+# SAMPLE: BuddyApiClient.Extensions.Microsoft.DependencyInjection
 
 A sample console app, getting workspaces from the [Buddy](https://buddy.works) API.
 

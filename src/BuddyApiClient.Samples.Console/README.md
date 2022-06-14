@@ -1,4 +1,4 @@
-# Sample: BuddyApiClient
+# SAMPLE: BuddyApiClient
 
 A sample console app, getting workspaces from the [Buddy](https://buddy.works) API.
 

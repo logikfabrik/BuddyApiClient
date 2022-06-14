@@ -1,16 +1,16 @@
 # BuddyApiClient.Extensions.Microsoft.DependencyInjection
 
-BuddyApiClient extensions for Microsoft.Extensions.DependencyInjection. BuddyApiClient is a .NET client for the [Buddy](https://buddy.works) API.
+[BuddyApiClient](https://github.com/logikfabrik/BuddyApiClient) extensions for Microsoft.Extensions.DependencyInjection.
 
 ## How to use
 
-1. Add the [BuddyApiClient.Extensions.Microsoft.DependencyInjection NuGet](https://www.nuget.org/packages/BuddyApiClient.Extensions.Microsoft.DependencyInjection) to your project:
+1. Add the [BuddyApiClient.Extensions.Microsoft.DependencyInjection](https://www.nuget.org/packages/BuddyApiClient.Extensions.Microsoft.DependencyInjection) NuGet to your project:
 
     ```
     dotnet add package BuddyApiClient.Extensions.Microsoft.DependencyInjection --prerelease
     ```
 
-2. On app start-up, add BuddyApiClient services to the container:
+2. On app start-up, add BuddyApiClient to your container:
 
     ```csharp
     builder.Services.AddBuddyClient();
@@ -18,12 +18,18 @@ BuddyApiClient extensions for Microsoft.Extensions.DependencyInjection. BuddyApi
 
 3. Get a [personal access token](https://buddy.works/docs/api/getting-started/oauth2/personal-access-token), or a [OAuth2 access token](https://buddy.works/docs/api/getting-started/oauth2/introduction).
 
-4. Next, take a dependence on the `CreateBuddyClient` delegate, create a client, and query the Buddy API:
+4. Use the `CreateBuddyClient` factory delegate to create an instance of `IBuddyClient`, and query the Buddy API using your token. E.g:
 
     ```csharp
-    var client = createBuddyClient("YOUR_TOKEN_HERE");
+    public class BuddyService
+    {
+        private readonly IBuddyClient _client;
 
-    var workspaces = await client.Workspaces.List();
+        public BuddyService(CreateBuddyClient createBuddyClient)
+        {
+            _client = createBuddyClient("YOUR_TOKEN_HERE");
+        }
+    }
     ```
 
 See the [console app sample](https://github.com/logikfabrik/BuddyApiClient/tree/master/src/BuddyApiClient.Extensions.Microsoft.DependencyInjection.Samples.Console).
