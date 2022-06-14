@@ -6,7 +6,12 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <UserSecretsId>b3d34869-b960-4765-8029-ce8c7ed9a01a</UserSecretsId>
+    <CodeAnalysisRuleSet>..\.sonarlint\logikfabrik_buddyapiclientcsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\.sonarlint\logikfabrik_buddyapiclient\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="34.0.2" />

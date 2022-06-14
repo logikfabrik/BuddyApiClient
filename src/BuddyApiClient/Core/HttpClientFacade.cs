@@ -15,10 +15,10 @@
         private readonly Uri _baseUrl;
         private readonly HttpClient _httpClient;
 
-        public HttpClientFacade(Uri baseUrl, string accessToken, HttpClient httpClient)
+        public HttpClientFacade(string accessToken, Uri baseUrl, HttpClient httpClient)
         {
-            _baseUrl = Ensure.Any.HasValue(baseUrl, nameof(baseUrl));
             _accessToken = Ensure.String.IsNotNull(accessToken, nameof(accessToken));
+            _baseUrl = Ensure.Any.HasValue(baseUrl, nameof(baseUrl));
             _httpClient = Ensure.Any.HasValue(httpClient, nameof(httpClient));
         }
 
