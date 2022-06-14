@@ -5,6 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
     <CodeAnalysisRuleSet>..\.sonarlint\logikfabrik_buddyapiclientcsharp.ruleset</CodeAnalysisRuleSet>
     <UserSecretsId>4bceca53-c90c-472d-82b6-21ee701e6ac0</UserSecretsId>
   </PropertyGroup>
