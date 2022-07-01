@@ -1,5 +1,6 @@
 ﻿namespace BuddyApiClient
 {
+    using BuddyApiClient.Actions;
     using BuddyApiClient.CurrentUser;
     using BuddyApiClient.CurrentUserEmails;
     using BuddyApiClient.GroupMembers;
@@ -14,6 +15,8 @@
 
     public interface IBuddyClient
     {
+        IActionsClient Actions { get; }
+
         ICurrentUserClient CurrentUser { get; }
 
         ICurrentUserEmailsClient CurrentUserEmails { get; }

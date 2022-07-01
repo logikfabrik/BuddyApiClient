@@ -1,5 +1,6 @@
 ﻿namespace BuddyApiClient.Test
 {
+    using BuddyApiClient.Actions;
     using BuddyApiClient.CurrentUser;
     using BuddyApiClient.CurrentUserEmails;
     using BuddyApiClient.GroupMembers;
@@ -18,6 +19,19 @@
         private static IBuddyClient CreateClient()
         {
             return new BuddyClient(string.Empty, null, new MockHttpMessageHandler().ToHttpClient());
+        }
+
+        public sealed class Actions
+        {
+            [Fact]
+            public void Should_ReturnAnIActionsClientInstance()
+            {
+                var sut = CreateClient();
+
+                var client = sut.Actions;
+
+                client.Should().BeAssignableTo<IActionsClient>();
+            }
         }
 
         public sealed class CurrentUser

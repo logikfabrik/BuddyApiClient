@@ -1,5 +1,6 @@
 ﻿namespace BuddyApiClient
 {
+    using BuddyApiClient.Actions;
     using BuddyApiClient.Core;
     using BuddyApiClient.CurrentUser;
     using BuddyApiClient.CurrentUserEmails;
@@ -24,6 +25,7 @@
         {
             var httpClientFacade = new Lazy<HttpClientFacade>(factory);
 
+            Actions = new ActionsClient(httpClientFacade);
             CurrentUser = new CurrentUserClient(httpClientFacade);
             CurrentUserEmails = new CurrentUserEmailsClient(httpClientFacade);
             GroupMembers = new GroupMembersClient(httpClientFacade);
@@ -36,6 +38,8 @@
             Variables = new VariablesClient(httpClientFacade);
             Workspaces = new WorkspacesClient(httpClientFacade);
         }
+
+        public IActionsClient Actions { get; }
 
         public ICurrentUserClient CurrentUser { get; }
 
