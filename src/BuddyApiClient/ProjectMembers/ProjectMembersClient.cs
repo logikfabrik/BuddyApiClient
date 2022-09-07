@@ -20,21 +20,21 @@
         {
             var url = $"workspaces/{domain}/projects/{projectName}/members";
 
-            return await HttpClientFacade.Post<ProjectMemberDetails>(url, content, cancellationToken);
+            return await HttpClientFacade.Post<ProjectMemberDetails>(url, content, cancellationToken: cancellationToken);
         }
 
         public async Task<ProjectMemberDetails?> Get(Domain domain, ProjectName projectName, MemberId memberId, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/projects/{projectName}/members/{memberId}";
 
-            return await HttpClientFacade.Get<ProjectMemberDetails>(url, cancellationToken);
+            return await HttpClientFacade.Get<ProjectMemberDetails>(url, cancellationToken: cancellationToken);
         }
 
         public async Task<MemberList?> List(Domain domain, ProjectName projectName, ListMembersQuery? query = default, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/projects/{projectName}/members{query?.Build()}";
 
-            return await HttpClientFacade.Get<MemberList>(url, cancellationToken);
+            return await HttpClientFacade.Get<MemberList>(url, cancellationToken: cancellationToken);
         }
 
         public ICollectionIterator ListAll(Domain domain, ProjectName projectName, ListMembersQuery collectionQuery, CollectionPageResponseHandler<ListMembersQuery, MemberList> collectionPageResponseHandler)
@@ -53,7 +53,7 @@
         {
             var url = $"workspaces/{domain}/projects/{projectName}/members/{memberId}";
 
-            return await HttpClientFacade.Patch<ProjectMemberDetails>(url, content, cancellationToken);
+            return await HttpClientFacade.Patch<ProjectMemberDetails>(url, content, cancellationToken: cancellationToken);
         }
     }
 }

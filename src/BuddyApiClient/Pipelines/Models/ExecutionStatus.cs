@@ -3,11 +3,17 @@
     public enum ExecutionStatus
     {
         Successful,
+
         Failed,
+
         InProgress,
+
         Enqueued,
+
         Skipped,
+
         Terminated,
+
         Initial
     }
 }

@@ -14,14 +14,14 @@
         {
             var url = $"workspaces/{domain}";
 
-            return await HttpClientFacade.Get<WorkspaceDetails>(url, cancellationToken);
+            return await HttpClientFacade.Get<WorkspaceDetails>(url, cancellationToken: cancellationToken);
         }
 
         public async Task<WorkspaceList?> List(CancellationToken cancellationToken = default)
         {
             const string url = "workspaces";
 
-            return await HttpClientFacade.Get<WorkspaceList>(url, cancellationToken);
+            return await HttpClientFacade.Get<WorkspaceList>(url, cancellationToken: cancellationToken);
         }
     }
 }

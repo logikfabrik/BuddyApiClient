@@ -22,7 +22,7 @@
             _httpClient = Ensure.Any.HasValue(httpClient, nameof(httpClient));
         }
 
-        public async Task<T?> Get<T>(string url, CancellationToken cancellationToken = default)
+        public async Task<T?> Get<T>(string url, JsonSerializerOptions? deserializationOptions = null, CancellationToken cancellationToken = default)
         {
             Ensure.String.IsNotNullOrEmpty(url, nameof(url));
 
@@ -30,10 +30,10 @@
 
             using var response = await SendRequest(request, cancellationToken);
 
-            return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
+            return await response.Content.ReadFromJsonAsync<T>(deserializationOptions, cancellationToken);
         }
 
-        public async Task<T?> Post<T>(string url, object content, CancellationToken cancellationToken = default)
+        public async Task<T?> Post<T>(string url, object content, JsonSerializerOptions? deserializationOptions = null, CancellationToken cancellationToken = default)
         {
             Ensure.String.IsNotNullOrEmpty(url, nameof(url));
             Ensure.Any.HasValue(content, nameof(content));
@@ -42,10 +42,10 @@
 
             using var response = await SendRequest(request, cancellationToken);
 
-            return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
+            return await response.Content.ReadFromJsonAsync<T>(deserializationOptions, cancellationToken);
         }
 
-        public async Task<T?> Patch<T>(string url, object content, CancellationToken cancellationToken = default)
+        public async Task<T?> Patch<T>(string url, object content, JsonSerializerOptions? deserializationOptions = null, CancellationToken cancellationToken = default)
         {
             Ensure.String.IsNotNullOrEmpty(url, nameof(url));
             Ensure.Any.HasValue(content, nameof(content));
@@ -54,7 +54,7 @@
 
             using var response = await SendRequest(request, cancellationToken);
 
-            return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
+            return await response.Content.ReadFromJsonAsync<T>(deserializationOptions, cancellationToken);
         }
 
         public async Task Delete(string url, CancellationToken cancellationToken = default)

@@ -1,0 +1,25 @@
+{
+  "url": "https://api.buddy.works/workspaces/buddy/projects/company-website/pipelines/2/actions/5",
+  "html_url": "https://app.buddy.works/buddy/company-website/pipelines/action/5/edit",
+  "id": 5,
+  "name": "Upload files to dev",
+  "type": "FTP",
+  "trigger_time": "ON_EVERY_EXECUTION",
+  "last_execution_status": "SUCCESSFUL",
+  "deployment_excludes": [
+    "/assets/",
+    "file.txt"
+  ],
+  "pipeline": {
+    "url": "https://api.buddy.works/workspaces/buddy/projects/company-website/pipelines/2",
+    "html_url": "https://app.buddy.works/buddy/company-website/pipelines/pipeline/2",
+    "id": 2,
+    "name": "Live mirror",
+    "on": "CLICK",
+    "refs": [
+      "refs/heads/master"
+    ],
+    "last_execution_status": "SUCCESSFUL",
+    "last_execution_revision": "506a3963507943d6908154f4bc9646e829128a08"
+  }
+}

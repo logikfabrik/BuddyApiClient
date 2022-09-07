@@ -3,8 +3,11 @@
     public enum PipelineAccessLevel
     {
         Denied,
+
         ReadOnly,
+
         RunOnly,
+
         ReadWrite
     }
 }

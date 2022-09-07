@@ -17,21 +17,21 @@
         {
             var url = $"workspaces/{domain}/projects";
 
-            return await HttpClientFacade.Post<ProjectDetails>(url, content, cancellationToken);
+            return await HttpClientFacade.Post<ProjectDetails>(url, content, cancellationToken: cancellationToken);
         }
 
         public async Task<ProjectDetails?> Get(Domain domain, ProjectName name, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/projects/{name}";
 
-            return await HttpClientFacade.Get<ProjectDetails>(url, cancellationToken);
+            return await HttpClientFacade.Get<ProjectDetails>(url, cancellationToken: cancellationToken);
         }
 
         public async Task<ProjectList?> List(Domain domain, ListProjectsQuery? query = default, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/projects{query?.Build()}";
 
-            return await HttpClientFacade.Get<ProjectList>(url, cancellationToken);
+            return await HttpClientFacade.Get<ProjectList>(url, cancellationToken: cancellationToken);
         }
 
         public ICollectionIterator ListAll(Domain domain, ListProjectsQuery collectionQuery, CollectionPageResponseHandler<ListProjectsQuery, ProjectList> collectionPageResponseHandler)
@@ -50,7 +50,7 @@
         {
             var url = $"workspaces/{domain}/projects/{name}";
 
-            return await HttpClientFacade.Patch<ProjectDetails>(url, content, cancellationToken);
+            return await HttpClientFacade.Patch<ProjectDetails>(url, content, cancellationToken: cancellationToken);
         }
     }
 }

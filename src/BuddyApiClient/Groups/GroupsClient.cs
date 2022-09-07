@@ -16,28 +16,28 @@
         {
             var url = $"workspaces/{domain}/groups";
 
-            return await HttpClientFacade.Post<GroupDetails>(url, content, cancellationToken);
+            return await HttpClientFacade.Post<GroupDetails>(url, content, cancellationToken: cancellationToken);
         }
 
         public async Task<GroupDetails?> Get(Domain domain, GroupId id, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/groups/{id}";
 
-            return await HttpClientFacade.Get<GroupDetails>(url, cancellationToken);
+            return await HttpClientFacade.Get<GroupDetails>(url, cancellationToken: cancellationToken);
         }
 
         public async Task<GroupList?> List(Domain domain, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/groups";
 
-            return await HttpClientFacade.Get<GroupList>(url, cancellationToken);
+            return await HttpClientFacade.Get<GroupList>(url, cancellationToken: cancellationToken);
         }
 
         public async Task<GroupDetails?> Update(Domain domain, GroupId id, UpdateGroup content, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/groups/{id}";
 
-            return await HttpClientFacade.Patch<GroupDetails>(url, content, cancellationToken);
+            return await HttpClientFacade.Patch<GroupDetails>(url, content, cancellationToken: cancellationToken);
         }
 
         public async Task Delete(Domain domain, GroupId id, CancellationToken cancellationToken = default)

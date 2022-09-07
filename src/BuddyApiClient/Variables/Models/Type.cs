@@ -3,6 +3,7 @@
     public enum Type
     {
         Variable,
+
         SshKey
     }
 }

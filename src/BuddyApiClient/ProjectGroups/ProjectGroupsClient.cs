@@ -18,28 +18,28 @@
         {
             var url = $"workspaces/{domain}/projects/{projectName}/groups";
 
-            return await HttpClientFacade.Post<ProjectGroupDetails>(url, content, cancellationToken);
+            return await HttpClientFacade.Post<ProjectGroupDetails>(url, content, cancellationToken: cancellationToken);
         }
 
         public async Task<ProjectGroupDetails?> Get(Domain domain, ProjectName projectName, GroupId groupId, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/projects/{projectName}/groups/{groupId}";
 
-            return await HttpClientFacade.Get<ProjectGroupDetails>(url, cancellationToken);
+            return await HttpClientFacade.Get<ProjectGroupDetails>(url, cancellationToken: cancellationToken);
         }
 
         public async Task<GroupList?> List(Domain domain, ProjectName projectName, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/projects/{projectName}/groups";
 
-            return await HttpClientFacade.Get<GroupList>(url, cancellationToken);
+            return await HttpClientFacade.Get<GroupList>(url, cancellationToken: cancellationToken);
         }
 
         public async Task<ProjectGroupDetails?> Update(Domain domain, ProjectName projectName, GroupId groupId, UpdateProjectGroup content, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/projects/{projectName}/groups/{groupId}";
 
-            return await HttpClientFacade.Patch<ProjectGroupDetails>(url, content, cancellationToken);
+            return await HttpClientFacade.Patch<ProjectGroupDetails>(url, content, cancellationToken: cancellationToken);
         }
 
         public async Task Remove(Domain domain, ProjectName projectName, GroupId groupId, CancellationToken cancellationToken = default)

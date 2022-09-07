@@ -7,6 +7,7 @@
     using BuddyApiClient.Groups;
     using BuddyApiClient.Members;
     using BuddyApiClient.PermissionSets;
+    using BuddyApiClient.Pipelines;
     using BuddyApiClient.ProjectGroups;
     using BuddyApiClient.ProjectMembers;
     using BuddyApiClient.Projects;
@@ -28,6 +29,8 @@
         IMembersClient Members { get; }
 
         IPermissionSetsClient PermissionSets { get; }
+
+        IPipelinesClient Pipelines { get; }
 
         IProjectGroupsClient ProjectGroups { get; }
 

@@ -8,6 +8,7 @@
     using BuddyApiClient.Groups;
     using BuddyApiClient.Members;
     using BuddyApiClient.PermissionSets;
+    using BuddyApiClient.Pipelines;
     using BuddyApiClient.ProjectGroups;
     using BuddyApiClient.ProjectMembers;
     using BuddyApiClient.Projects;
@@ -32,6 +33,7 @@
             Groups = new GroupsClient(httpClientFacade);
             Members = new MembersClient(httpClientFacade);
             PermissionSets = new PermissionSetsClient(httpClientFacade);
+            Pipelines = new PipelinesClient(httpClientFacade);
             ProjectGroups = new ProjectGroupsClient(httpClientFacade);
             ProjectMembers = new ProjectMembersClient(httpClientFacade);
             Projects = new ProjectsClient(httpClientFacade);
@@ -52,6 +54,8 @@
         public IMembersClient Members { get; }
 
         public IPermissionSetsClient PermissionSets { get; }
+
+        public IPipelinesClient Pipelines { get; }
 
         public IProjectGroupsClient ProjectGroups { get; }
 

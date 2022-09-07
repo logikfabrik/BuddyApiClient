@@ -3,7 +3,9 @@
     public enum Type
     {
         Developer,
+
         ReadOnly,
+
         Custom
     }
 }

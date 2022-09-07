@@ -1,4 +1,4 @@
-﻿namespace BuddyApiClient.Actions.Models
+﻿namespace BuddyApiClient.Pipelines.Models
 {
     public enum TriggerConditionType
     {
