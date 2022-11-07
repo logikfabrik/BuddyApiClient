@@ -58,7 +58,7 @@
         {
             [Theory]
             [FileData(@"Actions/.testdata/List_Should_ReturnTheActions.json")]
-            public async Task Should_ReturnTheProjects(string responseJson)
+            public async Task Should_ReturnTheActions(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 
@@ -73,7 +73,7 @@
 
             [Theory]
             [FileData(@"Actions/.testdata/List_Should_ReturnNoActions_When_NoneExist.json")]
-            public async Task Should_ReturnNoProjects_When_NoneExist(string responseJson)
+            public async Task Should_ReturnNoActions_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
 

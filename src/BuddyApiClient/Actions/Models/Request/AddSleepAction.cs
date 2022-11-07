@@ -15,7 +15,7 @@
         public int SleepInSeconds
         {
             get => _sleepInSeconds;
-            set => _sleepInSeconds = Ensure.Comparable.IsInRange(value, 0, 1200, nameof(value));
+            set => _sleepInSeconds = Ensure.Comparable.IsInRange(value, SleepAction.MinSleepInSeconds, SleepAction.MaxSleepInSeconds, nameof(value));
         }
     }
 }
