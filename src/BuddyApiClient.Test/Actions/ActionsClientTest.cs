@@ -2,6 +2,7 @@
 {
     using System.Net.Mime;
     using BuddyApiClient.Actions;
+    using BuddyApiClient.Actions.Extensions;
     using BuddyApiClient.Actions.Models;
     using BuddyApiClient.Actions.Models.Request;
     using BuddyApiClient.Core;

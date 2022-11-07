@@ -2,6 +2,7 @@
 {
     using System.Net;
     using BuddyApiClient.Actions;
+    using BuddyApiClient.Actions.Extensions;
     using BuddyApiClient.Actions.Models;
     using BuddyApiClient.IntegrationTest.Actions.FakeModelFactories;
     using BuddyApiClient.IntegrationTest.Testing.Preconditions;

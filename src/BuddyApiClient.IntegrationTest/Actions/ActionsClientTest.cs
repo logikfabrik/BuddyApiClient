@@ -1,6 +1,7 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Actions
 {
     using System.Net;
+    using BuddyApiClient.Actions.Extensions;
     using BuddyApiClient.Actions.Models.Response;
     using BuddyApiClient.IntegrationTest.Actions.FakeModelFactories;
     using BuddyApiClient.IntegrationTest.Actions.Preconditions;
@@ -28,13 +29,13 @@
 
                 var sut = Fixture.BuddyClient.Actions;
 
-                ActionDetails? action = null;
+                SleepActionDetails? action = null;
 
                 try
                 {
                     action = await sut.Add(await domain(), await projectName(), await pipelineId(), AddSleepActionRequestFactory.Create());
 
-                    action.Should().BeOfType<SleepActionDetails>();
+                    action.Should().NotBeNull();
                 }
                 finally
                 {
@@ -66,7 +67,7 @@
 
                 var action = await sut.Get(await domain(), await projectName(), await pipelineId(), await actionId());
 
-                action.Should().BeOfType<SleepActionDetails>();
+                action.Should().NotBeNull();
             }
 
             [Fact]
