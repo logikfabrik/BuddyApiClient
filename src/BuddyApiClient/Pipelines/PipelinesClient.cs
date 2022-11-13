@@ -20,6 +20,13 @@
             return await HttpClientFacade.Post<PipelineDetails>(url, content, cancellationToken: cancellationToken);
         }
 
+        public async Task<PipelineDetails?> Get(Domain domain, ProjectName projectName, PipelineId pipelineId, CancellationToken cancellationToken = default)
+        {
+            var url = $"workspaces/{domain}/projects/{projectName}/pipelines/{pipelineId}";
+
+            return await HttpClientFacade.Get<PipelineDetails>(url, cancellationToken: cancellationToken);
+        }
+
         public async Task Delete(Domain domain, ProjectName projectName, PipelineId pipelineId, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/projects/{projectName}/pipelines/{pipelineId}";

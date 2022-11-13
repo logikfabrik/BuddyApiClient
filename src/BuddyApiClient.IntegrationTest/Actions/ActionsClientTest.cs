@@ -19,7 +19,7 @@
             }
 
             [Fact]
-            public async Task Should_CreateTheSleepAction()
+            public async Task Should_AddTheSleepAction()
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)

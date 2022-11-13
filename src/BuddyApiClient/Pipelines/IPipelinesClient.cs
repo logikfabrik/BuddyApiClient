@@ -10,6 +10,8 @@
     {
         Task<PipelineDetails?> Create(Domain domain, ProjectName projectName, CreatePipeline content, CancellationToken cancellationToken = default);
 
-        Task Delete(Domain domain, ProjectName projectName,PipelineId pipelineId, CancellationToken cancellationToken = default);
+        Task<PipelineDetails?> Get(Domain domain, ProjectName projectName, PipelineId pipelineId, CancellationToken cancellationToken = default);
+
+        Task Delete(Domain domain, ProjectName projectName, PipelineId pipelineId, CancellationToken cancellationToken = default);
     }
 }

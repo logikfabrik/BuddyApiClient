@@ -1,0 +1,40 @@
+{
+  "url": "https://api.buddy.works/workspaces/buddy/projects/company-website/pipelines/2",
+  "html_url": "https://app.buddy.works/buddy/company-website/pipelines/pipeline/2",
+  "id": 2,
+  "name": "Tests",
+  "on": "EVENT",
+  "events": [
+    {
+      "type": "PUSH",
+      "refs": [
+        "refs/heads/master"
+      ]
+    }
+  ],
+  "execution_message_template": "test",
+  "last_execution_status": "INITIAL",
+  "last_execution_revision": null,
+  "create_date": "2016-03-29T07:12:30.675Z",
+  "always_from_scratch": true,
+  "auto_clear_cache": true,
+  "no_skip_to_most_recent": true,
+  "do_not_create_commit_status": true,
+  "ignore_fail_on_project_status": true,
+  "concurrent_pipeline_runs": true,
+  "project": {
+    "url": "https://api.buddy.works/workspaces/buddy/projects/company-website",
+    "html_url": "https://app.buddy.works/buddy/company-website",
+    "name": "company-website",
+    "display_name": "Company Website",
+    "status": "ACTIVE"
+  },
+  "creator": {
+    "url": "https://api.buddy.works/workspaces/buddy/member/1",
+    "html_url": "https://app.buddy.works/buddy/profile/1",
+    "id": 1,
+    "name": "Mike Benson",
+    "avatar_url": "https://app.buddy.works/image-server/user/0/0/0/0/0/0/1/d643744fbe5ebf2906a4d075a5b97110/w/32/32/AVATAR.png"
+  },
+  "actions": []
+}

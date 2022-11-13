@@ -75,6 +75,9 @@
     <Content Include="Members\.testdata\Get_Should_ReturnTheMember.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Pipelines\.testdata\Create_Should_CreateThePipeline.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ProjectGroups\.testdata\Add_Should_AddTheProjectGroup.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

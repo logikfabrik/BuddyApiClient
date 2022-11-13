@@ -20,7 +20,7 @@
 
         public override void Write(Utf8JsonWriter writer, ActionDetails value, JsonSerializerOptions options)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         private static System.Type GetActionType(string? typeJson)

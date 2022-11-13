@@ -7,7 +7,7 @@
     {
         private static readonly Faker<UpdateSleepAction> Faker = new Faker<UpdateSleepAction>()
             .RuleFor(model => model.Name, f => f.Lorem.Word())
-            .RuleFor(model => model.SleepInSeconds, f => f.Random.Number(SleepAction.MaxSleepInSeconds, SleepAction.MaxSleepInSeconds));
+            .RuleFor(model => model.SleepInSeconds, f => f.Random.Int(SleepAction.MaxSleepInSeconds, SleepAction.MaxSleepInSeconds));
 
         public static UpdateSleepAction Create()
         {
