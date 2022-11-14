@@ -112,6 +112,19 @@
             }
         }
 
+        public sealed class Pipelines
+        {
+            [Fact]
+            public void Should_ReturnAnIPipelinesClientInstance()
+            {
+                var sut = CreateClient();
+
+                var client = sut.PermissionSets;
+
+                client.Should().BeAssignableTo<IPermissionSetsClient>();
+            }
+        }
+
         public sealed class ProjectGroups
         {
             [Fact]
