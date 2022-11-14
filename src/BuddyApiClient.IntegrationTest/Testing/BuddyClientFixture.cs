@@ -12,11 +12,15 @@
                 .AddUserSecrets<BuddyClientFixture>()
                 .Build();
 
-            var httpClientHandler = new HttpClientHandler { ServerCertificateCustomValidationCallback = SslCertificateValidator };
+            var accessToken = configuration["AccessToken"];
 
+            var baseUrl = configuration["BaseUrl"];
+
+            var httpClientHandler = new HttpClientHandler { ServerCertificateCustomValidationCallback = SslCertificateValidator };
+            
             var httpClient = new HttpClient(httpClientHandler);
 
-            BuddyClient = new BuddyClient(configuration["AccessToken"], new Uri(configuration["BaseUrl"]), httpClient);
+            BuddyClient = new BuddyClient(accessToken, new Uri(baseUrl), httpClient);
         }
 
         public IBuddyClient BuddyClient { get; }

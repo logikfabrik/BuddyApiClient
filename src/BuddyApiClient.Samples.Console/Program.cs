@@ -5,7 +5,9 @@ var configuration = new ConfigurationBuilder()
     .AddUserSecrets<Program>()
     .Build();
 
-var client = new BuddyClient(configuration["AccessToken"]);
+var accessToken = configuration["AccessToken"];
+
+var client = new BuddyClient(accessToken);
 
 var workspaces = await client.Workspaces.List();
 

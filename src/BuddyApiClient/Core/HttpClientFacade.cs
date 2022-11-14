@@ -7,7 +7,6 @@
     using System.Text.Json;
     using System.Text.Json.Serialization;
     using BuddyApiClient.Core.Models.Response;
-    using EnsureThat;
 
     internal sealed class HttpClientFacade
     {
@@ -17,14 +16,18 @@
 
         public HttpClientFacade(string accessToken, Uri baseUrl, HttpClient httpClient)
         {
-            _accessToken = Ensure.String.IsNotNull(accessToken, nameof(accessToken));
-            _baseUrl = Ensure.Any.HasValue(baseUrl, nameof(baseUrl));
-            _httpClient = Ensure.Any.HasValue(httpClient, nameof(httpClient));
+            ArgumentNullException.ThrowIfNull(accessToken);
+            ArgumentNullException.ThrowIfNull(baseUrl);
+            ArgumentNullException.ThrowIfNull(httpClient);
+
+            _accessToken = accessToken;
+            _baseUrl = baseUrl;
+            _httpClient = httpClient;
         }
 
         public async Task<T?> Get<T>(string url, JsonSerializerOptions? deserializationOptions = null, CancellationToken cancellationToken = default)
         {
-            Ensure.String.IsNotNullOrEmpty(url, nameof(url));
+            ArgumentNullException.ThrowIfNull(url);
 
             using var request = CreateRequest(HttpMethod.Get, url);
 
@@ -35,8 +38,8 @@
 
         public async Task<T?> Post<T>(string url, object content, JsonSerializerOptions? deserializationOptions = null, CancellationToken cancellationToken = default)
         {
-            Ensure.String.IsNotNullOrEmpty(url, nameof(url));
-            Ensure.Any.HasValue(content, nameof(content));
+            ArgumentNullException.ThrowIfNull(url);
+            ArgumentNullException.ThrowIfNull(content);
 
             using var request = CreateRequest(HttpMethod.Post, url, JsonContent.Create(content));
 
@@ -47,8 +50,8 @@
 
         public async Task<T?> Patch<T>(string url, object content, JsonSerializerOptions? deserializationOptions = null, CancellationToken cancellationToken = default)
         {
-            Ensure.String.IsNotNullOrEmpty(url, nameof(url));
-            Ensure.Any.HasValue(content, nameof(content));
+            ArgumentNullException.ThrowIfNull(url);
+            ArgumentNullException.ThrowIfNull(content);
 
             using var request = CreateRequest(HttpMethod.Patch, url, JsonContent.Create(content, options: new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault }));
 
@@ -59,7 +62,7 @@
 
         public async Task Delete(string url, CancellationToken cancellationToken = default)
         {
-            Ensure.String.IsNotNullOrEmpty(url, nameof(url));
+            ArgumentNullException.ThrowIfNull(url);
 
             using var request = CreateRequest(HttpMethod.Delete, url);
 

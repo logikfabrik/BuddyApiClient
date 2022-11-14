@@ -1,0 +1,18 @@
+{
+  "url": "https://api.buddy.works/workspaces/buddy/projects/company-website/pipelines",
+  "html_url": "https://app.buddy.works/buddy/company-website/pipelines",
+  "pipelines": [
+    {
+      "url": "https://api.buddy.works/workspaces/buddy/projects/company-website/pipelines/2",
+      "html_url": "https://app.buddy.works/buddy/company-website/pipelines/pipeline/2",
+      "id": 2,
+      "name": "dev",
+      "on": "CLICK",
+      "refs": [
+        "refs/heads/master"
+      ],
+      "last_execution_status": "SUCCESSFUL",
+      "last_execution_revision": "506a3963507943d6908154f4bc9646e829128a08"
+    }
+  ]
+}

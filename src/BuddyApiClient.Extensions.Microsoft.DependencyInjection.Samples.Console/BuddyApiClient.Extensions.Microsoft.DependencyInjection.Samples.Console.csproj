@@ -15,13 +15,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference
-      Include="..\BuddyApiClient.Extensions.Microsoft.DependencyInjection\BuddyApiClient.Extensions.Microsoft.DependencyInjection.csproj" />
+    <ProjectReference Include="..\BuddyApiClient.Extensions.Microsoft.DependencyInjection\BuddyApiClient.Extensions.Microsoft.DependencyInjection.csproj" />
   </ItemGroup>
 
 </Project>

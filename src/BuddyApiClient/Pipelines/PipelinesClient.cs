@@ -1,6 +1,7 @@
 ﻿namespace BuddyApiClient.Pipelines
 {
     using BuddyApiClient.Core;
+    using BuddyApiClient.Core.Models.Request;
     using BuddyApiClient.Pipelines.Models;
     using BuddyApiClient.Pipelines.Models.Request;
     using BuddyApiClient.Pipelines.Models.Response;
@@ -25,6 +26,18 @@
             var url = $"workspaces/{domain}/projects/{projectName}/pipelines/{pipelineId}";
 
             return await HttpClientFacade.Get<PipelineDetails>(url, cancellationToken: cancellationToken);
+        }
+
+        public async Task<PipelineList?> List(Domain domain, ProjectName projectName, ListPipelinesQuery? query = default, CancellationToken cancellationToken = default)
+        {
+            var url = $"workspaces/{domain}/projects/{projectName}/pipelines{query?.Build()}";
+
+            return await HttpClientFacade.Get<PipelineList>(url, cancellationToken: cancellationToken);
+        }
+
+        public ICollectionIterator ListAll(Domain domain, ProjectName projectName, ListPipelinesQuery collectionQuery, CollectionPageResponseHandler<ListPipelinesQuery, PipelineList> collectionPageResponseHandler)
+        {
+            return new CollectionIterator<ListPipelinesQuery, PipelineList>(async (query, cancellationToken) => await List(domain, projectName, query, cancellationToken), collectionPageResponseHandler, collectionQuery);
         }
 
         public async Task Delete(Domain domain, ProjectName projectName, PipelineId pipelineId, CancellationToken cancellationToken = default)
