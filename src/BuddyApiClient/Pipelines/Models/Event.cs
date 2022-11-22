@@ -22,5 +22,7 @@
 
         [JsonPropertyName("refs")]
         public IEnumerable<string> References { get; }
+
+        public IEnumerable<string> Tags { get; set; }
     }
 }

@@ -7,6 +7,7 @@
     using BuddyApiClient.Groups;
     using BuddyApiClient.Members;
     using BuddyApiClient.PermissionSets;
+    using BuddyApiClient.Pipelines;
     using BuddyApiClient.ProjectGroups;
     using BuddyApiClient.ProjectMembers;
     using BuddyApiClient.Projects;
@@ -119,9 +120,9 @@
             {
                 var sut = CreateClient();
 
-                var client = sut.PermissionSets;
+                var client = sut.Pipelines;
 
-                client.Should().BeAssignableTo<IPermissionSetsClient>();
+                client.Should().BeAssignableTo<IPipelinesClient>();
             }
         }
 

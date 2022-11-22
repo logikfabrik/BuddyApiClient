@@ -5,13 +5,9 @@
 
     public sealed record CreateOnSchedulePipeline : CreatePipeline
     {
-        public CreateOnSchedulePipeline(string name, DateTime startDate) : base(name, TriggerMode.Schedule)
+        public CreateOnSchedulePipeline(string name, DateTime startDate, int delayInMinutes) : base(name, TriggerMode.Schedule)
         {
-            StartDate = Ensure.Any.HasValue(startDate, nameof(startDate));
-        }
-
-        public CreateOnSchedulePipeline(string name, int delayInMinutes) : base(name, TriggerMode.Schedule)
-        {
+            StartDate = startDate;
             DelayInMinutes = delayInMinutes;
         }
 

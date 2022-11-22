@@ -9,7 +9,7 @@
             {
                 var sut = new BuddyClientFactory(new HttpClient());
 
-                var client = sut.Create(string.Empty, new Uri("https://api.buddy.works"));
+                var client = sut.Create(string.Empty);
 
                 client.Should().BeAssignableTo<IBuddyClient>();
             }

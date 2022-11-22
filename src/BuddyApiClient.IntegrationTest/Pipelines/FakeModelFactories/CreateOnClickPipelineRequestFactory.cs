@@ -1,6 +1,4 @@
-﻿
-
-namespace BuddyApiClient.IntegrationTest.Pipelines.FakeModelFactories
+﻿namespace BuddyApiClient.IntegrationTest.Pipelines.FakeModelFactories
 {
     using Bogus;
     using BuddyApiClient.Pipelines.Models.Request;

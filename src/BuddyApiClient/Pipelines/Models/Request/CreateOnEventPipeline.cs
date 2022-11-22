@@ -1,5 +1,6 @@
 ﻿namespace BuddyApiClient.Pipelines.Models.Request
 {
+    using System.Text.Json.Serialization;
     using EnsureThat;
 
     public sealed record CreateOnEventPipeline : CreatePipeline
@@ -9,6 +10,7 @@
             Events = Ensure.Any.HasValue(events, nameof(events));
         }
 
+        [JsonPropertyName("events")]
         public IEnumerable<Event> Events { get; }
     }
 }

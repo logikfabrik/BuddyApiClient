@@ -157,5 +157,22 @@
                 pipelines.Should().BeEmpty();
             }
         }
+
+        public sealed class Delete
+        {
+            [Fact]
+            public async Task Should_DeleteThePipeline()
+            {
+                var handlerMock = new MockHttpMessageHandler();
+
+                handlerMock.Expect(HttpMethod.Delete, "https://api.buddy.works/workspaces/buddy/projects/company-website/pipelines/2").Respond(HttpStatusCode.NoContent);
+
+                var sut = CreateClient(handlerMock);
+
+                await sut.Delete(new Domain("buddy"), new ProjectName("company-website"), new PipelineId(2));
+
+                handlerMock.VerifyNoOutstandingExpectation();
+            }
+        }
     }
 }
