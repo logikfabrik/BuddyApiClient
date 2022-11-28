@@ -10,15 +10,18 @@ jobs:
     name: scan
     runs-on: ubuntu-latest
     steps:
-    - name: Run SonarCloud scanner
-      uses: highbyte/sonarscan-dotnet@v2.1.3
-      with:
-        sonarProjectKey: logikfabrik_BuddyApiClient
-        sonarProjectName:  BuddyApiClient
-        sonarOrganization: logikfabrik
-        dotnetBuildArguments: src/BuddyApiClient.sln
-        dotnetTestArguments: src/BuddyApiClient.sln -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
-        sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="src/*Test/coverage.opencover.xml" /v:"0.0.1.${{ github.run_number }}"
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Run SonarCloud scanner
+        uses: highbyte/sonarscan-dotnet@v2.1.3
+        with:
+          sonarProjectKey: logikfabrik_BuddyApiClient
+          sonarProjectName:  BuddyApiClient
+          sonarOrganization: logikfabrik
+          dotnetBuildArguments: src/BuddyApiClient.sln
+          dotnetTestArguments: src/BuddyApiClient.sln -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="src/*Test/coverage.opencover.xml" /v:"0.0.1.${{ github.run_number }}"
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
