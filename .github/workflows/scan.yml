@@ -16,6 +16,8 @@ jobs:
         sonarProjectKey: logikfabrik_BuddyApiClient
         sonarProjectName:  BuddyApiClient
         sonarOrganization: logikfabrik
+        dotnetBuildArguments: ./src
+        dotnetTestArguments: ./src -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
         sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="src/*Test/coverage.opencover.xml" /v:"0.0.1.${{ github.run_number }}"
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
