@@ -45,11 +45,11 @@
             {
                 var handlerStub = new MockHttpMessageHandler();
 
-                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/projects/company-website/pipelines/2/actions/5").Respond(MediaTypeNames.Application.Json, responseJson);
+                handlerStub.When(HttpMethod.Get, "https://api.buddy.works/workspaces/buddy/projects/company-website/pipelines/2/actions/845").Respond(MediaTypeNames.Application.Json, responseJson);
 
                 var sut = CreateClient(handlerStub);
 
-                var action = await sut.Get(new Domain("buddy"), new ProjectName("company-website"), new PipelineId(2), new ActionId(5));
+                var action = await sut.Get(new Domain("buddy"), new ProjectName("company-website"), new PipelineId(2), new ActionId(845));
 
                 action.Should().NotBeNull();
             }
