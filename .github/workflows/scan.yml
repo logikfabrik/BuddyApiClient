@@ -42,6 +42,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"logikfabrik_BuddyApiClient" /o:"logikfabrik" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="src\*Test\coverage.opencover.xml" /d:sonar.coverage.exclusions="src\*Test\**\*" /v:"0.0.1.${{ github.run_number }}"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"logikfabrik_BuddyApiClient" /o:"logikfabrik" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.sources="src\" /d:sonar.exclusions="src\*Test\**\*" /d:sonar.tests="src\" /d:sonar.test.inclusions="src\*Test\**\*" /d:sonar.cs.opencover.reportsPaths="src\*Test\coverage.opencover.xml" /v:"0.0.1.${{ github.run_number }}"
           dotnet test src\BuddyApiClient.sln -c Release --filter FullyQualifiedName!~IntegrationTest -p:Version=0.0.1 -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
