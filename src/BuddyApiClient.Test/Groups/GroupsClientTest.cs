@@ -20,7 +20,7 @@
         public sealed class Create
         {
             [Theory]
-            [FileData(@"Groups/.testdata/Create_Should_CreateTheGroup.json")]
+            [FileTextData(@"Groups/.testdata/Create_Should_CreateTheGroup.json")]
             public async Task Should_CreateTheGroup(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -38,7 +38,7 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"Groups/.testdata/Get_Should_ReturnTheGroup.json")]
+            [FileTextData(@"Groups/.testdata/Get_Should_ReturnTheGroup.json")]
             public async Task Should_ReturnTheGroup(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -70,7 +70,7 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"Groups/.testdata/List_Should_ReturnTheGroups.json")]
+            [FileTextData(@"Groups/.testdata/List_Should_ReturnTheGroups.json")]
             public async Task Should_ReturnTheGroups(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -85,7 +85,7 @@
             }
 
             [Theory]
-            [FileData(@"Groups/.testdata/List_Should_ReturnNoGroups_When_NoneExist.json")]
+            [FileTextData(@"Groups/.testdata/List_Should_ReturnNoGroups_When_NoneExist.json")]
             public async Task Should_ReturnNoGroups_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -103,7 +103,7 @@
         public sealed class Update
         {
             [Theory]
-            [FileData(@"Groups/.testdata/Update_Should_UpdateTheGroup.json")]
+            [FileTextData(@"Groups/.testdata/Update_Should_UpdateTheGroup.json")]
             public async Task Should_UpdateTheGroup(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();

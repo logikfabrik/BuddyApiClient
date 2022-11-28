@@ -22,7 +22,7 @@
         public sealed class Add
         {
             [Theory]
-            [FileData(@"Actions/.testdata/Add_Should_AddTheSleepAction.json")]
+            [FileTextData(@"Actions/.testdata/Add_Should_AddTheSleepAction.json")]
             public async Task Should_AddTheSleepAction(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -40,7 +40,7 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"Actions/.testdata/Get_Should_ReturnTheAction.json")]
+            [FileTextData(@"Actions/.testdata/Get_Should_ReturnTheAction.json")]
             public async Task Should_ReturnTheAction(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -58,7 +58,7 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"Actions/.testdata/List_Should_ReturnTheActions.json")]
+            [FileTextData(@"Actions/.testdata/List_Should_ReturnTheActions.json")]
             public async Task Should_ReturnTheActions(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -73,7 +73,7 @@
             }
 
             [Theory]
-            [FileData(@"Actions/.testdata/List_Should_ReturnNoActions_When_NoneExist.json")]
+            [FileTextData(@"Actions/.testdata/List_Should_ReturnNoActions_When_NoneExist.json")]
             public async Task Should_ReturnNoActions_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();

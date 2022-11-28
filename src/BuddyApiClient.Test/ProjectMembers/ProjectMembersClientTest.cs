@@ -25,7 +25,7 @@
         public sealed class Add
         {
             [Theory]
-            [FileData(@"ProjectMembers/.testdata/Add_Should_AddTheProjectMember.json")]
+            [FileTextData(@"ProjectMembers/.testdata/Add_Should_AddTheProjectMember.json")]
             public async Task Should_AddTheProjectMember(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -43,7 +43,7 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"ProjectMembers/.testdata/Get_Should_ReturnTheProject.json")]
+            [FileTextData(@"ProjectMembers/.testdata/Get_Should_ReturnTheProject.json")]
             public async Task Should_ReturnTheProject(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -75,7 +75,7 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"ProjectMembers/.testdata/List_Should_ReturnTheProjectMembers.json")]
+            [FileTextData(@"ProjectMembers/.testdata/List_Should_ReturnTheProjectMembers.json")]
             public async Task Should_ReturnTheProjectMembers(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -90,7 +90,7 @@
             }
 
             [Theory]
-            [FileData(@"ProjectMembers/.testdata/List_Should_ReturnNoProjectMembers_When_NoneExist.json")]
+            [FileTextData(@"ProjectMembers/.testdata/List_Should_ReturnNoProjectMembers_When_NoneExist.json")]
             public async Task Should_ReturnNoProjectMembers_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -108,7 +108,7 @@
         public sealed class ListAll
         {
             [Theory]
-            [FileData(@"ProjectMembers/.testdata/ListAll_Should_ReturnTheProjectMembers.json")]
+            [FileTextData(@"ProjectMembers/.testdata/ListAll_Should_ReturnTheProjectMembers.json")]
             public async Task Should_ReturnTheProjectMembers(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -154,7 +154,7 @@
         public sealed class Update
         {
             [Theory]
-            [FileData(@"ProjectMembers/.testdata/Update_Should_UpdateTheProjectMember.json")]
+            [FileTextData(@"ProjectMembers/.testdata/Update_Should_UpdateTheProjectMember.json")]
             public async Task Should_UpdateTheProjectMember(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();

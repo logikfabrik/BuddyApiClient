@@ -18,7 +18,7 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"Workspaces/.testdata/Get_Should_ReturnTheWorkspace.json")]
+            [FileTextData(@"Workspaces/.testdata/Get_Should_ReturnTheWorkspace.json")]
             public async Task Should_ReturnTheWorkspace(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -50,7 +50,7 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"Workspaces/.testdata/List_Should_ReturnTheWorkspaces.json")]
+            [FileTextData(@"Workspaces/.testdata/List_Should_ReturnTheWorkspaces.json")]
             public async Task Should_ReturnTheWorkspaces(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();

@@ -20,7 +20,7 @@
         public sealed class Create
         {
             [Theory]
-            [FileData(@"Variables/.testdata/Create_Should_CreateTheVariable.json")]
+            [FileTextData(@"Variables/.testdata/Create_Should_CreateTheVariable.json")]
             public async Task Should_CreateTheVariable(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -35,7 +35,7 @@
             }
 
             [Theory]
-            [FileData(@"Variables/.testdata/Create_Should_CreateTheSshKeyVariable.json")]
+            [FileTextData(@"Variables/.testdata/Create_Should_CreateTheSshKeyVariable.json")]
             public async Task Should_CreateTheSshKeyVariable(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -55,7 +55,7 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"Variables/.testdata/Get_Should_ReturnTheVariable.json")]
+            [FileTextData(@"Variables/.testdata/Get_Should_ReturnTheVariable.json")]
             public async Task Should_ReturnTheVariable(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -87,7 +87,7 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"Variables/.testdata/List_Should_ReturnTheVariables.json")]
+            [FileTextData(@"Variables/.testdata/List_Should_ReturnTheVariables.json")]
             public async Task Should_ReturnTheVariables(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -102,7 +102,7 @@
             }
 
             [Theory]
-            [FileData(@"Variables/.testdata/List_Should_ReturnNoVariables_When_NoneExist.json")]
+            [FileTextData(@"Variables/.testdata/List_Should_ReturnNoVariables_When_NoneExist.json")]
             public async Task Should_ReturnNoVariables_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -137,7 +137,7 @@
         public sealed class Update
         {
             [Theory]
-            [FileData(@"Variables/.testdata/Update_Should_UpdateTheVariable.json")]
+            [FileTextData(@"Variables/.testdata/Update_Should_UpdateTheVariable.json")]
             public async Task Should_UpdateTheVariable(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();

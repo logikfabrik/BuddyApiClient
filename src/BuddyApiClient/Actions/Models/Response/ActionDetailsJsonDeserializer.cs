@@ -15,7 +15,7 @@
 
             var type = GetActionType(typeJson);
 
-            return (ActionDetails?) JsonSerializer.Deserialize(root.GetRawText(), type, options);
+            return (ActionDetails?)JsonSerializer.Deserialize(root.GetRawText(), type, options);
         }
 
         public override void Write(Utf8JsonWriter writer, ActionDetails value, JsonSerializerOptions options)

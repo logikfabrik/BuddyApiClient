@@ -3,11 +3,11 @@
     using System.Reflection;
     using Xunit.Sdk;
 
-    public sealed class FileDataAttribute : DataAttribute
+    public sealed class FileBytesDataAttribute : DataAttribute
     {
         private readonly string _path;
 
-        public FileDataAttribute(string path)
+        public FileBytesDataAttribute(string path)
         {
             _path = path;
         }
@@ -16,13 +16,13 @@
         {
             if (File.Exists(_path))
             {
-                yield return new object[] { File.ReadAllText(_path) };
+                yield return new object[] { File.ReadAllBytes(_path) };
             }
             else if (Directory.Exists(_path))
             {
                 foreach (var path in Directory.EnumerateFiles(_path, "*.*", SearchOption.AllDirectories))
                 {
-                    yield return new object[] { File.ReadAllText(path) };
+                    yield return new object[] { File.ReadAllBytes(path) };
                 }
             }
         }

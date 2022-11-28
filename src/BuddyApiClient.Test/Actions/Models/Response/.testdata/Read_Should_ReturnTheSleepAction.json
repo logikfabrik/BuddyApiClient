@@ -1,0 +1,34 @@
+{
+  "url": "https://api.buddy.works/workspaces/buddy/projects/company-website/pipelines/2/actions/5",
+  "html_url": "https://app.buddy.works/buddy/company-website/pipelines/action/5/edit",
+  "id": 5,
+  "name": "Sleep for 90 sec",
+  "type": "SLEEP",
+  "trigger_time": "ON_EVERY_EXECUTION",
+  "last_execution_status": "INITIAL",
+  "disabled": false,
+  "pipeline": {
+    "url": "https://api.buddy.works/workspaces/buddy/projects/company-website/pipelines/2",
+    "html_url": "https://app.buddy.works/buddy/company-website/pipelines/pipeline/2",
+    "id": 2,
+    "name": "Live mirror",
+    "on": "CLICK",
+    "refs": [
+      "refs/heads/master"
+    ],
+    "priority": "NORMAL",
+    "last_execution_status": "INITIAL",
+    "last_execution_revision": null,
+    "execution_message_template": "$BUDDY_EXECUTION_REVISION_SUBJECT",
+    "always_from_scratch": false,
+    "ignore_fail_on_project_status": false,
+    "no_skip_to_most_recent": false,
+    "auto_clear_cache": false,
+    "fetch_all_refs": false,
+    "fail_on_prepare_env_warning": true,
+    "do_not_create_commit_status": false
+  },
+  "sleep_in_sec": 90,
+  "ignore_errors": false,
+  "run_next_parallel": false
+}

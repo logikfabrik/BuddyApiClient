@@ -22,7 +22,7 @@
         public sealed class Add
         {
             [Theory]
-            [FileData(@"ProjectGroups/.testdata/Add_Should_AddTheProjectGroup.json")]
+            [FileTextData(@"ProjectGroups/.testdata/Add_Should_AddTheProjectGroup.json")]
             public async Task Should_AddTheProjectGroup(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -40,7 +40,7 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"ProjectGroups/.testdata/Get_Should_ReturnTheProjectGroup.json")]
+            [FileTextData(@"ProjectGroups/.testdata/Get_Should_ReturnTheProjectGroup.json")]
             public async Task Should_ReturnTheProjectGroup(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -72,7 +72,7 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"ProjectGroups/.testdata/List_Should_ReturnTheProjectGroups.json")]
+            [FileTextData(@"ProjectGroups/.testdata/List_Should_ReturnTheProjectGroups.json")]
             public async Task Should_ReturnTheProjectGroups(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -87,7 +87,7 @@
             }
 
             [Theory]
-            [FileData(@"ProjectGroups/.testdata/List_Should_ReturnNoProjectGroups_When_NoneExist.json")]
+            [FileTextData(@"ProjectGroups/.testdata/List_Should_ReturnNoProjectGroups_When_NoneExist.json")]
             public async Task Should_ReturnNoProjectGroups_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -122,7 +122,7 @@
         public sealed class Update
         {
             [Theory]
-            [FileData(@"ProjectGroups/.testdata/Update_Should_UpdateTheProjectGroup.json")]
+            [FileTextData(@"ProjectGroups/.testdata/Update_Should_UpdateTheProjectGroup.json")]
             public async Task Should_UpdateTheProjectGroup(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();

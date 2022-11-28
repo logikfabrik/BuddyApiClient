@@ -23,7 +23,7 @@
         public sealed class Create
         {
             [Theory]
-            [FileData(@"Pipelines/.testdata/Create_Should_CreateThePipeline.json")]
+            [FileTextData(@"Pipelines/.testdata/Create_Should_CreateThePipeline.json")]
             public async Task Should_CreateThePipeline(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -41,7 +41,7 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"Pipelines/.testdata/Get_Should_ReturnThePipeline.json")]
+            [FileTextData(@"Pipelines/.testdata/Get_Should_ReturnThePipeline.json")]
             public async Task Should_ReturnThePipeline(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -73,7 +73,7 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"Pipelines/.testdata/List_Should_ReturnThePipelines.json")]
+            [FileTextData(@"Pipelines/.testdata/List_Should_ReturnThePipelines.json")]
             public async Task Should_ReturnThePipelines(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -88,7 +88,7 @@
             }
 
             [Theory]
-            [FileData(@"Pipelines/.testdata/List_Should_ReturnNoPipelines_When_NoneExist.json")]
+            [FileTextData(@"Pipelines/.testdata/List_Should_ReturnNoPipelines_When_NoneExist.json")]
             public async Task Should_ReturnNoPipelines_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -106,7 +106,7 @@
         public sealed class ListAll
         {
             [Theory]
-            [FileData(@"Pipelines/.testdata/ListAll_Should_ReturnThePipelines.json")]
+            [FileTextData(@"Pipelines/.testdata/ListAll_Should_ReturnThePipelines.json")]
             public async Task Should_ReturnThePipelines(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -132,7 +132,7 @@
             }
 
             [Theory]
-            [FileData(@"Pipelines/.testdata/ListAll_Should_ReturnNoPipelines_When_NoneExist.json")]
+            [FileTextData(@"Pipelines/.testdata/ListAll_Should_ReturnNoPipelines_When_NoneExist.json")]
             public async Task Should_ReturnNoPipelines_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
