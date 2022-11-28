@@ -5,7 +5,7 @@
     using BuddyApiClient.Pipelines.Models;
     using BuddyApiClient.Pipelines.Models.Response;
 
-    public record ActionDetails : DocumentResponse
+    public abstract record ActionDetails : DocumentResponse
     {
         [JsonPropertyName("html_url")]
         public Uri? HtmlUrl { get; set; }

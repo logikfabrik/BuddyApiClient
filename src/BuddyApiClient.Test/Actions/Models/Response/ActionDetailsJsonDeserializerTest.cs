@@ -29,7 +29,7 @@
             {
                 var sut = new ActionDetailsJsonDeserializer();
 
-                var act = FluentActions.Invoking(() => sut.Write(new Utf8JsonWriter(Stream.Null), new ActionDetails(), new JsonSerializerOptions()));
+                var act = FluentActions.Invoking(() => sut.Write(new Utf8JsonWriter(Stream.Null), new SleepActionDetails(), new JsonSerializerOptions()));
 
                 act.Should().Throw<NotSupportedException>();
             }
