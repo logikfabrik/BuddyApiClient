@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     name: scan
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - name: Run SonarCloud scanner
       uses: highbyte/sonarscan-dotnet@v2.1.3
