@@ -19,8 +19,8 @@ jobs:
           sonarProjectKey: logikfabrik_BuddyApiClient
           sonarProjectName:  BuddyApiClient
           sonarOrganization: logikfabrik
-          dotnetBuildArguments: src/BuddyApiClient.sln
-          dotnetTestArguments: src/BuddyApiClient.sln -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          dotnetBuildArguments: src/BuddyApiClient.sln -c Release
+          dotnetTestArguments: src/BuddyApiClient.sln -c Release --filter FullyQualifiedName!~IntegrationTest -p:Version=0.0.1 -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
           sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="src/*Test/coverage.opencover.xml" /v:"0.0.1.${{ github.run_number }}"
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
