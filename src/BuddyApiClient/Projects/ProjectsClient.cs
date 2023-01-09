@@ -27,7 +27,7 @@
             return await HttpClientFacade.Get<ProjectDetails>(url, cancellationToken: cancellationToken);
         }
 
-        public async Task<ProjectList?> List(Domain domain, ListProjectsQuery? query = default, CancellationToken cancellationToken = default)
+        public async Task<ProjectList?> List(Domain domain, ListProjectsQuery? query = null, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/projects{query?.Build()}";
 

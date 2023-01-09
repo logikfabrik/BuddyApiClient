@@ -28,7 +28,7 @@
             return await HttpClientFacade.Get<PipelineDetails>(url, cancellationToken: cancellationToken);
         }
 
-        public async Task<PipelineList?> List(Domain domain, ProjectName projectName, ListPipelinesQuery? query = default, CancellationToken cancellationToken = default)
+        public async Task<PipelineList?> List(Domain domain, ProjectName projectName, ListPipelinesQuery? query = null, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/projects/{projectName}/pipelines{query?.Build()}";
 

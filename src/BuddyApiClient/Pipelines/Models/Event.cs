@@ -1,14 +1,13 @@
 ﻿namespace BuddyApiClient.Pipelines.Models
 {
     using System.Text.Json.Serialization;
-    using EnsureThat;
 
     public sealed record Event
     {
         public Event(EventType type, IEnumerable<string> references)
         {
             Type = type;
-            References = Ensure.Any.HasValue(references, nameof(references));
+            References = references;
         }
 
         [JsonIgnore]

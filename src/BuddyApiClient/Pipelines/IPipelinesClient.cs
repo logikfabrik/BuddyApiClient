@@ -13,7 +13,7 @@
 
         Task<PipelineDetails?> Get(Domain domain, ProjectName projectName, PipelineId pipelineId, CancellationToken cancellationToken = default);
 
-        Task<PipelineList?> List(Domain domain, ProjectName projectName, ListPipelinesQuery? query = default, CancellationToken cancellationToken = default);
+        Task<PipelineList?> List(Domain domain, ProjectName projectName, ListPipelinesQuery? query = null, CancellationToken cancellationToken = default);
 
         ICollectionIterator ListAll(Domain domain, ProjectName projectName, ListPipelinesQuery collectionQuery, CollectionPageResponseHandler<ListPipelinesQuery, PipelineList> collectionPageResponseHandler);
 

@@ -15,7 +15,7 @@
 
         Task<ProjectMemberDetails?> Get(Domain domain, ProjectName projectName, MemberId memberId, CancellationToken cancellationToken = default);
 
-        Task<MemberList?> List(Domain domain, ProjectName projectName, ListMembersQuery? query = default, CancellationToken cancellationToken = default);
+        Task<MemberList?> List(Domain domain, ProjectName projectName, ListMembersQuery? query = null, CancellationToken cancellationToken = default);
 
         ICollectionIterator ListAll(Domain domain, ProjectName projectName, ListMembersQuery collectionQuery, CollectionPageResponseHandler<ListMembersQuery, MemberList> collectionPageResponseHandler);
 

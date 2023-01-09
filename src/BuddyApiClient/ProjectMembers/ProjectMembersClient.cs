@@ -30,7 +30,7 @@
             return await HttpClientFacade.Get<ProjectMemberDetails>(url, cancellationToken: cancellationToken);
         }
 
-        public async Task<MemberList?> List(Domain domain, ProjectName projectName, ListMembersQuery? query = default, CancellationToken cancellationToken = default)
+        public async Task<MemberList?> List(Domain domain, ProjectName projectName, ListMembersQuery? query = null, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/projects/{projectName}/members{query?.Build()}";
 

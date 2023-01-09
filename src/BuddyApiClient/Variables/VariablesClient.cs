@@ -25,7 +25,7 @@
             return await HttpClientFacade.Get<VariableDetails>(url, cancellationToken: cancellationToken);
         }
 
-        public async Task<VariableList?> List(Workspaces.Models.Domain domain, ListVariablesQuery? query = default, CancellationToken cancellationToken = default)
+        public async Task<VariableList?> List(Workspaces.Models.Domain domain, ListVariablesQuery? query = null, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/variables{query?.Build()}";
 
