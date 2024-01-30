@@ -19,8 +19,8 @@
     {
         private static readonly Uri s_defaultBaseUrl = new("https://api.buddy.works");
 
-        public BuddyClient(string accessToken, Uri? baseUrl = null, HttpClient? httpClient = null)
-            : this(() => HttpClientFacadeFactory.Create(accessToken, baseUrl ?? s_defaultBaseUrl, httpClient ?? new HttpClient()))
+        public BuddyClient(string accessToken, HttpClient? httpClient = null, Uri? baseUrl = null)
+            : this(() => HttpClientFacadeFactory.Create(accessToken, httpClient ?? new HttpClient(), baseUrl ?? s_defaultBaseUrl))
         {
         }
 

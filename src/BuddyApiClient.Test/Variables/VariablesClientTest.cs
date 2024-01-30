@@ -14,7 +14,7 @@
     {
         private static IVariablesClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new VariablesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, new Uri("https://api.buddy.works"), handler.ToHttpClient())));
+            return new VariablesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, handler.ToHttpClient(), new Uri("https://api.buddy.works"))));
         }
 
         public sealed class Create

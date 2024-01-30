@@ -11,7 +11,7 @@
     {
         private static HttpClientFacade CreateFacade(MockHttpMessageHandler handler)
         {
-            return new HttpClientFacade(string.Empty, new Uri("https://api.buddy.works"), handler.ToHttpClient());
+            return new HttpClientFacade(string.Empty, handler.ToHttpClient(), new Uri("https://api.buddy.works"));
         }
 
         private static async Task MakeARequest(HttpMethod method, Func<HttpClientFacade, Task> act)

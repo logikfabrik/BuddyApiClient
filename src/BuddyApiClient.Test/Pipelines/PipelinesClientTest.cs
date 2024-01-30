@@ -17,7 +17,7 @@
     {
         private static IPipelinesClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new PipelinesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, new Uri("https://api.buddy.works"), handler.ToHttpClient())));
+            return new PipelinesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, handler.ToHttpClient(), new Uri("https://api.buddy.works"))));
         }
 
         public sealed class Create

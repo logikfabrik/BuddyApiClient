@@ -20,7 +20,7 @@
             
             var httpClient = new HttpClient(httpClientHandler);
 
-            BuddyClient = new BuddyClient(accessToken, new Uri(baseUrl), httpClient);
+            BuddyClient = new BuddyClient(accessToken, httpClient, new Uri(baseUrl));
         }
 
         public IBuddyClient BuddyClient { get; }

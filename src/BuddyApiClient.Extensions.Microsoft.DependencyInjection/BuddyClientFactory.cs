@@ -15,7 +15,7 @@ namespace BuddyApiClient.Extensions.Microsoft.DependencyInjection
 
         public IBuddyClient Create(string accessToken)
         {
-            return new BuddyClient(accessToken, _baseUrl, _httpClient);
+            return new BuddyClient(accessToken, _httpClient, _baseUrl);
         }
     }
 }

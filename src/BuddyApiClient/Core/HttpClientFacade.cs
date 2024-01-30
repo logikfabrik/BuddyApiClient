@@ -11,18 +11,18 @@
     internal sealed class HttpClientFacade
     {
         private readonly string _accessToken;
-        private readonly Uri _baseUrl;
         private readonly HttpClient _httpClient;
+        private readonly Uri _baseUrl;
 
-        public HttpClientFacade(string accessToken, Uri baseUrl, HttpClient httpClient)
+        public HttpClientFacade(string accessToken, HttpClient httpClient, Uri baseUrl)
         {
             ArgumentNullException.ThrowIfNull(accessToken);
-            ArgumentNullException.ThrowIfNull(baseUrl);
             ArgumentNullException.ThrowIfNull(httpClient);
+            ArgumentNullException.ThrowIfNull(baseUrl);
 
             _accessToken = accessToken;
-            _baseUrl = baseUrl;
             _httpClient = httpClient;
+            _baseUrl = baseUrl;
         }
 
         public async Task<T?> Get<T>(string url, JsonSerializerOptions? deserializationOptions = null, CancellationToken cancellationToken = default)

@@ -19,7 +19,7 @@
     {
         private static IBuddyClient CreateClient()
         {
-            return new BuddyClient(string.Empty, null, new MockHttpMessageHandler().ToHttpClient());
+            return new BuddyClient(string.Empty, new MockHttpMessageHandler().ToHttpClient());
         }
 
         public sealed class Actions
