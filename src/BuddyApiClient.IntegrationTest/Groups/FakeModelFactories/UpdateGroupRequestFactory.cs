@@ -5,11 +5,11 @@
 
     internal static class UpdateGroupRequestFactory
     {
-        private static readonly Faker<UpdateGroup> Faker = new Faker<UpdateGroup>().RuleFor(model => model.Name, f => f.Lorem.Word());
+        private static readonly Faker<UpdateGroup> s_faker = new Faker<UpdateGroup>().RuleFor(model => model.Name, f => f.Lorem.Word());
 
         public static UpdateGroup Create()
         {
-            return Faker.Generate();
+            return s_faker.Generate();
         }
     }
 }

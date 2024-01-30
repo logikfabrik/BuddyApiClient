@@ -1,11 +1,13 @@
 ﻿namespace BuddyApiClient.Test
 {
+    using BuddyApiClient.Actions;
     using BuddyApiClient.CurrentUser;
     using BuddyApiClient.CurrentUserEmails;
     using BuddyApiClient.GroupMembers;
     using BuddyApiClient.Groups;
     using BuddyApiClient.Members;
     using BuddyApiClient.PermissionSets;
+    using BuddyApiClient.Pipelines;
     using BuddyApiClient.ProjectGroups;
     using BuddyApiClient.ProjectMembers;
     using BuddyApiClient.Projects;
@@ -17,7 +19,20 @@
     {
         private static IBuddyClient CreateClient()
         {
-            return new BuddyClient(string.Empty, null, new MockHttpMessageHandler().ToHttpClient());
+            return new BuddyClient(string.Empty, new MockHttpMessageHandler().ToHttpClient());
+        }
+
+        public sealed class Actions
+        {
+            [Fact]
+            public void Should_ReturnAnIActionsClientInstance()
+            {
+                var sut = CreateClient();
+
+                var client = sut.Actions;
+
+                client.Should().BeAssignableTo<IActionsClient>();
+            }
         }
 
         public sealed class CurrentUser
@@ -95,6 +110,19 @@
                 var client = sut.PermissionSets;
 
                 client.Should().BeAssignableTo<IPermissionSetsClient>();
+            }
+        }
+
+        public sealed class Pipelines
+        {
+            [Fact]
+            public void Should_ReturnAnIPipelinesClientInstance()
+            {
+                var sut = CreateClient();
+
+                var client = sut.Pipelines;
+
+                client.Should().BeAssignableTo<IPipelinesClient>();
             }
         }
 

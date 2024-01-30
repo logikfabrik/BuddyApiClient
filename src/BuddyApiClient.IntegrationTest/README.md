@@ -37,6 +37,17 @@ To run the tests (VS):
     docker build -t ubuntu-dind https://github.com/logikfabrik/BuddyApiClient.git#master:docker
     ```
 
+    For Docker on Windows, update the Docker daemon configuration; set the `buildkit` feature to `false`.
+
+    ```json
+    {
+      ...
+      "features": {
+        "buildkit": false
+      }
+    }
+    ```
+
 2. Start a container:
 
     ```

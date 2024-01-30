@@ -1,10 +1,12 @@
 ﻿namespace BuddyApiClient.IntegrationTest.Variables
 {
+    using System.Collections;
     using System.Net;
     using BuddyApiClient.IntegrationTest.Testing;
     using BuddyApiClient.IntegrationTest.Variables.FakeModelFactories;
     using BuddyApiClient.IntegrationTest.Variables.Preconditions;
     using BuddyApiClient.IntegrationTest.Workspaces.Preconditions;
+    using BuddyApiClient.Variables.Models.Request;
     using BuddyApiClient.Variables.Models.Response;
 
     public sealed class VariablesClientTest
@@ -15,8 +17,9 @@
             {
             }
 
-            [Fact]
-            public async Task Should_CreateTheVariable()
+            [Theory]
+            [ClassData(typeof(TestData))]
+            public async Task Should_CreateTheVariable(CreateVariable content)
             {
                 await Preconditions
                     .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
@@ -28,7 +31,7 @@
 
                 try
                 {
-                    variable = await sut.Create(await domain(), CreateVariableRequestFactory.Create());
+                    variable = await sut.Create(await domain(), content);
 
                     variable.Should().NotBeNull();
                 }
@@ -41,30 +44,15 @@
                 }
             }
 
-            [Fact]
-            public async Task Should_CreateTheSshKeyVariable()
+            private class TestData : IEnumerable<object[]>
             {
-                await Preconditions
-                    .Add(new DomainExistsPrecondition(Fixture.BuddyClient.Workspaces), out var domain)
-                    .SetUp();
-
-                var sut = Fixture.BuddyClient.Variables;
-
-                VariableDetails? variable = null;
-
-                try
+                public IEnumerator<object[]> GetEnumerator()
                 {
-                    variable = await sut.Create(await domain(), CreateSshKeyVariableRequestFactory.Create());
+                    yield return new object[] { CreateVariableRequestFactory.Create() };
+                    yield return new object[] { CreateSshKeyVariableRequestFactory.Create() };
+                }
 
-                    variable.Should().NotBeNull();
-                }
-                finally
-                {
-                    if (variable is not null)
-                    {
-                        await sut.Delete(await domain(), variable.Id);
-                    }
-                }
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
             }
         }
 

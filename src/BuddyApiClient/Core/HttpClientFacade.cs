@@ -7,59 +7,62 @@
     using System.Text.Json;
     using System.Text.Json.Serialization;
     using BuddyApiClient.Core.Models.Response;
-    using EnsureThat;
 
     internal sealed class HttpClientFacade
     {
         private readonly string _accessToken;
-        private readonly Uri _baseUrl;
         private readonly HttpClient _httpClient;
+        private readonly Uri _baseUrl;
 
-        public HttpClientFacade(string accessToken, Uri baseUrl, HttpClient httpClient)
+        public HttpClientFacade(string accessToken, HttpClient httpClient, Uri baseUrl)
         {
-            _accessToken = Ensure.String.IsNotNull(accessToken, nameof(accessToken));
-            _baseUrl = Ensure.Any.HasValue(baseUrl, nameof(baseUrl));
-            _httpClient = Ensure.Any.HasValue(httpClient, nameof(httpClient));
+            ArgumentNullException.ThrowIfNull(accessToken);
+            ArgumentNullException.ThrowIfNull(httpClient);
+            ArgumentNullException.ThrowIfNull(baseUrl);
+
+            _accessToken = accessToken;
+            _httpClient = httpClient;
+            _baseUrl = baseUrl;
         }
 
-        public async Task<T?> Get<T>(string url, CancellationToken cancellationToken = default)
+        public async Task<T?> Get<T>(string url, JsonSerializerOptions? deserializationOptions = null, CancellationToken cancellationToken = default)
         {
-            Ensure.String.IsNotNullOrEmpty(url, nameof(url));
+            ArgumentNullException.ThrowIfNull(url);
 
             using var request = CreateRequest(HttpMethod.Get, url);
 
             using var response = await SendRequest(request, cancellationToken);
 
-            return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
+            return await response.Content.ReadFromJsonAsync<T>(deserializationOptions, cancellationToken);
         }
 
-        public async Task<T?> Post<T>(string url, object content, CancellationToken cancellationToken = default)
+        public async Task<T?> Post<T>(string url, object content, JsonSerializerOptions? deserializationOptions = null, CancellationToken cancellationToken = default)
         {
-            Ensure.String.IsNotNullOrEmpty(url, nameof(url));
-            Ensure.Any.HasValue(content, nameof(content));
+            ArgumentNullException.ThrowIfNull(url);
+            ArgumentNullException.ThrowIfNull(content);
 
             using var request = CreateRequest(HttpMethod.Post, url, JsonContent.Create(content));
 
             using var response = await SendRequest(request, cancellationToken);
 
-            return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
+            return await response.Content.ReadFromJsonAsync<T>(deserializationOptions, cancellationToken);
         }
 
-        public async Task<T?> Patch<T>(string url, object content, CancellationToken cancellationToken = default)
+        public async Task<T?> Patch<T>(string url, object content, JsonSerializerOptions? deserializationOptions = null, CancellationToken cancellationToken = default)
         {
-            Ensure.String.IsNotNullOrEmpty(url, nameof(url));
-            Ensure.Any.HasValue(content, nameof(content));
+            ArgumentNullException.ThrowIfNull(url);
+            ArgumentNullException.ThrowIfNull(content);
 
             using var request = CreateRequest(HttpMethod.Patch, url, JsonContent.Create(content, options: new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault }));
 
             using var response = await SendRequest(request, cancellationToken);
 
-            return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
+            return await response.Content.ReadFromJsonAsync<T>(deserializationOptions, cancellationToken);
         }
 
         public async Task Delete(string url, CancellationToken cancellationToken = default)
         {
-            Ensure.String.IsNotNullOrEmpty(url, nameof(url));
+            ArgumentNullException.ThrowIfNull(url);
 
             using var request = CreateRequest(HttpMethod.Delete, url);
 

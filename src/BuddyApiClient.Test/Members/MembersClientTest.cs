@@ -16,13 +16,13 @@
     {
         private static IMembersClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new MembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, new Uri("https://api.buddy.works"), handler.ToHttpClient())));
+            return new MembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, handler.ToHttpClient(), new Uri("https://api.buddy.works"))));
         }
 
         public sealed class Add
         {
             [Theory]
-            [FileData(@"Members/.testdata/Add_Should_AddTheMember.json")]
+            [FileTextData(@"Members/.testdata/Add_Should_AddTheMember.json")]
             public async Task Should_AddTheMember(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -40,7 +40,7 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"Members/.testdata/Get_Should_ReturnTheMember.json")]
+            [FileTextData(@"Members/.testdata/Get_Should_ReturnTheMember.json")]
             public async Task Should_ReturnTheMember(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -72,7 +72,7 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"Members/.testdata/List_Should_ReturnTheMembers.json")]
+            [FileTextData(@"Members/.testdata/List_Should_ReturnTheMembers.json")]
             public async Task Should_ReturnTheMembers(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -87,7 +87,7 @@
             }
 
             [Theory]
-            [FileData(@"Members/.testdata/List_Should_ReturnNoMembers_When_NoneExist.json")]
+            [FileTextData(@"Members/.testdata/List_Should_ReturnNoMembers_When_NoneExist.json")]
             public async Task Should_ReturnNoMembers_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -105,7 +105,7 @@
         public sealed class ListAll
         {
             [Theory]
-            [FileData(@"Members/.testdata/ListAll_Should_ReturnTheMembers.json")]
+            [FileTextData(@"Members/.testdata/ListAll_Should_ReturnTheMembers.json")]
             public async Task Should_ReturnTheMembers(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -151,7 +151,7 @@
         public sealed class Update
         {
             [Theory]
-            [FileData(@"Members/.testdata/Update_Should_UpdateTheMember.json")]
+            [FileTextData(@"Members/.testdata/Update_Should_UpdateTheMember.json")]
             public async Task Should_UpdateTheMember(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();

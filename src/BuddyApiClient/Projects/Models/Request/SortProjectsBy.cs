@@ -3,7 +3,9 @@
     public enum SortProjectsBy
     {
         Name,
+
         CreateDate,
+
         RepositorySize
     }
 }

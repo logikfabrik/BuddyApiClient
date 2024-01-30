@@ -16,28 +16,28 @@
         {
             var url = $"workspaces/{domain}/permissions";
 
-            return await HttpClientFacade.Post<PermissionSetDetails>(url, content, cancellationToken);
+            return await HttpClientFacade.Post<PermissionSetDetails>(url, content, cancellationToken: cancellationToken);
         }
 
         public async Task<PermissionSetDetails?> Get(Domain domain, PermissionSetId id, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/permissions/{id}";
 
-            return await HttpClientFacade.Get<PermissionSetDetails>(url, cancellationToken);
+            return await HttpClientFacade.Get<PermissionSetDetails>(url, cancellationToken: cancellationToken);
         }
 
         public async Task<PermissionSetList?> List(Domain domain, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/permissions";
 
-            return await HttpClientFacade.Get<PermissionSetList>(url, cancellationToken);
+            return await HttpClientFacade.Get<PermissionSetList>(url, cancellationToken: cancellationToken);
         }
 
         public async Task<PermissionSetDetails?> Update(Domain domain, PermissionSetId id, UpdatePermissionSet content, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/permissions/{id}";
 
-            return await HttpClientFacade.Patch<PermissionSetDetails>(url, content, cancellationToken);
+            return await HttpClientFacade.Patch<PermissionSetDetails>(url, content, cancellationToken: cancellationToken);
         }
 
         public async Task Delete(Domain domain, PermissionSetId id, CancellationToken cancellationToken = default)

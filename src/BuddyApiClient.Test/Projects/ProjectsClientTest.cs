@@ -16,13 +16,13 @@
     {
         private static IProjectsClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new ProjectsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, new Uri("https://api.buddy.works"), handler.ToHttpClient())));
+            return new ProjectsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, handler.ToHttpClient(), new Uri("https://api.buddy.works"))));
         }
 
         public sealed class Create
         {
             [Theory]
-            [FileData(@"Projects/.testdata/Create_Should_CreateTheProject.json")]
+            [FileTextData(@"Projects/.testdata/Create_Should_CreateTheProject.json")]
             public async Task Should_CreateTheProject(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -40,7 +40,7 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"Projects/.testdata/Get_Should_ReturnTheProject.json")]
+            [FileTextData(@"Projects/.testdata/Get_Should_ReturnTheProject.json")]
             public async Task Should_ReturnTheProject(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -72,7 +72,7 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"Projects/.testdata/List_Should_ReturnTheProjects.json")]
+            [FileTextData(@"Projects/.testdata/List_Should_ReturnTheProjects.json")]
             public async Task Should_ReturnTheProjects(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -87,7 +87,7 @@
             }
 
             [Theory]
-            [FileData(@"Projects/.testdata/List_Should_ReturnNoProjects_When_NoneExist.json")]
+            [FileTextData(@"Projects/.testdata/List_Should_ReturnNoProjects_When_NoneExist.json")]
             public async Task Should_ReturnNoProjects_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -105,7 +105,7 @@
         public sealed class ListAll
         {
             [Theory]
-            [FileData(@"Projects/.testdata/ListAll_Should_ReturnTheProjects.json")]
+            [FileTextData(@"Projects/.testdata/ListAll_Should_ReturnTheProjects.json")]
             public async Task Should_ReturnTheProjects(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -131,7 +131,7 @@
             }
 
             [Theory]
-            [FileData(@"Projects/.testdata/ListAll_Should_ReturnNoProjects_When_NoneExist.json")]
+            [FileTextData(@"Projects/.testdata/ListAll_Should_ReturnNoProjects_When_NoneExist.json")]
             public async Task Should_ReturnNoProjects_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -177,7 +177,7 @@
         public sealed class Update
         {
             [Theory]
-            [FileData(@"Projects/.testdata/Update_Should_UpdateTheProject.json")]
+            [FileTextData(@"Projects/.testdata/Update_Should_UpdateTheProject.json")]
             public async Task Should_UpdateTheProject(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();

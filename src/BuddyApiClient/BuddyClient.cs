@@ -1,5 +1,6 @@
 ﻿namespace BuddyApiClient
 {
+    using BuddyApiClient.Actions;
     using BuddyApiClient.Core;
     using BuddyApiClient.CurrentUser;
     using BuddyApiClient.CurrentUserEmails;
@@ -7,6 +8,7 @@
     using BuddyApiClient.Groups;
     using BuddyApiClient.Members;
     using BuddyApiClient.PermissionSets;
+    using BuddyApiClient.Pipelines;
     using BuddyApiClient.ProjectGroups;
     using BuddyApiClient.ProjectMembers;
     using BuddyApiClient.Projects;
@@ -15,8 +17,10 @@
 
     public sealed class BuddyClient : IBuddyClient
     {
-        public BuddyClient(string accessToken, Uri? baseUrl = null, HttpClient? httpClient = null)
-            : this(() => HttpClientFacadeFactory.Create(accessToken, baseUrl ?? new Uri("https://api.buddy.works"), httpClient ?? new HttpClient()))
+        private static readonly Uri s_defaultBaseUrl = new("https://api.buddy.works");
+
+        public BuddyClient(string accessToken, HttpClient? httpClient = null, Uri? baseUrl = null)
+            : this(() => HttpClientFacadeFactory.Create(accessToken, httpClient ?? new HttpClient(), baseUrl ?? s_defaultBaseUrl))
         {
         }
 
@@ -24,18 +28,22 @@
         {
             var httpClientFacade = new Lazy<HttpClientFacade>(factory);
 
+            Actions = new ActionsClient(httpClientFacade);
             CurrentUser = new CurrentUserClient(httpClientFacade);
             CurrentUserEmails = new CurrentUserEmailsClient(httpClientFacade);
             GroupMembers = new GroupMembersClient(httpClientFacade);
             Groups = new GroupsClient(httpClientFacade);
             Members = new MembersClient(httpClientFacade);
             PermissionSets = new PermissionSetsClient(httpClientFacade);
+            Pipelines = new PipelinesClient(httpClientFacade);
             ProjectGroups = new ProjectGroupsClient(httpClientFacade);
             ProjectMembers = new ProjectMembersClient(httpClientFacade);
             Projects = new ProjectsClient(httpClientFacade);
             Variables = new VariablesClient(httpClientFacade);
             Workspaces = new WorkspacesClient(httpClientFacade);
         }
+
+        public IActionsClient Actions { get; }
 
         public ICurrentUserClient CurrentUser { get; }
 
@@ -48,6 +56,8 @@
         public IMembersClient Members { get; }
 
         public IPermissionSetsClient PermissionSets { get; }
+
+        public IPipelinesClient Pipelines { get; }
 
         public IProjectGroupsClient ProjectGroups { get; }
 

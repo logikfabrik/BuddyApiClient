@@ -3,6 +3,7 @@
     public enum RepositoryAccessLevel
     {
         ReadOnly,
+
         ReadWrite
     }
 }

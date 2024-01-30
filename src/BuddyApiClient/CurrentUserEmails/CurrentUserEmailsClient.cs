@@ -16,14 +16,14 @@
         {
             const string url = "user/emails";
 
-            return await HttpClientFacade.Post<EmailDetails>(url, content, cancellationToken);
+            return await HttpClientFacade.Post<EmailDetails>(url, content, cancellationToken: cancellationToken);
         }
 
         public async Task<EmailList?> List(CancellationToken cancellationToken = default)
         {
             const string url = "user/emails";
 
-            return await HttpClientFacade.Get<EmailList>(url, cancellationToken);
+            return await HttpClientFacade.Get<EmailList>(url, cancellationToken: cancellationToken);
         }
 
         public async Task Remove(string email, CancellationToken cancellationToken = default)

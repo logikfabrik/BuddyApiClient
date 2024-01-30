@@ -1,0 +1,39 @@
+{
+  "url": "https://api.buddy.works/workspaces/buddy/projects/company-website/pipelines/2",
+  "html_url": "https://app.buddy.works/buddy/company-website/pipelines/pipeline/2",
+  "id": 2,
+  "name": "Live mirror",
+  "on": "CLICK",
+  "refs": [
+    "refs/heads/master"
+  ],
+  "last_execution_status": "INITIAL",
+  "last_execution_revision": null,
+  "create_date": "2016-02-29T11:23:12Z",
+  "project": {
+    "url": "https://api.buddy.works/workspaces/buddy/projects/company-website",
+    "html_url": "https://app.buddy.works/buddy/company-website",
+    "name": "company-website",
+    "display_name": "Company Website",
+    "status": "ACTIVE"
+  },
+  "creator": {
+    "url": "https://api.buddy.works/workspaces/buddy/member/1",
+    "html_url": "https://app.buddy.works/buddy/profile/1",
+    "id": 1,
+    "name": "Mike Benson",
+    "avatar_url": "https://app.buddy.works/image-server/user/0/0/0/0/0/0/1/d643744fbe5ebf2906a4d075a5b97110/w/32/32/AVATAR.png"
+  },
+  "actions": [
+    {
+      "url": "https://api.buddy.works/workspaces/buddy/projects/company-website/pipelines/2/actions/5",
+      "html_url": "https://app.buddy.works/buddy/company-website/pipelines/action/5/edit",
+      "id": 5,
+      "name": "Upload files to Live mirror",
+      "type": "FTP",
+      "trigger_time": "ON_EVERY_EXECUTION",
+      "status": "SUCCESSFUL",
+      "revision": null
+    }
+  ]
+}

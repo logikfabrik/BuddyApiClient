@@ -1,7 +1,6 @@
 ﻿namespace BuddyApiClient.Core.Models.Request
 {
     using BuddyApiClient.Core.Models.Response;
-    using EnsureThat;
 
     internal static class CollectionIterator
     {
@@ -17,9 +16,9 @@
 
         public CollectionIterator(CollectionPageRequestHandler<T1, T2> collectionPageRequestHandler, CollectionPageResponseHandler<T1, T2> collectionPageResponseHandler, T1 collectionQuery)
         {
-            _collectionPageRequestHandler = Ensure.Any.HasValue(collectionPageRequestHandler, nameof(collectionPageRequestHandler));
-            _collectionPageResponseHandler = Ensure.Any.HasValue(collectionPageResponseHandler, nameof(collectionPageResponseHandler));
-            _collectionQuery = Ensure.Any.HasValue(collectionQuery, nameof(collectionQuery));
+            _collectionPageRequestHandler = collectionPageRequestHandler;
+            _collectionPageResponseHandler = collectionPageResponseHandler;
+            _collectionQuery = collectionQuery;
 
             _collectionQuery.PageIndex ??= CollectionIterator.DefaultPageIndex;
             _collectionQuery.PageSize ??= CollectionIterator.DefaultPageSize;

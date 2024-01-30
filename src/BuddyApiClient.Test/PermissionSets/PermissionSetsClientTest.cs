@@ -14,13 +14,13 @@
     {
         private static IPermissionSetsClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new PermissionSetsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, new Uri("https://api.buddy.works"), handler.ToHttpClient())));
+            return new PermissionSetsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, handler.ToHttpClient(), new Uri("https://api.buddy.works"))));
         }
 
         public sealed class Create
         {
             [Theory]
-            [FileData(@"PermissionSets/.testdata/Create_Should_CreateThePermissionSet.json")]
+            [FileTextData(@"PermissionSets/.testdata/Create_Should_CreateThePermissionSet.json")]
             public async Task Should_CreateThePermissionSet(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -38,7 +38,7 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"PermissionSets/.testdata/Get_Should_ReturnThePermissionSet.json")]
+            [FileTextData(@"PermissionSets/.testdata/Get_Should_ReturnThePermissionSet.json")]
             public async Task Should_ReturnThePermissionSet(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -70,7 +70,7 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"PermissionSets/.testdata/List_Should_ReturnThePermissionSets.json")]
+            [FileTextData(@"PermissionSets/.testdata/List_Should_ReturnThePermissionSets.json")]
             public async Task Should_ReturnThePermissionSets(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -85,7 +85,7 @@
             }
 
             [Theory]
-            [FileData(@"PermissionSets/.testdata/List_Should_ReturnNoPermissionSets_When_NoneExist.json")]
+            [FileTextData(@"PermissionSets/.testdata/List_Should_ReturnNoPermissionSets_When_NoneExist.json")]
             public async Task Should_ReturnNoPermissionSets_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -120,7 +120,7 @@
         public sealed class Update
         {
             [Theory]
-            [FileData(@"PermissionSets/.testdata/Update_Should_UpdateThePermissionSet.json")]
+            [FileTextData(@"PermissionSets/.testdata/Update_Should_UpdateThePermissionSet.json")]
             public async Task Should_UpdateThePermissionSet(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();

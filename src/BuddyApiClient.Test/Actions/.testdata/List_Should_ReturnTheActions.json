@@ -1,0 +1,15 @@
+{
+  "url": "https://api.buddy.works/workspaces/buddy/projects/company-website/pipelines/2/actions",
+  "html_url": "https://app.buddy.works/buddy/company-website/pipelines/pipeline/2/manage",
+  "actions": [
+    {
+      "url": "https://api.buddy.works/workspaces/buddy/projects/company-website/pipelines/2/actions/5",
+      "html_url": "https://app.buddy.works/buddy/company-website/pipelines/action/5/edit",
+      "id": 5,
+      "name": "Upload files to dev",
+      "type": "FTP",
+      "trigger_time": "ON_EVERY_EXECUTION",
+      "last_execution_status": "SUCCESSFUL"
+    }
+  ]
+}

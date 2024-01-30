@@ -5,11 +5,11 @@
 
     internal static class CreatePermissionSetRequestFactory
     {
-        private static readonly Faker<CreatePermissionSet> Faker = new Faker<CreatePermissionSet>().CustomInstantiator(f => new CreatePermissionSet(f.Lorem.Word()));
+        private static readonly Faker<CreatePermissionSet> s_faker = new Faker<CreatePermissionSet>().CustomInstantiator(f => new CreatePermissionSet(f.Lorem.Word()));
 
         public static CreatePermissionSet Create()
         {
-            return Faker.Generate();
+            return s_faker.Generate();
         }
     }
 }

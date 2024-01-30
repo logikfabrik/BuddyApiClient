@@ -3,6 +3,7 @@
     public enum SortMembersBy
     {
         Email,
+
         Name
     }
 }

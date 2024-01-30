@@ -15,21 +15,21 @@
         {
             var url = $"workspaces/{domain}/variables";
 
-            return await HttpClientFacade.Post<VariableDetails>(url, content, cancellationToken);
+            return await HttpClientFacade.Post<VariableDetails>(url, content, cancellationToken: cancellationToken);
         }
 
         public async Task<VariableDetails?> Get(Workspaces.Models.Domain domain, VariableId id, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/variables/{id}";
 
-            return await HttpClientFacade.Get<VariableDetails>(url, cancellationToken);
+            return await HttpClientFacade.Get<VariableDetails>(url, cancellationToken: cancellationToken);
         }
 
-        public async Task<VariableList?> List(Workspaces.Models.Domain domain, ListVariablesQuery? query = default, CancellationToken cancellationToken = default)
+        public async Task<VariableList?> List(Workspaces.Models.Domain domain, ListVariablesQuery? query = null, CancellationToken cancellationToken = default)
         {
             var url = $"workspaces/{domain}/variables{query?.Build()}";
 
-            return await HttpClientFacade.Get<VariableList>(url, cancellationToken);
+            return await HttpClientFacade.Get<VariableList>(url, cancellationToken: cancellationToken);
         }
 
         public async Task Delete(Workspaces.Models.Domain domain, VariableId id, CancellationToken cancellationToken = default)
@@ -43,7 +43,7 @@
         {
             var url = $"workspaces/{domain}/variables/{id}";
 
-            return await HttpClientFacade.Patch<VariableDetails>(url, content, cancellationToken);
+            return await HttpClientFacade.Patch<VariableDetails>(url, content, cancellationToken: cancellationToken);
         }
     }
 }

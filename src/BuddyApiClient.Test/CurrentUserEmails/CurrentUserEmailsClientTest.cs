@@ -12,13 +12,13 @@
     {
         private static ICurrentUserEmailsClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new CurrentUserEmailsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, new Uri("https://api.buddy.works"), handler.ToHttpClient())));
+            return new CurrentUserEmailsClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, handler.ToHttpClient(), new Uri("https://api.buddy.works"))));
         }
 
         public sealed class Add
         {
             [Theory]
-            [FileData(@"CurrentUserEmails/.testdata/Add_Should_AddTheEmail.json")]
+            [FileTextData(@"CurrentUserEmails/.testdata/Add_Should_AddTheEmail.json")]
             public async Task Should_AddTheEmail(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -36,7 +36,7 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"CurrentUserEmails/.testdata/List_Should_ReturnTheEmails.json")]
+            [FileTextData(@"CurrentUserEmails/.testdata/List_Should_ReturnTheEmails.json")]
             public async Task Should_ReturnTheEmails(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();

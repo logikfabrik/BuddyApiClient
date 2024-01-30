@@ -5,11 +5,11 @@
 
     internal static class AddEmailRequestFactory
     {
-        private static readonly Faker<AddEmail> Faker = new Faker<AddEmail>().CustomInstantiator(f => new AddEmail(f.Internet.ExampleEmail()));
+        private static readonly Faker<AddEmail> s_faker = new Faker<AddEmail>().CustomInstantiator(f => new AddEmail(f.Internet.ExampleEmail()));
 
         public static AddEmail Create()
         {
-            return Faker.Generate();
+            return s_faker.Generate();
         }
     }
 }

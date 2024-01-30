@@ -3,6 +3,7 @@
     public enum FilePlace
     {
         None,
+
         Container
     }
 }

@@ -12,13 +12,13 @@
     {
         private static IWorkspacesClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new WorkspacesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, new Uri("https://api.buddy.works"), handler.ToHttpClient())));
+            return new WorkspacesClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, handler.ToHttpClient(), new Uri("https://api.buddy.works"))));
         }
 
         public sealed class Get
         {
             [Theory]
-            [FileData(@"Workspaces/.testdata/Get_Should_ReturnTheWorkspace.json")]
+            [FileTextData(@"Workspaces/.testdata/Get_Should_ReturnTheWorkspace.json")]
             public async Task Should_ReturnTheWorkspace(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -50,7 +50,7 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"Workspaces/.testdata/List_Should_ReturnTheWorkspaces.json")]
+            [FileTextData(@"Workspaces/.testdata/List_Should_ReturnTheWorkspaces.json")]
             public async Task Should_ReturnTheWorkspaces(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();

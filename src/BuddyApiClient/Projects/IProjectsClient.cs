@@ -12,7 +12,7 @@
 
         Task<ProjectDetails?> Get(Domain domain, ProjectName name, CancellationToken cancellationToken = default);
 
-        Task<ProjectList?> List(Domain domain, ListProjectsQuery? query = default, CancellationToken cancellationToken = default);
+        Task<ProjectList?> List(Domain domain, ListProjectsQuery? query = null, CancellationToken cancellationToken = default);
 
         ICollectionIterator ListAll(Domain domain, ListProjectsQuery collectionQuery, CollectionPageResponseHandler<ListProjectsQuery, ProjectList> collectionPageResponseHandler);
 

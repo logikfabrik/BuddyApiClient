@@ -9,7 +9,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>lf-128x128.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>A .NET client for the Buddy (https://buddy.works) API.</Description>
+    <Description>A client for the Buddy (https://buddy.works) API.</Description>
     <CodeAnalysisRuleSet>..\.sonarlint\logikfabrik_buddyapiclientcsharp.ruleset</CodeAnalysisRuleSet>
     <PackageTags>Buddy, CI/CD, API</PackageTags>
     <IncludeSymbols>true</IncludeSymbols>
@@ -17,6 +17,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>$(AssemblyName).IntegrationTest</_Parameter1>
+    </AssemblyAttribute>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>$(AssemblyName).Test</_Parameter1>
     </AssemblyAttribute>

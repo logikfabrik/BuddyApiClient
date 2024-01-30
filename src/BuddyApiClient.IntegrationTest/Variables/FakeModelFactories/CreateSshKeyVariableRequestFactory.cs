@@ -7,7 +7,7 @@
 
     internal static class CreateSshKeyVariableRequestFactory
     {
-        private static readonly Faker<CreateSshKeyVariable> Faker = new Faker<CreateSshKeyVariable>().CustomInstantiator(f =>
+        private static readonly Faker<CreateSshKeyVariable> s_faker = new Faker<CreateSshKeyVariable>().CustomInstantiator(f =>
         {
             using var keyGenerator = new SshKeyGenerator(1024);
 
@@ -16,7 +16,7 @@
 
         public static CreateSshKeyVariable Create()
         {
-            return Faker.Generate();
+            return s_faker.Generate();
         }
     }
 }

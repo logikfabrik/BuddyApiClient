@@ -5,11 +5,11 @@
 
     internal static class UpdateSshKeyVariableRequestFactory
     {
-        private static readonly Faker<UpdateSshKeyVariable> Faker = new Faker<UpdateSshKeyVariable>().RuleFor(model => model.Description, f => f.Lorem.Word());
+        private static readonly Faker<UpdateSshKeyVariable> s_faker = new Faker<UpdateSshKeyVariable>().RuleFor(model => model.Description, f => f.Lorem.Word());
 
         public static UpdateSshKeyVariable Create()
         {
-            return Faker.Generate();
+            return s_faker.Generate();
         }
     }
 }

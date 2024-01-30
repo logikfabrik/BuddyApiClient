@@ -11,7 +11,7 @@
     {
         private static HttpClientFacade CreateFacade(MockHttpMessageHandler handler)
         {
-            return new HttpClientFacade(string.Empty, new Uri("https://api.buddy.works"), handler.ToHttpClient());
+            return new HttpClientFacade(string.Empty, handler.ToHttpClient(), new Uri("https://api.buddy.works"));
         }
 
         private static async Task MakeARequest(HttpMethod method, Func<HttpClientFacade, Task> act)
@@ -41,7 +41,7 @@
             }
 
             [Theory]
-            [FileData(@"Core/.testdata/Should_Throw_When_ThereIsAClientError.json")]
+            [FileTextData(@"Core/.testdata/Should_Throw_When_ThereIsAClientError.json")]
             public async Task Should_Throw_When_ThereIsAClientError(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -56,7 +56,7 @@
             }
 
             [Theory]
-            [FileData(@"Core/.testdata/Should_Throw_When_ThereIsARateError.json")]
+            [FileTextData(@"Core/.testdata/Should_Throw_When_ThereIsARateError.json")]
             public async Task Should_Throw_When_ThereIsARateError(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -80,7 +80,7 @@
             }
 
             [Theory]
-            [FileData(@"Core/.testdata/Should_Throw_When_ThereIsAClientError.json")]
+            [FileTextData(@"Core/.testdata/Should_Throw_When_ThereIsAClientError.json")]
             public async Task Should_Throw_When_ThereIsAClientError(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -95,7 +95,7 @@
             }
 
             [Theory]
-            [FileData(@"Core/.testdata/Should_Throw_When_ThereIsARateError.json")]
+            [FileTextData(@"Core/.testdata/Should_Throw_When_ThereIsARateError.json")]
             public async Task Should_Throw_When_ThereIsARateError(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -119,7 +119,7 @@
             }
 
             [Theory]
-            [FileData(@"Core/.testdata/Should_Throw_When_ThereIsAClientError.json")]
+            [FileTextData(@"Core/.testdata/Should_Throw_When_ThereIsAClientError.json")]
             public async Task Should_Throw_When_ThereIsAClientError(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -134,7 +134,7 @@
             }
 
             [Theory]
-            [FileData(@"Core/.testdata/Should_Throw_When_ThereIsARateError.json")]
+            [FileTextData(@"Core/.testdata/Should_Throw_When_ThereIsARateError.json")]
             public async Task Should_Throw_When_ThereIsARateError(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -158,7 +158,7 @@
             }
 
             [Theory]
-            [FileData(@"Core/.testdata/Should_Throw_When_ThereIsAClientError.json")]
+            [FileTextData(@"Core/.testdata/Should_Throw_When_ThereIsAClientError.json")]
             public async Task Should_Throw_When_ThereIsAClientError(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -173,7 +173,7 @@
             }
 
             [Theory]
-            [FileData(@"Core/.testdata/Should_Throw_When_ThereIsARateError.json")]
+            [FileTextData(@"Core/.testdata/Should_Throw_When_ThereIsARateError.json")]
             public async Task Should_Throw_When_ThereIsARateError(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();

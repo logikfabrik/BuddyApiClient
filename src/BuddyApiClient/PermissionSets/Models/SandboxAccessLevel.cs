@@ -3,7 +3,9 @@
     public enum SandboxAccessLevel
     {
         Denied,
+
         ReadOnly,
+
         ReadWrite
     }
 }

@@ -59,7 +59,7 @@
         public sealed class Build
         {
             [Theory]
-            [InlineData(10, "?page=10")]
+            [InlineData(5, "?page=5")]
             public void Should_ReturnQuery_When_PageIndexIsSet(int pageIndex, string expected)
             {
                 var sut = new CollectionQuery
@@ -78,6 +78,21 @@
             {
                 var sut = new CollectionQuery
                 {
+                    PageSize = pageSize
+                };
+
+                var actual = sut.Build();
+
+                actual.Should().Be(expected);
+            }
+
+            [Theory]
+            [InlineData(15, 20, "?page=15&per_page=20")]
+            public void Should_ReturnQuery_When_PageIndexAndPageSizeIsSet(int pageIndex, int pageSize, string expected)
+            {
+                var sut = new CollectionQuery
+                {
+                    PageIndex = pageIndex,
                     PageSize = pageSize
                 };
 

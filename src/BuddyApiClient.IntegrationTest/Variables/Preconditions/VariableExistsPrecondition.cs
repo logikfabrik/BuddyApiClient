@@ -6,19 +6,18 @@
     using BuddyApiClient.Variables;
     using BuddyApiClient.Variables.Models;
     using BuddyApiClient.Variables.Models.Request;
-    using BuddyApiClient.Workspaces.Models;
 
     internal class VariableExistsPrecondition : Precondition<VariableId>
     {
-        public VariableExistsPrecondition(IVariablesClient client, Func<Task<Domain>> domainSetUp) : this(client, domainSetUp, CreateVariableRequestFactory.Create)
+        public VariableExistsPrecondition(IVariablesClient client, Func<Task<BuddyApiClient.Workspaces.Models.Domain>> domainSetUp) : this(client, domainSetUp, CreateVariableRequestFactory.Create)
         {
         }
 
-        protected VariableExistsPrecondition(IVariablesClient client, Func<Task<Domain>> domainSetUp, Func<CreateVariable> createVariableFactory) : base(SetUp(client, domainSetUp, createVariableFactory), setUp => TearDown(client, domainSetUp, setUp))
+        protected VariableExistsPrecondition(IVariablesClient client, Func<Task<BuddyApiClient.Workspaces.Models.Domain>> domainSetUp, Func<CreateVariable> createVariableFactory) : base(SetUp(client, domainSetUp, createVariableFactory), setUp => TearDown(client, domainSetUp, setUp))
         {
         }
 
-        private static Func<Task<VariableId>> SetUp(IVariablesClient client, Func<Task<Domain>> domainSetUp, Func<CreateVariable> createVariableFactory)
+        private static Func<Task<VariableId>> SetUp(IVariablesClient client, Func<Task<BuddyApiClient.Workspaces.Models.Domain>> domainSetUp, Func<CreateVariable> createVariableFactory)
         {
             return async () =>
             {
@@ -28,7 +27,7 @@
             };
         }
 
-        private static Func<Task> TearDown(IVariablesClient client, Func<Task<Domain>> domainSetUp, Func<Task<VariableId>> setUp)
+        private static Func<Task> TearDown(IVariablesClient client, Func<Task<BuddyApiClient.Workspaces.Models.Domain>> domainSetUp, Func<Task<VariableId>> setUp)
         {
             return async () =>
             {

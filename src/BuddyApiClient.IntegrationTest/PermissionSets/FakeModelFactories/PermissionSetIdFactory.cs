@@ -5,11 +5,11 @@
 
     internal static class PermissionSetIdFactory
     {
-        private static readonly Randomizer Randomizer = new();
+        private static readonly Randomizer s_randomizer = new();
 
         public static PermissionSetId Create()
         {
-            return new PermissionSetId(Randomizer.Int(999, 9999));
+            return new PermissionSetId(s_randomizer.Int(999, 9999));
         }
     }
 }

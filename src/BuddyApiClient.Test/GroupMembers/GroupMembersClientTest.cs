@@ -15,13 +15,13 @@
     {
         private static IGroupMembersClient CreateClient(MockHttpMessageHandler handler)
         {
-            return new GroupMembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, new Uri("https://api.buddy.works"), handler.ToHttpClient())));
+            return new GroupMembersClient(new Lazy<HttpClientFacade>(HttpClientFacadeFactory.Create(string.Empty, handler.ToHttpClient(), new Uri("https://api.buddy.works"))));
         }
 
         public sealed class Add
         {
             [Theory]
-            [FileData(@"GroupMembers/.testdata/Add_Should_AddTheGroupMember.json")]
+            [FileTextData(@"GroupMembers/.testdata/Add_Should_AddTheGroupMember.json")]
             public async Task Should_AddTheGroupMember(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -39,7 +39,7 @@
         public sealed class Get
         {
             [Theory]
-            [FileData(@"GroupMembers/.testdata/Get_Should_ReturnTheGroupMember.json")]
+            [FileTextData(@"GroupMembers/.testdata/Get_Should_ReturnTheGroupMember.json")]
             public async Task Should_ReturnTheGroupMember(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -71,7 +71,7 @@
         public sealed class List
         {
             [Theory]
-            [FileData(@"GroupMembers/.testdata/List_Should_ReturnTheGroupMembers.json")]
+            [FileTextData(@"GroupMembers/.testdata/List_Should_ReturnTheGroupMembers.json")]
             public async Task Should_ReturnTheGroupMembers(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
@@ -86,7 +86,7 @@
             }
 
             [Theory]
-            [FileData(@"GroupMembers/.testdata/List_Should_ReturnNoGroupMembers_When_NoneExist.json")]
+            [FileTextData(@"GroupMembers/.testdata/List_Should_ReturnNoGroupMembers_When_NoneExist.json")]
             public async Task Should_ReturnNoGroupMembers_When_NoneExist(string responseJson)
             {
                 var handlerStub = new MockHttpMessageHandler();
