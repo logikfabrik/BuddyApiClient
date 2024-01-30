@@ -5,11 +5,11 @@
 
     internal static class DomainFactory
     {
-        private static readonly Lorem Lorem = new();
+        private static readonly Lorem s_lorem = new();
 
         public static Domain Create()
         {
-            return new Domain(Lorem.Word());
+            return new Domain(s_lorem.Word());
         }
     }
 }

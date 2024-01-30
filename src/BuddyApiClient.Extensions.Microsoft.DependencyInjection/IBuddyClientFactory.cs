@@ -2,6 +2,6 @@
 {
     public interface IBuddyClientFactory
     {
-        public IBuddyClient Create(string accessToken, Uri? baseUrl = null);
+        IBuddyClient Create(string accessToken);
     }
 }

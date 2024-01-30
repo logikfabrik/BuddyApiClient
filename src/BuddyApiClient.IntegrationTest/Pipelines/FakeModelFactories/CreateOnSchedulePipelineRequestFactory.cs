@@ -5,11 +5,11 @@
 
     internal static class CreateOnSchedulePipelineRequestFactory
     {
-        private static readonly Faker<CreateOnSchedulePipeline> Faker = new Faker<CreateOnSchedulePipeline>().CustomInstantiator(f => new CreateOnSchedulePipeline(f.Lorem.Word(), f.Date.Future(), f.Random.Int(min: 1, max: 5)));
+        private static readonly Faker<CreateOnSchedulePipeline> s_faker = new Faker<CreateOnSchedulePipeline>().CustomInstantiator(f => new CreateOnSchedulePipeline(f.Lorem.Word(), f.Date.Future(), f.Random.Int(min: 1, max: 5)));
 
         public static CreateOnSchedulePipeline Create()
         {
-            return Faker.Generate();
+            return s_faker.Generate();
         }
     }
 }

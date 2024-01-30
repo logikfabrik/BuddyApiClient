@@ -1,19 +1,21 @@
-﻿namespace BuddyApiClient.Extensions.Microsoft.DependencyInjection
-{
-    using EnsureThat;
+﻿using Microsoft.Extensions.Options;
 
+namespace BuddyApiClient.Extensions.Microsoft.DependencyInjection
+{
     public sealed class BuddyClientFactory : IBuddyClientFactory
     {
         private readonly HttpClient _httpClient;
+        private readonly Uri? _baseUrl;
 
-        public BuddyClientFactory(HttpClient httpClient)
+        public BuddyClientFactory(HttpClient httpClient, IOptions<BuddyClientOptions> options)
         {
-            _httpClient = Ensure.Any.HasValue(httpClient, nameof(httpClient));
+            _httpClient = httpClient;
+            _baseUrl = options.Value.BaseUrl;
         }
 
-        public IBuddyClient Create(string accessToken, Uri? baseUrl = null)
+        public IBuddyClient Create(string accessToken)
         {
-            return new BuddyClient(accessToken, baseUrl, _httpClient);
+            return new BuddyClient(accessToken, _baseUrl, _httpClient);
         }
     }
 }

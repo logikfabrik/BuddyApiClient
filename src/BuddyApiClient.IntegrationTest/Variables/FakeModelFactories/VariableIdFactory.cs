@@ -5,11 +5,11 @@
 
     internal static class VariableIdFactory
     {
-        private static readonly Randomizer Randomizer = new();
+        private static readonly Randomizer s_randomizer = new();
 
         public static VariableId Create()
         {
-            return new VariableId(Randomizer.Int(999, 9999));
+            return new VariableId(s_randomizer.Int(999, 9999));
         }
     }
 }

@@ -5,11 +5,11 @@
 
     internal static class PipelineIdFactory
     {
-        private static readonly Randomizer Randomizer = new();
+        private static readonly Randomizer s_randomizer = new();
 
         public static PipelineId Create()
         {
-            return new PipelineId(Randomizer.Int(999, 9999));
+            return new PipelineId(s_randomizer.Int(999, 9999));
         }
     }
 }

@@ -5,11 +5,11 @@
 
     internal static class ActionIdFactory
     {
-        private static readonly Randomizer Randomizer = new();
+        private static readonly Randomizer s_randomizer = new();
 
         public static ActionId Create()
         {
-            return new ActionId(Randomizer.Int(999, 9999));
+            return new ActionId(s_randomizer.Int(999, 9999));
         }
     }
 }

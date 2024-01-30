@@ -5,11 +5,11 @@
 
     internal static class MemberIdFactory
     {
-        private static readonly Randomizer Randomizer = new();
+        private static readonly Randomizer s_randomizer = new();
 
         public static MemberId Create()
         {
-            return new MemberId(Randomizer.Int(999, 9999));
+            return new MemberId(s_randomizer.Int(999, 9999));
         }
     }
 }

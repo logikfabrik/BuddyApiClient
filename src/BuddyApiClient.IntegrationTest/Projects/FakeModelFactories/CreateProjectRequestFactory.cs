@@ -5,11 +5,11 @@
 
     internal static class CreateProjectRequestFactory
     {
-        private static readonly Faker<CreateProject> Faker = new Faker<CreateProject>().CustomInstantiator(f => new CreateProject(f.Lorem.Word()));
+        private static readonly Faker<CreateProject> s_faker = new Faker<CreateProject>().CustomInstantiator(f => new CreateProject(f.Lorem.Word()));
 
         public static CreateProject Create()
         {
-            return Faker.Generate();
+            return s_faker.Generate();
         }
     }
 }

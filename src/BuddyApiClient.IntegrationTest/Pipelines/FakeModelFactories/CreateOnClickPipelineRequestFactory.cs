@@ -5,11 +5,11 @@
 
     internal static class CreateOnClickPipelineRequestFactory
     {
-        private static readonly Faker<CreateOnClickPipeline> Faker = new Faker<CreateOnClickPipeline>().CustomInstantiator(f => new CreateOnClickPipeline(f.Lorem.Word()));
+        private static readonly Faker<CreateOnClickPipeline> s_faker = new Faker<CreateOnClickPipeline>().CustomInstantiator(f => new CreateOnClickPipeline(f.Lorem.Word()));
 
         public static CreateOnClickPipeline Create()
         {
-            return Faker.Generate();
+            return s_faker.Generate();
         }
     }
 }

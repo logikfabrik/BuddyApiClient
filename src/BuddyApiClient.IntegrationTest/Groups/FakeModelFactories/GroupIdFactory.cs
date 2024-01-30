@@ -5,11 +5,11 @@
 
     internal static class GroupIdFactory
     {
-        private static readonly Randomizer Randomizer = new();
+        private static readonly Randomizer s_randomizer = new();
 
         public static GroupId Create()
         {
-            return new GroupId(Randomizer.Int(999, 9999));
+            return new GroupId(s_randomizer.Int(999, 9999));
         }
     }
 }

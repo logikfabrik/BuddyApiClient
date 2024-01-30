@@ -5,11 +5,11 @@
 
     internal static class CreateVariableRequestFactory
     {
-        private static readonly Faker<CreateVariable> Faker = new Faker<CreateVariable>().CustomInstantiator(f => new CreateVariable(f.Lorem.Word(), f.Lorem.Word()));
+        private static readonly Faker<CreateVariable> s_faker = new Faker<CreateVariable>().CustomInstantiator(f => new CreateVariable(f.Lorem.Word(), f.Lorem.Word()));
 
         public static CreateVariable Create()
         {
-            return Faker.Generate();
+            return s_faker.Generate();
         }
     }
 }

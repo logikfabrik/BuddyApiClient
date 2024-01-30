@@ -17,10 +17,10 @@
 
     public sealed class BuddyClient : IBuddyClient
     {
-        private static readonly Uri DefaultBaseUrl = new("https://api.buddy.works");
+        private static readonly Uri s_defaultBaseUrl = new("https://api.buddy.works");
 
         public BuddyClient(string accessToken, Uri? baseUrl = null, HttpClient? httpClient = null)
-            : this(() => HttpClientFacadeFactory.Create(accessToken, baseUrl ?? DefaultBaseUrl, httpClient ?? new HttpClient()))
+            : this(() => HttpClientFacadeFactory.Create(accessToken, baseUrl ?? s_defaultBaseUrl, httpClient ?? new HttpClient()))
         {
         }
 

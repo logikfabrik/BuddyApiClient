@@ -5,11 +5,11 @@
 
     internal static class ProjectNameFactory
     {
-        private static readonly Lorem Lorem = new();
+        private static readonly Lorem s_lorem = new();
 
         public static ProjectName Create()
         {
-            return new ProjectName(Lorem.Word());
+            return new ProjectName(s_lorem.Word());
         }
     }
 }

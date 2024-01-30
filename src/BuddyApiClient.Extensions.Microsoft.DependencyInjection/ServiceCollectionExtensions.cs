@@ -1,6 +1,5 @@
 ﻿namespace BuddyApiClient.Extensions.Microsoft.DependencyInjection
 {
-    using EnsureThat;
     using global::Microsoft.Extensions.DependencyInjection;
 
     public static class ServiceCollectionExtensions
@@ -12,8 +11,6 @@
         /// <returns>The <see cref="IServiceCollection" /> so that additional calls can be chained.</returns>
         public static IServiceCollection AddBuddyClient(this IServiceCollection services)
         {
-            Ensure.Any.HasValue(services, nameof(services));
-
             services.AddHttpClient<IBuddyClientFactory, BuddyClientFactory>();
 
             services.AddTransient<CreateBuddyClient>(provider =>
@@ -22,6 +19,30 @@
 
                 return scope.ServiceProvider.GetRequiredService<IBuddyClientFactory>().Create;
             });
+
+            return services;
+        }
+
+        public static IServiceCollection AddBuddyClient(this IServiceCollection services, Action<BuddyClientOptions> configureOptions)
+        {
+            services
+                .ConfigureOptions(configureOptions);
+
+            AddBuddyClient(services);
+
+            return services;
+        }
+
+        public static IServiceCollection AddBuddyClient(this IServiceCollection services, BuddyClientOptions userOptions)
+        {
+            services
+                .AddOptions<BuddyClientOptions>()
+                .Configure(options =>
+                {
+                    options.BaseUrl = userOptions.BaseUrl;
+                });
+
+            AddBuddyClient(services);
 
             return services;
         }
